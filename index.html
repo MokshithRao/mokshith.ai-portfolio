@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mokshith.AI | K.V. Mokshith Rao — AI/ML Engineer</title>
+  <meta name="description" content="Portfolio of K.V. Mokshith Rao — AI/ML Engineer specializing in Generative AI, LLMs, RAG systems, and scalable backend services. M.S. Data Science, IIIT Hyderabad." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+  <!-- ============ Cursor Glow ============ -->
+  <div id="cursor-glow"></div>
+
+  <!-- ============ WebGL Shader Background ============ -->
+  <div id="shader-bg">
+    <canvas id="shader-canvas"></canvas>
+  </div>
+  <div class="shader-overlay"></div>
+
+  <!-- ============ Navigation ============ -->
+  <nav class="nav" id="main-nav" aria-label="Main Navigation">
+    <div class="nav__inner">
+      <a href="#" class="nav__logo" aria-label="Mokshith AI Home">MOKSHITH.AI</a>
+
+      <div class="nav__links">
+        <a href="#work" class="nav__link magnetic-btn" data-target="work">Work</a>
+        <a href="#about" class="nav__link magnetic-btn" data-target="about">About</a>
+        <a href="#skills" class="nav__link magnetic-btn" data-target="skills">Skills</a>
+        <a href="#contact" class="nav__link magnetic-btn" data-target="contact">Contact</a>
+      </div>
+
+      <a href="#ask-ai" class="nav__cta magnetic-btn">Talk to AI</a>
+
+      <button class="nav__mobile-toggle" id="mobile-toggle" aria-label="Toggle Menu">
+        <span class="material-symbols-outlined" style="font-size: 24px;">menu</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ============ Mobile Menu ============ -->
+  <div class="mobile-menu" id="mobile-menu">
+    <button class="mobile-menu__close" id="mobile-close" aria-label="Close Menu">
+      <span class="material-symbols-outlined" style="font-size: 28px;">close</span>
+    </button>
+    <a href="#work" class="mobile-menu__link">Work</a>
+    <a href="#about" class="mobile-menu__link">About</a>
+    <a href="#skills" class="mobile-menu__link">Skills</a>
+    <a href="#ask-ai" class="mobile-menu__link">Talk to AI</a>
+    <a href="#contact" class="mobile-menu__link">Contact</a>
+  </div>
+
+  <!-- ============ Main Content ============ -->
+  <main style="position: relative; z-index: 10;">
+
+    <!-- ======== Hero Section ======== -->
+    <section class="hero container" id="hero">
+      <div class="hero__content" id="hero-content">
+        <p class="text-label-caps hero__label entrance-anim">
+          Kasuganti Venkata Mokshith Rao
+        </p>
+
+        <h1 class="text-display hero__title entrance-anim entrance-anim-delay-1">
+          Building Intelligent Systems That Turn Ideas Into Products.
+        </h1>
+
+        <p class="text-body-lg hero__desc entrance-anim entrance-anim-delay-2">
+          AI/ML Engineer specializing in Generative AI, Large Language Models, and robust Software Engineering.
+          I build scalable intelligence into modern applications.
+        </p>
+
+        <div class="hero__actions entrance-anim entrance-anim-delay-3">
+          <a href="#work" class="btn btn--secondary magnetic-btn">Explore My Work</a>
+          <a href="#ask-ai" class="btn btn--primary magnetic-btn">Talk to My AI</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== About Section ======== -->
+    <section class="section container fade-in-section" id="about">
+      <div class="about__grid">
+        <div>
+          <div class="section-header">
+            <h2 class="text-headline-md section-header__title">About</h2>
+            <div class="section-header__line"></div>
+          </div>
+        </div>
+
+        <div class="about__text">
+          <p class="text-body-md">
+            I am currently pursuing my Master's in Data Science (MSDS) at IIIT Hyderabad, driven by a deep fascination with how intelligent systems can solve complex, real-world problems. My journey in tech is rooted in a passion for blending rigorous machine learning research with practical software engineering.
+          </p>
+          <p class="text-body-md">
+            Beyond training models, I focus on building end-to-end products. Whether it's architecting a RAG pipeline, fine-tuning transformer models for domain-specific tasks, or deploying scalable backend services with FastAPI, I thrive in the intersection of algorithms and infrastructure.
+          </p>
+
+          <!-- Education Timeline -->
+          <div class="timeline" id="education-timeline">
+            <h3 class="text-label-caps timeline__label">Education</h3>
+            <div class="timeline__track">
+              <div class="timeline__line-container">
+                <div class="timeline__line"></div>
+              </div>
+
+              <div class="timeline__item">
+                <div class="timeline__node timeline__node--current"></div>
+                <h4 class="timeline__title">IIIT Hyderabad</h4>
+                <p class="text-body-md timeline__subtitle">Master of Science in Data Science (MSDS)</p>
+                <span class="text-mono timeline__date">Present</span>
+              </div>
+
+              <div class="timeline__item">
+                <div class="timeline__node"></div>
+                <h4 class="timeline__title">CMR Institute of Technology</h4>
+                <p class="text-body-md timeline__subtitle">B.Tech in Computer Science — AI/ML Specialization</p>
+                <span class="text-mono timeline__date">Completed</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== Skills Section ======== -->
+    <section class="section container fade-in-section" id="skills">
+      <div class="section-header">
+        <h2 class="text-headline-md section-header__title">Technical Expertise</h2>
+        <div class="section-header__line"></div>
+      </div>
+
+      <div class="skills__grid">
+        <!-- Generative AI -->
+        <div class="skill-card tilt-card">
+          <div class="skill-card__glow"></div>
+          <div class="skill-card__gradient"></div>
+          <div class="skill-card__content">
+            <div class="skill-card__header">
+              <div class="skill-card__icon-wrap">
+                <span class="material-symbols-outlined skill-card__icon">psychology</span>
+              </div>
+              <h3 class="skill-card__title">Generative AI</h3>
+            </div>
+            <div class="skill-card__chips">
+              <span class="chip">LLMs</span>
+              <span class="chip">RAG Systems</span>
+              <span class="chip">LangChain</span>
+              <span class="chip">Prompt Eng</span>
+              <span class="chip">Agentic AI</span>
+              <span class="chip">Hugging Face</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Machine Learning -->
+        <div class="skill-card tilt-card">
+          <div class="skill-card__glow"></div>
+          <div class="skill-card__gradient"></div>
+          <div class="skill-card__content">
+            <div class="skill-card__header">
+              <div class="skill-card__icon-wrap">
+                <span class="material-symbols-outlined skill-card__icon">dataset</span>
+              </div>
+              <h3 class="skill-card__title">Machine Learning</h3>
+            </div>
+            <div class="skill-card__chips">
+              <span class="chip">PyTorch</span>
+              <span class="chip">Scikit-learn</span>
+              <span class="chip">Transformers</span>
+              <span class="chip">Fine-tuning</span>
+              <span class="chip">Pandas</span>
+              <span class="chip">NumPy</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Software Engineering -->
+        <div class="skill-card tilt-card">
+          <div class="skill-card__glow"></div>
+          <div class="skill-card__gradient"></div>
+          <div class="skill-card__content">
+            <div class="skill-card__header">
+              <div class="skill-card__icon-wrap">
+                <span class="material-symbols-outlined skill-card__icon">terminal</span>
+              </div>
+              <h3 class="skill-card__title">Software Eng</h3>
+            </div>
+            <div class="skill-card__chips">
+              <span class="chip">Python</span>
+              <span class="chip">FastAPI</span>
+              <span class="chip">SQL</span>
+              <span class="chip">MongoDB</span>
+              <span class="chip">Streamlit</span>
+              <span class="chip">Git</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== Projects Section ======== -->
+    <section class="section container fade-in-section" id="work">
+      <div class="projects__header">
+        <div>
+          <div class="section-header" style="margin-bottom: 0;">
+            <h2 class="text-headline-md section-header__title">Selected Work</h2>
+            <div class="section-header__line"></div>
+          </div>
+        </div>
+        <a href="https://github.com/MokshithRao" target="_blank" rel="noopener noreferrer" class="projects__github-link magnetic-btn">
+          View GitHub <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+      </div>
+
+      <div class="projects__grid">
+        <!-- Featured Project: RAG Assistant -->
+        <div class="project-featured tilt-card" onclick="openModal('modal-rag')">
+          <div class="project-featured__inner">
+            <div class="project-featured__image">
+              <div class="project-featured__image-bg" style="background-image: url('assets/rag-project.jpg');"></div>
+              <div class="project-featured__image-overlay"></div>
+            </div>
+            <div class="project-featured__body">
+              <div class="project-featured__meta">
+                <span class="project-featured__meta-dot"></span> 01 / GEN AI
+              </div>
+              <h3 class="project-featured__title">RAG-Powered AI Publications Assistant</h3>
+              <p class="text-body-md project-featured__desc">
+                A Retrieval-Augmented Generation system designed to retrieve and answer questions from an AI publication knowledge base using semantic search and context-aware generation.
+              </p>
+              <div class="project-featured__tags">
+                <span class="project-tag">LangChain</span>
+                <span class="project-tag">FAISS</span>
+                <span class="project-tag">Hugging Face</span>
+                <span class="project-tag">OpenAI</span>
+              </div>
+              <div class="project-featured__cta">
+                View Details <span class="material-symbols-outlined">arrow_forward</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2: LegalBERT -->
+        <div class="project-card tilt-card" onclick="openModal('modal-legalbert')" style="position: relative; overflow: hidden;">
+          <div class="project-card__glow"></div>
+          <div class="project-card__header">
+            <div class="project-card__icon-wrap">
+              <span class="material-symbols-outlined">gavel</span>
+            </div>
+            <div class="project-card__meta">02 / NLP</div>
+          </div>
+          <h3 class="project-card__title">LegalBERT Contract Classifier</h3>
+          <p class="text-body-md project-card__desc">
+            Fine-tuned LegalBERT for contract clause classification on the CUAD dataset using LoRA and PEFT for parameter-efficient training.
+          </p>
+          <div class="project-card__tags">
+            <span class="project-tag">Transformers</span>
+            <span class="project-tag">LoRA</span>
+            <span class="project-tag">Hugging Face</span>
+          </div>
+        </div>
+
+        <!-- Project 3: HandDino -->
+        <div class="project-card tilt-card" onclick="openModal('modal-handdino')" style="position: relative; overflow: hidden;">
+          <div class="project-card__glow"></div>
+          <div class="project-card__header">
+            <div class="project-card__icon-wrap">
+              <span class="material-symbols-outlined">gesture</span>
+            </div>
+            <div class="project-card__meta">03 / VISION</div>
+          </div>
+          <h3 class="project-card__title">HandDino — Gesture Game Control</h3>
+          <p class="text-body-md project-card__desc">
+            Computer vision project using hand gestures to control the Chrome Dino game in real-time via webcam-based gesture recognition.
+          </p>
+          <div class="project-card__tags">
+            <span class="project-tag">OpenCV</span>
+            <span class="project-tag">MediaPipe</span>
+            <span class="project-tag">Python</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== Transition Particles ======== -->
+    <div id="data-stream-container"></div>
+
+    <!-- ======== Ask AI Section ======== -->
+    <section class="section container fade-in-section ask-ai" id="ask-ai">
+      <div class="ask-ai__bg-glow"></div>
+      <div class="terminal">
+        <!-- Terminal Header -->
+        <div class="terminal__header">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div class="terminal__dots">
+              <div class="terminal__dot terminal__dot--red"></div>
+              <div class="terminal__dot terminal__dot--yellow"></div>
+              <div class="terminal__dot terminal__dot--green"></div>
+            </div>
+            <div class="terminal__title">
+              <span class="material-symbols-outlined">terminal</span>
+              agent@mokshith.ai:~
+            </div>
+          </div>
+          <div class="terminal__status">
+            <div class="terminal__status-dot"></div>
+            <span class="terminal__status-text">System Online</span>
+          </div>
+        </div>
+
+        <!-- Terminal Body -->
+        <div class="terminal__body">
+          <div class="terminal__body-gradient"></div>
+          <div class="terminal__messages">
+            <div>
+              <div class="terminal__msg-label">[SYS_INIT]</div>
+              <div class="terminal__msg-text">
+                <span class="prompt">&gt;</span> Initializing connection...<br />
+                <span class="prompt">&gt;</span> Loading context models: <span class="success">SUCCESS</span> [resume.pdf, projects.json, skills.yml]<br /><br />
+                <span class="typing-cursor">Hello. I'm an AI agent trained on Mokshith's technical profile. How can I assist you in evaluating his background?</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Suggested Actions -->
+          <div class="terminal__actions">
+            <p class="terminal__actions-label">Suggested Queries</p>
+            <div class="terminal__actions-btns">
+              <button class="terminal__action-btn magnetic-btn">&gt; get_specialization()</button>
+              <button class="terminal__action-btn magnetic-btn">&gt; list_projects --type ai</button>
+              <button class="terminal__action-btn magnetic-btn">&gt; explain_rag_architecture()</button>
+            </div>
+          </div>
+
+          <!-- Input -->
+          <div class="terminal__input">
+            <span class="terminal__input-prompt">&gt;</span>
+            <input type="text" class="terminal__input-field" placeholder="Execute command..." readonly />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== Contact Section ======== -->
+    <section class="section container fade-in-section contact" id="contact">
+      <div class="contact__bg-glow"></div>
+      <h2 class="contact__title">Let's Build Something.</h2>
+      <p class="text-body-lg contact__desc">
+        Currently open for roles in AI/ML Engineering and Data Science. Reach out to discuss technical architecture, ML models, or potential collaborations.
+      </p>
+      <div class="contact__actions">
+        <button class="btn btn--primary magnetic-btn">
+          <span class="material-symbols-outlined" style="font-size: 18px;">download</span>
+          Download Resume
+        </button>
+        <a href="https://www.linkedin.com/in/kv-mokshith/" target="_blank" rel="noopener noreferrer" class="btn btn--contact magnetic-btn">
+          LinkedIn
+        </a>
+        <a href="https://github.com/MokshithRao" target="_blank" rel="noopener noreferrer" class="btn btn--contact magnetic-btn">
+          GitHub
+        </a>
+        <a href="https://app.readytensor.ai/users/mokshithrao" target="_blank" rel="noopener noreferrer" class="btn btn--contact magnetic-btn">
+          Ready Tensor
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ Footer ============ -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__copy">
+        &copy; 2024 K.V. Mokshith Rao // Engineered for Intelligence
+      </div>
+      <div class="footer__links">
+        <a href="https://www.linkedin.com/in/kv-mokshith/" target="_blank" rel="noopener noreferrer" class="footer__link magnetic-btn">LinkedIn</a>
+        <a href="https://github.com/MokshithRao" target="_blank" rel="noopener noreferrer" class="footer__link magnetic-btn">GitHub</a>
+        <a href="https://app.readytensor.ai/users/mokshithrao" target="_blank" rel="noopener noreferrer" class="footer__link magnetic-btn">Ready Tensor</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ Modals ============ -->
+
+  <!-- Modal: RAG Project -->
+  <div class="modal-overlay" id="modal-rag">
+    <div class="modal" role="dialog" aria-labelledby="modal-rag-title">
+      <button class="modal__close" onclick="closeModal('modal-rag')" aria-label="Close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+      <div class="modal__image" style="background-image: url('assets/rag-project.jpg');">
+        <div class="modal__image-overlay"></div>
+      </div>
+      <div class="modal__body">
+        <div class="modal__tags">
+          <span class="modal__tag">LangChain</span>
+          <span class="modal__tag">FAISS</span>
+          <span class="modal__tag">Hugging Face</span>
+          <span class="modal__tag">OpenAI GPT</span>
+          <span class="modal__tag">RAG</span>
+        </div>
+        <h2 class="modal__title" id="modal-rag-title">RAG-Powered Assistant for Exploring AI Publications</h2>
+        <div class="modal__text">
+          <p>A Retrieval-Augmented Generation assistant designed to retrieve and answer questions from an AI publication knowledge base.</p>
+          <div>
+            <h4>Architecture Highlights:</h4>
+            <ul>
+              <li>Implemented semantic search using FAISS vector store with Hugging Face embeddings for efficient document retrieval.</li>
+              <li>Built a RAG pipeline with LangChain to combine retrieved context with OpenAI GPT for accurate, grounded answer generation.</li>
+              <li>Designed chunking strategies to preserve context across research paper boundaries and improve retrieval quality.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal__footer">
+          <a href="https://github.com/MokshithRao" target="_blank" rel="noopener noreferrer" class="btn btn--outline magnetic-btn" style="padding: 8px 24px;">
+            <span class="material-symbols-outlined" style="font-size: 18px;">code</span> View Code
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: LegalBERT -->
+  <div class="modal-overlay" id="modal-legalbert">
+    <div class="modal" role="dialog" aria-labelledby="modal-legalbert-title">
+      <button class="modal__close" onclick="closeModal('modal-legalbert')" aria-label="Close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+      <div class="modal__body" style="margin-top: 0; padding-top: 48px;">
+        <div class="modal__tags">
+          <span class="modal__tag">LegalBERT</span>
+          <span class="modal__tag">Transformers</span>
+          <span class="modal__tag">LoRA</span>
+          <span class="modal__tag">PEFT</span>
+          <span class="modal__tag">Hugging Face</span>
+        </div>
+        <h2 class="modal__title" id="modal-legalbert-title">LegalBERT — Contract Clause Classification</h2>
+        <div class="modal__text">
+          <p>Fine-tuned LegalBERT for classifying contract clauses using the CUAD (Contract Understanding Atticus Dataset), a widely-used benchmark for legal NLP.</p>
+          <div>
+            <h4>Technical Details:</h4>
+            <ul>
+              <li>Applied LoRA (Low-Rank Adaptation) via the PEFT library for parameter-efficient fine-tuning, significantly reducing training compute requirements.</li>
+              <li>Trained on multi-label classification of 41 clause types covering key legal concepts like termination, indemnification, and IP rights.</li>
+              <li>Evaluated model performance using precision, recall, and F1 metrics across clause categories.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal__footer">
+          <a href="https://github.com/MokshithRao" target="_blank" rel="noopener noreferrer" class="btn btn--outline magnetic-btn" style="padding: 8px 24px;">
+            <span class="material-symbols-outlined" style="font-size: 18px;">code</span> View Code
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: HandDino -->
+  <div class="modal-overlay" id="modal-handdino">
+    <div class="modal" role="dialog" aria-labelledby="modal-handdino-title">
+      <button class="modal__close" onclick="closeModal('modal-handdino')" aria-label="Close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+      <div class="modal__body" style="margin-top: 0; padding-top: 48px;">
+        <div class="modal__tags">
+          <span class="modal__tag">Python</span>
+          <span class="modal__tag">OpenCV</span>
+          <span class="modal__tag">MediaPipe</span>
+          <span class="modal__tag">PyAutoGUI</span>
+        </div>
+        <h2 class="modal__title" id="modal-handdino-title">HandDino — Chrome Dino with Hand Gestures</h2>
+        <div class="modal__text">
+          <p>A computer vision project that lets you play the Chrome Dino game using hand gestures detected through your webcam.</p>
+          <div>
+            <h4>How It Works:</h4>
+            <ul>
+              <li>Uses Google's MediaPipe framework for real-time hand landmark detection from webcam input.</li>
+              <li>Maps specific hand gestures (open/closed fist) to keyboard actions via PyAutoGUI to control the Dino's jump and duck movements.</li>
+              <li>Runs at real-time speeds with OpenCV for video processing and display.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal__footer">
+          <a href="https://github.com/MokshithRao" target="_blank" rel="noopener noreferrer" class="btn btn--outline magnetic-btn" style="padding: 8px 24px;">
+            <span class="material-symbols-outlined" style="font-size: 18px;">code</span> View Code
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Scripts ============ -->
+  <script src="js/shader.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/effects.js"></script>
+</body>
+</html>

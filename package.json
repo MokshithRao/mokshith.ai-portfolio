@@ -1,0 +1,17 @@
+{
+  "name": "mokshith-ai-portfolio",
+  "version": "1.0.0",
+  "description": "Personal AI/ML Engineer Portfolio for K.V. Mokshith Rao",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve -l 3000 .",
+    "start": "npx serve -l 3000 ."
+  },
+  "keywords": [
+    "portfolio",
+    "ai-engineer",
+    "machine-learning"
+  ],
+  "author": "K.V. Mokshith Rao",
+  "license": "MIT"
+}
