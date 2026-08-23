@@ -219,79 +219,18 @@
             <div class="section-header__line"></div>
           </div>
         </div>
-        <a href="https://github.com/MokshithRao" target="_blank" rel="noopener noreferrer" class="projects__github-link magnetic-btn">
-          View GitHub <span class="material-symbols-outlined">arrow_forward</span>
-        </a>
+        <div class="projects__actions">
+          <button class="btn--add-project magnetic-btn" id="btn-open-add-project" aria-label="Add Project">
+            <span class="material-symbols-outlined">add</span> Add Project
+          </button>
+          <a href="https://github.com/MokshithRao" target="_blank" rel="noopener noreferrer" class="projects__github-link magnetic-btn">
+            View GitHub <span class="material-symbols-outlined">arrow_forward</span>
+          </a>
+        </div>
       </div>
 
-      <div class="projects__grid">
-        <!-- Featured Project: RAG Assistant -->
-        <div class="project-featured tilt-card" onclick="openModal('modal-rag')">
-          <div class="project-featured__inner">
-            <div class="project-featured__image">
-              <div class="project-featured__image-bg" style="background-image: url('assets/rag-project.jpg');"></div>
-              <div class="project-featured__image-overlay"></div>
-            </div>
-            <div class="project-featured__body">
-              <div class="project-featured__meta">
-                <span class="project-featured__meta-dot"></span> 01 / GEN AI
-              </div>
-              <h3 class="project-featured__title">RAG-Powered AI Publications Assistant</h3>
-              <p class="text-body-md project-featured__desc">
-                A Retrieval-Augmented Generation system designed to retrieve and answer questions from an AI publication knowledge base using semantic search and context-aware generation.
-              </p>
-              <div class="project-featured__tags">
-                <span class="project-tag">LangChain</span>
-                <span class="project-tag">FAISS</span>
-                <span class="project-tag">Hugging Face</span>
-                <span class="project-tag">OpenAI</span>
-              </div>
-              <div class="project-featured__cta">
-                View Details <span class="material-symbols-outlined">arrow_forward</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project 2: LegalBERT -->
-        <div class="project-card tilt-card" onclick="openModal('modal-legalbert')" style="position: relative; overflow: hidden;">
-          <div class="project-card__glow"></div>
-          <div class="project-card__header">
-            <div class="project-card__icon-wrap">
-              <span class="material-symbols-outlined">gavel</span>
-            </div>
-            <div class="project-card__meta">02 / NLP</div>
-          </div>
-          <h3 class="project-card__title">LegalBERT Contract Classifier</h3>
-          <p class="text-body-md project-card__desc">
-            Fine-tuned LegalBERT for contract clause classification on the CUAD dataset using LoRA and PEFT for parameter-efficient training.
-          </p>
-          <div class="project-card__tags">
-            <span class="project-tag">Transformers</span>
-            <span class="project-tag">LoRA</span>
-            <span class="project-tag">Hugging Face</span>
-          </div>
-        </div>
-
-        <!-- Project 3: HandDino -->
-        <div class="project-card tilt-card" onclick="openModal('modal-handdino')" style="position: relative; overflow: hidden;">
-          <div class="project-card__glow"></div>
-          <div class="project-card__header">
-            <div class="project-card__icon-wrap">
-              <span class="material-symbols-outlined">gesture</span>
-            </div>
-            <div class="project-card__meta">03 / VISION</div>
-          </div>
-          <h3 class="project-card__title">HandDino — Gesture Game Control</h3>
-          <p class="text-body-md project-card__desc">
-            Computer vision project using hand gestures to control the Chrome Dino game in real-time via webcam-based gesture recognition.
-          </p>
-          <div class="project-card__tags">
-            <span class="project-tag">OpenCV</span>
-            <span class="project-tag">MediaPipe</span>
-            <span class="project-tag">Python</span>
-          </div>
-        </div>
+      <div class="projects__grid" id="projects-container">
+        <!-- Projects rendered dynamically by js/projects.js from data/projects.json -->
       </div>
     </section>
 
@@ -395,106 +334,96 @@
 
   <!-- ============ Modals ============ -->
 
-  <!-- Modal: RAG Project -->
-  <div class="modal-overlay" id="modal-rag">
-    <div class="modal" role="dialog" aria-labelledby="modal-rag-title">
-      <button class="modal__close" onclick="closeModal('modal-rag')" aria-label="Close">
+  <!-- Modal: Add Project -->
+  <div class="modal-overlay" id="modal-add-project">
+    <div class="modal" role="dialog" aria-labelledby="modal-add-project-title" style="max-width: 580px;">
+      <button class="modal__close" onclick="closeModal('modal-add-project')" aria-label="Close">
         <span class="material-symbols-outlined">close</span>
       </button>
-      <div class="modal__image" style="background-image: url('assets/rag-project.jpg');">
+      <form class="modal__form" id="form-add-project">
+        <div class="modal__form-header">
+          <h2 class="modal__title" id="modal-add-project-title" style="font-size: 24px; margin-bottom: 4px;">Add New Project</h2>
+          <p class="text-body-md" style="font-size: 14px; color: var(--text-muted);">Persisted locally to your project directory.</p>
+        </div>
+
+        <div id="form-general-error" class="form-error" style="margin-bottom: 16px;"></div>
+
+        <div class="form-group">
+          <label class="form-label" for="project-name-input">Project Name <span style="color: var(--primary-light);">*</span></label>
+          <input type="text" id="project-name-input" class="form-input" placeholder="e.g. Distributed LLM Inference Pipeline" autocomplete="off" />
+          <div id="project-name-error" class="form-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="project-desc-input">Description <span style="color: var(--primary-light);">*</span></label>
+          <textarea id="project-desc-input" class="form-textarea" placeholder="Briefly describe what problem this project solves and technologies used..."></textarea>
+          <div id="project-desc-error" class="form-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="project-github-input">GitHub Link <span style="color: var(--primary-light);">*</span></label>
+          <input type="url" id="project-github-input" class="form-input" placeholder="https://github.com/MokshithRao/your-project" autocomplete="off" />
+          <div id="project-github-error" class="form-error"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="project-tags-input">Technologies / Tags <span style="color: var(--text-muted); font-weight: 400; text-transform: none;">(Optional, comma-separated)</span></label>
+          <input type="text" id="project-tags-input" class="form-input" placeholder="e.g. PyTorch, LangChain, FastAPI" autocomplete="off" />
+          <div class="form-hint">Separate with commas to display skill badges on the card.</div>
+        </div>
+
+        <div class="modal__footer" style="padding-top: 20px; margin-top: 8px; justify-content: flex-end;">
+          <button type="button" class="btn btn--secondary magnetic-btn" onclick="closeModal('modal-add-project')" style="padding: 10px 24px;">Cancel</button>
+          <button type="submit" id="btn-submit-project" class="btn btn--primary magnetic-btn" style="padding: 10px 24px;">Add Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Confirm Delete -->
+  <div class="modal-overlay" id="modal-confirm-delete">
+    <div class="modal" role="dialog" aria-labelledby="modal-confirm-delete-title" style="max-width: 480px;">
+      <button class="modal__close" onclick="closeModal('modal-confirm-delete')" aria-label="Close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+      <div class="modal__body" style="margin-top: 0; padding: 40px 32px;">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+          <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(239, 68, 68, 0.15); display: flex; align-items: center; justify-content: center; color: #ff8080;">
+            <span class="material-symbols-outlined" style="font-size: 22px;">warning</span>
+          </div>
+          <h2 class="modal__title" id="modal-confirm-delete-title" style="font-size: 22px; margin-bottom: 0;">Delete Project?</h2>
+        </div>
+        <p class="text-body-md" style="color: var(--text-secondary); margin-bottom: 8px;">
+          Are you sure you want to remove <strong id="delete-project-name" style="color: var(--text-primary);">this project</strong>?
+        </p>
+        <p class="text-body-md" style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">
+          This action will permanently delete it from your local <code style="color: var(--primary-light);">data/projects.json</code> file.
+        </p>
+        <div style="display: flex; justify-content: flex-end; gap: 12px;">
+          <button type="button" class="btn btn--secondary magnetic-btn" id="btn-cancel-delete" style="padding: 8px 20px;">Cancel</button>
+          <button type="button" class="btn btn--danger magnetic-btn" id="btn-confirm-delete" style="padding: 8px 20px;">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Project Detail View -->
+  <div class="modal-overlay" id="modal-project-view">
+    <div class="modal" role="dialog" aria-labelledby="project-view-title">
+      <button class="modal__close" onclick="closeModal('modal-project-view')" aria-label="Close">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+      <div class="modal__image" id="project-view-image-wrap" style="display: none;">
         <div class="modal__image-overlay"></div>
       </div>
-      <div class="modal__body">
-        <div class="modal__tags">
-          <span class="modal__tag">LangChain</span>
-          <span class="modal__tag">FAISS</span>
-          <span class="modal__tag">Hugging Face</span>
-          <span class="modal__tag">OpenAI GPT</span>
-          <span class="modal__tag">RAG</span>
-        </div>
-        <h2 class="modal__title" id="modal-rag-title">RAG-Powered Assistant for Exploring AI Publications</h2>
+      <div class="modal__body" id="project-view-body" style="padding-top: 48px;">
+        <div class="modal__tags" id="project-view-tags"></div>
+        <h2 class="modal__title" id="project-view-title"></h2>
         <div class="modal__text">
-          <p>A Retrieval-Augmented Generation assistant designed to retrieve and answer questions from an AI publication knowledge base.</p>
-          <div>
-            <h4>Architecture Highlights:</h4>
-            <ul>
-              <li>Implemented semantic search using FAISS vector store with Hugging Face embeddings for efficient document retrieval.</li>
-              <li>Built a RAG pipeline with LangChain to combine retrieved context with OpenAI GPT for accurate, grounded answer generation.</li>
-              <li>Designed chunking strategies to preserve context across research paper boundaries and improve retrieval quality.</li>
-            </ul>
-          </div>
+          <p id="project-view-desc"></p>
         </div>
         <div class="modal__footer">
-          <a href="https://github.com/MokshithRao" target="_blank" rel="noopener noreferrer" class="btn btn--outline magnetic-btn" style="padding: 8px 24px;">
-            <span class="material-symbols-outlined" style="font-size: 18px;">code</span> View Code
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal: LegalBERT -->
-  <div class="modal-overlay" id="modal-legalbert">
-    <div class="modal" role="dialog" aria-labelledby="modal-legalbert-title">
-      <button class="modal__close" onclick="closeModal('modal-legalbert')" aria-label="Close">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-      <div class="modal__body" style="margin-top: 0; padding-top: 48px;">
-        <div class="modal__tags">
-          <span class="modal__tag">LegalBERT</span>
-          <span class="modal__tag">Transformers</span>
-          <span class="modal__tag">LoRA</span>
-          <span class="modal__tag">PEFT</span>
-          <span class="modal__tag">Hugging Face</span>
-        </div>
-        <h2 class="modal__title" id="modal-legalbert-title">LegalBERT — Contract Clause Classification</h2>
-        <div class="modal__text">
-          <p>Fine-tuned LegalBERT for classifying contract clauses using the CUAD (Contract Understanding Atticus Dataset), a widely-used benchmark for legal NLP.</p>
-          <div>
-            <h4>Technical Details:</h4>
-            <ul>
-              <li>Applied LoRA (Low-Rank Adaptation) via the PEFT library for parameter-efficient fine-tuning, significantly reducing training compute requirements.</li>
-              <li>Trained on multi-label classification of 41 clause types covering key legal concepts like termination, indemnification, and IP rights.</li>
-              <li>Evaluated model performance using precision, recall, and F1 metrics across clause categories.</li>
-            </ul>
-          </div>
-        </div>
-        <div class="modal__footer">
-          <a href="https://github.com/MokshithRao" target="_blank" rel="noopener noreferrer" class="btn btn--outline magnetic-btn" style="padding: 8px 24px;">
-            <span class="material-symbols-outlined" style="font-size: 18px;">code</span> View Code
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal: HandDino -->
-  <div class="modal-overlay" id="modal-handdino">
-    <div class="modal" role="dialog" aria-labelledby="modal-handdino-title">
-      <button class="modal__close" onclick="closeModal('modal-handdino')" aria-label="Close">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-      <div class="modal__body" style="margin-top: 0; padding-top: 48px;">
-        <div class="modal__tags">
-          <span class="modal__tag">Python</span>
-          <span class="modal__tag">OpenCV</span>
-          <span class="modal__tag">MediaPipe</span>
-          <span class="modal__tag">PyAutoGUI</span>
-        </div>
-        <h2 class="modal__title" id="modal-handdino-title">HandDino — Chrome Dino with Hand Gestures</h2>
-        <div class="modal__text">
-          <p>A computer vision project that lets you play the Chrome Dino game using hand gestures detected through your webcam.</p>
-          <div>
-            <h4>How It Works:</h4>
-            <ul>
-              <li>Uses Google's MediaPipe framework for real-time hand landmark detection from webcam input.</li>
-              <li>Maps specific hand gestures (open/closed fist) to keyboard actions via PyAutoGUI to control the Dino's jump and duck movements.</li>
-              <li>Runs at real-time speeds with OpenCV for video processing and display.</li>
-            </ul>
-          </div>
-        </div>
-        <div class="modal__footer">
-          <a href="https://github.com/MokshithRao" target="_blank" rel="noopener noreferrer" class="btn btn--outline magnetic-btn" style="padding: 8px 24px;">
+          <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn--outline magnetic-btn" id="project-view-github" style="padding: 8px 24px;">
             <span class="material-symbols-outlined" style="font-size: 18px;">code</span> View Code
           </a>
         </div>
@@ -506,5 +435,6 @@
   <script src="js/shader.js"></script>
   <script src="js/main.js"></script>
   <script src="js/effects.js"></script>
+  <script src="js/projects.js"></script>
 </body>
 </html>

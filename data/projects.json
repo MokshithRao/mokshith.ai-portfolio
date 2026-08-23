@@ -1,0 +1,30 @@
+[
+  {
+    "id": "project-1787483129351-dhok",
+    "name": "mokshith ai",
+    "description": "An ai bot for personal assistance",
+    "github": "http://localhost:3000/#work",
+    "tags": [
+      "ai",
+      "llm"
+    ],
+    "icon": "terminal",
+    "category": "AI/ML",
+    "createdAt": 1787483129351
+  },
+  {
+    "id": "project-legalbert",
+    "name": "LegalBERT Contract Classifier",
+    "description": "Fine-tuned LegalBERT for contract clause classification on the CUAD dataset using LoRA and PEFT for parameter-efficient training.",
+    "github": "https://github.com/MokshithRao",
+    "category": "NLP",
+    "tags": [
+      "Transformers",
+      "LoRA",
+      "Hugging Face"
+    ],
+    "icon": "gavel",
+    "featured": false,
+    "createdAt": 1724390000000
+  }
+]
