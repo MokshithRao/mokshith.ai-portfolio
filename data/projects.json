@@ -1,5 +1,18 @@
 [
   {
+    "id": "project-1787484130153-ntyo",
+    "name": "SafeText_AI-Cyberbullying_Detection_System",
+    "description": "AI-powered cyberbullying detection system that classifies toxic text using ML, BERT, and LLM models with API and Streamlit app support.",
+    "github": "https://github.com/MokshithRao/SafeText_AI-Cyberbullying_Detection_System.git",
+    "tags": [
+      "AI/ML",
+      "Python"
+    ],
+    "icon": "terminal",
+    "category": "AI/ML",
+    "createdAt": 1787484130153
+  },
+  {
     "id": "project-1787483129351-dhok",
     "name": "mokshith ai",
     "description": "An ai bot for personal assistance",
@@ -11,20 +24,5 @@
     "icon": "terminal",
     "category": "AI/ML",
     "createdAt": 1787483129351
-  },
-  {
-    "id": "project-legalbert",
-    "name": "LegalBERT Contract Classifier",
-    "description": "Fine-tuned LegalBERT for contract clause classification on the CUAD dataset using LoRA and PEFT for parameter-efficient training.",
-    "github": "https://github.com/MokshithRao",
-    "category": "NLP",
-    "tags": [
-      "Transformers",
-      "LoRA",
-      "Hugging Face"
-    ],
-    "icon": "gavel",
-    "featured": false,
-    "createdAt": 1724390000000
   }
 ]

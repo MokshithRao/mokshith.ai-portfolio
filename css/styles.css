@@ -766,6 +766,7 @@ ul, ol {
 .btn--add-project {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   background: var(--primary-subtle);
   color: var(--primary-light);
@@ -777,6 +778,7 @@ ul, ol {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  line-height: 1;
   cursor: pointer;
   transition: all var(--transition-normal);
 }
@@ -788,28 +790,52 @@ ul, ol {
 }
 
 .btn--add-project .material-symbols-outlined {
-  font-size: 16px;
+  font-size: 15px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(1px);
 }
 
 .projects__github-link {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  color: var(--primary-light);
+  justify-content: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
   font-family: var(--font-headline);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  transition: color var(--transition-normal);
+  line-height: 1;
+  text-decoration: none;
+  transition: all var(--transition-normal);
 }
 
 .projects__github-link:hover {
-  color: #fff;
+  color: var(--primary-light);
+  background: rgba(59, 130, 246, 0.08);
+  border-color: var(--primary-border);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
 }
 
 .projects__github-link .material-symbols-outlined {
-  font-size: 16px;
+  font-size: 15px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-fast);
+}
+
+.projects__github-link:hover .material-symbols-outlined {
+  transform: translateX(3px);
 }
 
 .projects__grid {
