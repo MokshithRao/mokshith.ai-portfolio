@@ -763,7 +763,8 @@ ul, ol {
   gap: 16px;
 }
 
-.btn--add-project {
+.btn--add-project,
+.projects__github-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -779,58 +780,34 @@ ul, ol {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   line-height: 1;
+  text-decoration: none;
   cursor: pointer;
   transition: all var(--transition-normal);
 }
 
-.btn--add-project:hover {
-  background: rgba(59, 130, 246, 0.22);
-  border-color: rgba(59, 130, 246, 0.4);
-  box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
-}
-
-.btn--add-project .material-symbols-outlined {
-  font-size: 15px;
-  line-height: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transform: translateY(1px);
-}
-
-.projects__github-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--text-secondary);
-  border: 1px solid var(--border-subtle);
-  padding: 8px 16px;
-  border-radius: var(--radius-full);
-  font-family: var(--font-headline);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  line-height: 1;
-  text-decoration: none;
-  transition: all var(--transition-normal);
-}
-
+.btn--add-project:hover,
 .projects__github-link:hover {
-  color: var(--primary-light);
-  background: rgba(59, 130, 246, 0.08);
-  border-color: var(--primary-border);
-  box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+  color: #ffffff;
+  background: rgba(59, 130, 246, 0.25);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.25);
 }
 
+.btn--add-project .material-symbols-outlined,
 .projects__github-link .material-symbols-outlined {
   font-size: 15px;
   line-height: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  color: inherit;
+}
+
+.btn--add-project .material-symbols-outlined {
+  transform: translateY(1px);
+}
+
+.projects__github-link .material-symbols-outlined {
   transition: transform var(--transition-fast);
 }
 
