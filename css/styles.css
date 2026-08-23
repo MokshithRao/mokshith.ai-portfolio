@@ -763,9 +763,11 @@ ul, ol {
   gap: 16px;
 }
 
-.btn--add-project {
+.btn--add-project,
+.projects__github-link {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   background: var(--primary-subtle);
   color: var(--primary-light);
@@ -777,39 +779,40 @@ ul, ol {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  line-height: 1;
+  text-decoration: none;
   cursor: pointer;
   transition: all var(--transition-normal);
 }
 
-.btn--add-project:hover {
-  background: rgba(59, 130, 246, 0.22);
-  border-color: rgba(59, 130, 246, 0.4);
-  box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+.btn--add-project:hover,
+.projects__github-link:hover {
+  color: #ffffff;
+  background: rgba(59, 130, 246, 0.25);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.25);
+}
+
+.btn--add-project .material-symbols-outlined,
+.projects__github-link .material-symbols-outlined {
+  font-size: 15px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
 }
 
 .btn--add-project .material-symbols-outlined {
-  font-size: 16px;
-}
-
-.projects__github-link {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--primary-light);
-  font-family: var(--font-headline);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  transition: color var(--transition-normal);
-}
-
-.projects__github-link:hover {
-  color: #fff;
+  transform: translateY(1px);
 }
 
 .projects__github-link .material-symbols-outlined {
-  font-size: 16px;
+  transition: transform var(--transition-fast);
+}
+
+.projects__github-link:hover .material-symbols-outlined {
+  transform: translateX(3px);
 }
 
 .projects__grid {

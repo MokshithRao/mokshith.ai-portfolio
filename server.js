@@ -48,6 +48,7 @@ const MIME_TYPES = {
   '.jpeg': 'image/jpeg',
   '.webp': 'image/webp',
   '.ico': 'image/x-icon',
+  '.pdf': 'application/pdf',
   '.woff2': 'font/woff2',
   '.woff': 'font/woff',
   '.ttf': 'font/ttf'
@@ -215,7 +216,10 @@ const server = http.createServer((req, res) => {
     const ext = path.extname(resolved).toLowerCase();
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
-    res.writeHead(200, { 'Content-Type': contentType });
+    res.writeHead(200, {
+      'Content-Type': contentType,
+      'Cache-Control': 'no-cache, no-store, must-revalidate'
+    });
     fs.createReadStream(resolved).pipe(res);
   });
 });
