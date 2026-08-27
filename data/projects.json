@@ -1,28 +1,23 @@
 [
   {
-    "id": "project-1787484130153-ntyo",
-    "name": "SafeText_AI-Cyberbullying_Detection_System",
-    "description": "AI-powered cyberbullying detection system that classifies toxic text using ML, BERT, and LLM models with API and Streamlit app support.",
-    "github": "https://github.com/MokshithRao/SafeText_AI-Cyberbullying_Detection_System.git",
+    "id": "project-1787803586195-93qf",
+    "name": "AI Contract Intelligence System: Clause Detection and LLM-Based Rewriting",
+    "description": "Built an end-to-end Legal AI application that analyzes PDF, DOCX, and TXT contracts, extracts individual clauses, and classifies them into 41 legal provision categories using a LoRA-adapted LegalBERT model trained on the CUAD dataset. The system applies rule-based risk filtering to identify potentially unfavorable clauses, including uncapped liability and immediate termination provisions.\n\n\nIntegrated a Retrieval-Augmented Generation pipeline using Sentence Transformers and FAISS to retrieve similar legal clauses and generate clearer, more balanced rewrites through LLaMA 3. Developed a FastAPI backend and interactive Streamlit dashboard for contract upload, clause-level analysis, risk visualization, and rewrite recommendations.\n\nKey result: Improved clause-classification accuracy from 1.9% to 69.8%, achieving a Macro F1 score of 0.650 across 41 clause categories.",
+    "github": "https://github.com/MokshithRao/AI_Contract_Intelligence_System-Clause_Detection_-_LLM-Based_Rewriting-.git",
     "tags": [
-      "AI/ML",
-      "Python"
+      "Python",
+      "PyTorch",
+      "Hugging Face Transformers",
+      "LegalBERT",
+      "LoRA/PEFT",
+      "FastAPI",
+      "Streamlit",
+      "FAISS",
+      "Sentence Transformers",
+      "PDFPlumber"
     ],
     "icon": "terminal",
     "category": "AI/ML",
-    "createdAt": 1787484130153
-  },
-  {
-    "id": "project-1787483129351-dhok",
-    "name": "mokshith ai",
-    "description": "An ai bot for personal assistance",
-    "github": "http://localhost:3000/#work",
-    "tags": [
-      "ai",
-      "llm"
-    ],
-    "icon": "terminal",
-    "category": "AI/ML",
-    "createdAt": 1787483129351
+    "createdAt": 1787803586195
   }
 ]
