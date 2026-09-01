@@ -1,23 +1,43 @@
 [
   {
-    "id": "project-1787803586195-93qf",
-    "name": "AI Contract Intelligence System: Clause Detection and LLM-Based Rewriting",
-    "description": "Built an end-to-end Legal AI application that analyzes PDF, DOCX, and TXT contracts, extracts individual clauses, and classifies them into 41 legal provision categories using a LoRA-adapted LegalBERT model trained on the CUAD dataset. The system applies rule-based risk filtering to identify potentially unfavorable clauses, including uncapped liability and immediate termination provisions.\n\n\nIntegrated a Retrieval-Augmented Generation pipeline using Sentence Transformers and FAISS to retrieve similar legal clauses and generate clearer, more balanced rewrites through LLaMA 3. Developed a FastAPI backend and interactive Streamlit dashboard for contract upload, clause-level analysis, risk visualization, and rewrite recommendations.\n\nKey result: Improved clause-classification accuracy from 1.9% to 69.8%, achieving a Macro F1 score of 0.650 across 41 clause categories.",
-    "github": "https://github.com/MokshithRao/AI_Contract_Intelligence_System-Clause_Detection_-_LLM-Based_Rewriting-.git",
+    "id": "project-1788246315228-p7ac",
+    "name": "SafeText AI — Cyberbullying Detection System",
+    "description": "An AI-powered system that detects cyberbullying and toxic content in text, compares predictions across multiple models, and provides real-time classification with confidence scores through an interactive application.",
+    "github": "https://github.com/MokshithRao/SafeText_AI-Cyberbullying_Detection_System",
     "tags": [
-      "Python",
+      "Scikit-learn",
+      "XGBoost",
+      "DistilBERT",
+      "LLaMA 3.2",
       "PyTorch",
-      "Hugging Face Transformers",
-      "LegalBERT",
-      "LoRA/PEFT",
       "FastAPI",
       "Streamlit",
-      "FAISS",
-      "Sentence Transformers",
-      "PDFPlumber"
+      "SQLAlchemy",
+      "SQLite"
     ],
     "icon": "terminal",
     "category": "AI/ML",
-    "createdAt": 1787803586195
+    "createdAt": 1788246315228
+  },
+  {
+    "id": "project-1788245807801-l2al",
+    "name": "AI Contract Intelligence System",
+    "description": "An AI-powered system for analyzing legal contracts, detecting potentially risky clauses, and generating clearer, fairer alternatives. It combines automated clause analysis with context-aware retrieval to assist users in reviewing and improving contract languag.",
+    "github": "https://github.com/MokshithRao/AI_Contract_Intelligence_System-Clause_Detection_-_LLM-Based_Rewriting-",
+    "tags": [
+      "LegalBERT",
+      "LoRA",
+      "PEFT",
+      "RAG",
+      "FAISS",
+      "SentenceTransformers",
+      "LLaMA 3",
+      "FastAPI",
+      "Streamlit"
+    ],
+    "icon": "terminal",
+    "category": "AI/ML",
+    "createdAt": 1788245807801,
+    "updatedAt": 1788246211999
   }
 ]

@@ -131,6 +131,19 @@
     }
   };
 
+  // Close modal on close button click
+  document.addEventListener('click', (e) => {
+    const closeBtn = e.target.closest('.modal__close');
+    if (closeBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const overlay = closeBtn.closest('.modal-overlay');
+      if (overlay) {
+        window.closeModal(overlay.id);
+      }
+    }
+  });
+
   // Close modal on overlay click
   document.querySelectorAll('.modal-overlay').forEach((overlay) => {
     overlay.addEventListener('click', (e) => {

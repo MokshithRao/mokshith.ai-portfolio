@@ -71,7 +71,7 @@ const server = http.createServer((req, res) => {
 
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (method === 'OPTIONS') {
@@ -161,6 +161,93 @@ const server = http.createServer((req, res) => {
         res.end(JSON.stringify(newProject));
       } catch (err) {
         console.error('Error in POST /api/projects:', err);
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Invalid JSON payload' }));
+      }
+    });
+    return;
+  }
+
+  // PUT /api/projects/:id (Edit Project)
+  if (pathname.startsWith('/api/projects/') && method === 'PUT') {
+    const id = pathname.replace('/api/projects/', '').trim();
+    if (!id) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Project ID required' }));
+      return;
+    }
+
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk.toString();
+      if (body.length > 1e6) {
+        req.destroy();
+      }
+    });
+
+    req.on('end', () => {
+      try {
+        const payload = JSON.parse(body);
+        const name = (payload.name || '').trim();
+        const description = (payload.description || '').trim();
+        const github = (payload.github || '').trim();
+
+        if (!name) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Project name is required' }));
+          return;
+        }
+
+        if (!description) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Project description is required' }));
+          return;
+        }
+
+        if (!github) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'GitHub link is required' }));
+          return;
+        }
+
+        if (!isValidUrl(github)) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Please provide a valid URL (starting with http:// or https://)' }));
+          return;
+        }
+
+        let tags = [];
+        if (Array.isArray(payload.tags)) {
+          tags = payload.tags.map(t => String(t).trim()).filter(Boolean);
+        } else if (typeof payload.tags === 'string' && payload.tags.trim()) {
+          tags = payload.tags.split(',').map(t => t.trim()).filter(Boolean);
+        }
+
+        const projects = readProjects();
+        const index = projects.findIndex(p => p.id === id);
+
+        if (index === -1) {
+          res.writeHead(404, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Project not found' }));
+          return;
+        }
+
+        // Update project while preserving immutable attributes
+        projects[index] = {
+          ...projects[index],
+          name,
+          description,
+          github,
+          tags: tags.length > 0 ? tags : (projects[index].tags || ['AI/ML', 'Python']),
+          updatedAt: Date.now()
+        };
+
+        writeProjects(projects);
+
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify(projects[index]));
+      } catch (err) {
+        console.error('Error in PUT /api/projects/:id:', err);
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Invalid JSON payload' }));
       }
