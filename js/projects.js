@@ -1,6 +1,6 @@
 /* ============================================================
    Project Management System
-   Handles dynamic project loading, addition, deletion,
+   Handles dynamic project loading, addition, editing, deletion,
    and modal interactions with local file persistence.
    ============================================================ */
 
@@ -8,6 +8,7 @@
   'use strict';
 
   let currentProjects = [];
+  let currentDetailProject = null;
   let projectToDeleteId = null;
 
   // DOM Elements
@@ -20,8 +21,9 @@
   const cancelDeleteBtn = document.getElementById('btn-cancel-delete');
   const deleteProjectNameEl = document.getElementById('delete-project-name');
   const detailModal = document.getElementById('modal-project-view');
+  const detailEditBtn = document.getElementById('project-view-edit-btn');
 
-  // Input & Error Elements
+  // Add Form Elements
   const nameInput = document.getElementById('project-name-input');
   const nameError = document.getElementById('project-name-error');
   const descInput = document.getElementById('project-desc-input');
@@ -31,6 +33,20 @@
   const tagsInput = document.getElementById('project-tags-input');
   const formSubmitBtn = document.getElementById('btn-submit-project');
   const formGeneralError = document.getElementById('form-general-error');
+
+  // Edit Form Elements
+  const editProjectModal = document.getElementById('modal-edit-project');
+  const editProjectForm = document.getElementById('form-edit-project');
+  const editIdInput = document.getElementById('project-edit-id');
+  const editNameInput = document.getElementById('project-edit-name-input');
+  const editNameError = document.getElementById('project-edit-name-error');
+  const editDescInput = document.getElementById('project-edit-desc-input');
+  const editDescError = document.getElementById('project-edit-desc-error');
+  const editGithubInput = document.getElementById('project-edit-github-input');
+  const editGithubError = document.getElementById('project-edit-github-error');
+  const editTagsInput = document.getElementById('project-edit-tags-input');
+  const editFormSubmitBtn = document.getElementById('btn-submit-edit-project');
+  const editFormGeneralError = document.getElementById('form-edit-general-error');
 
   // URL Validator
   function isValidUrl(string) {
@@ -120,9 +136,14 @@
                 <span style="display: flex; align-items: center; gap: 8px;">
                   <span class="project-featured__meta-dot"></span> ${escapeHtml(categoryText)}
                 </span>
-                <button class="project-card__delete" title="Delete Project" data-delete-id="${escapeHtml(proj.id)}" data-delete-name="${escapeHtml(proj.name)}">
-                  <span class="material-symbols-outlined">delete</span>
-                </button>
+                <div class="project-card__actions">
+                  <button type="button" class="project-card__action project-card__edit" title="Edit Project" data-edit-id="${escapeHtml(proj.id)}">
+                    <span class="material-symbols-outlined">edit</span>
+                  </button>
+                  <button type="button" class="project-card__action project-card__delete" title="Delete Project" data-delete-id="${escapeHtml(proj.id)}" data-delete-name="${escapeHtml(proj.name)}">
+                    <span class="material-symbols-outlined">delete</span>
+                  </button>
+                </div>
               </div>
               <h3 class="project-featured__title">${escapeHtml(proj.name)}</h3>
               <p class="text-body-md project-featured__desc">
@@ -149,9 +170,14 @@
             </div>
             <div class="project-card__meta-wrap">
               <div class="project-card__meta">${escapeHtml(categoryText)}</div>
-              <button class="project-card__delete" title="Delete Project" data-delete-id="${escapeHtml(proj.id)}" data-delete-name="${escapeHtml(proj.name)}">
-                <span class="material-symbols-outlined">delete</span>
-              </button>
+              <div class="project-card__actions">
+                <button type="button" class="project-card__action project-card__edit" title="Edit Project" data-edit-id="${escapeHtml(proj.id)}">
+                  <span class="material-symbols-outlined">edit</span>
+                </button>
+                <button type="button" class="project-card__action project-card__delete" title="Delete Project" data-delete-id="${escapeHtml(proj.id)}" data-delete-name="${escapeHtml(proj.name)}">
+                  <span class="material-symbols-outlined">delete</span>
+                </button>
+              </div>
             </div>
           </div>
           <h3 class="project-card__title">${escapeHtml(proj.name)}</h3>
@@ -166,10 +192,19 @@
 
       // Card click opens detail modal
       card.addEventListener('click', (e) => {
-        // If delete button clicked, ignore
-        if (e.target.closest('.project-card__delete')) return;
+        // If action buttons clicked, ignore card open
+        if (e.target.closest('.project-card__action')) return;
         openProjectDetail(proj);
       });
+
+      // Edit button listener
+      const editBtn = card.querySelector('.project-card__edit');
+      if (editBtn) {
+        editBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openEditProjectModal(proj);
+        });
+      }
 
       // Delete button listener
       const delBtn = card.querySelector('.project-card__delete');
@@ -192,6 +227,7 @@
   // Open Project Details Modal
   function openProjectDetail(project) {
     if (!detailModal) return;
+    currentDetailProject = project;
 
     const titleEl = document.getElementById('project-view-title');
     const descEl = document.getElementById('project-view-desc');
@@ -225,6 +261,16 @@
     window.openModal('modal-project-view');
   }
 
+  // Detail Modal Edit Button Listener
+  if (detailEditBtn) {
+    detailEditBtn.addEventListener('click', () => {
+      if (currentDetailProject) {
+        window.closeModal('modal-project-view');
+        openEditProjectModal(currentDetailProject);
+      }
+    });
+  }
+
   // Open Add Project Modal
   window.openAddProjectModal = function () {
     resetAddForm();
@@ -247,6 +293,32 @@
     if (githubError) { githubError.textContent = ''; githubError.classList.remove('visible'); }
     if (formGeneralError) { formGeneralError.textContent = ''; formGeneralError.classList.remove('visible'); }
     if (formSubmitBtn) { formSubmitBtn.disabled = false; formSubmitBtn.textContent = 'Add Project'; }
+  }
+
+  // Open Edit Project Modal
+  function openEditProjectModal(project) {
+    if (!project) return;
+    resetEditForm();
+
+    if (editIdInput) editIdInput.value = project.id || '';
+    if (editNameInput) editNameInput.value = project.name || '';
+    if (editDescInput) editDescInput.value = project.description || '';
+    if (editGithubInput) editGithubInput.value = project.github || '';
+    if (editTagsInput) editTagsInput.value = (project.tags || []).join(', ');
+
+    window.openModal('modal-edit-project');
+    if (editNameInput) editNameInput.focus();
+  }
+  window.openEditProjectModal = openEditProjectModal;
+
+  // Reset Edit Form
+  function resetEditForm() {
+    if (editProjectForm) editProjectForm.reset();
+    if (editNameError) { editNameError.textContent = ''; editNameError.classList.remove('visible'); }
+    if (editDescError) { editDescError.textContent = ''; editDescError.classList.remove('visible'); }
+    if (editGithubError) { editGithubError.textContent = ''; editGithubError.classList.remove('visible'); }
+    if (editFormGeneralError) { editFormGeneralError.textContent = ''; editFormGeneralError.classList.remove('visible'); }
+    if (editFormSubmitBtn) { editFormSubmitBtn.disabled = false; editFormSubmitBtn.textContent = 'Save Changes'; }
   }
 
   // Add Form Submit Handler
@@ -339,6 +411,113 @@
         if (formSubmitBtn) {
           formSubmitBtn.disabled = false;
           formSubmitBtn.textContent = 'Add Project';
+        }
+      }
+    });
+  }
+
+  // Edit Form Submit Handler
+  if (editProjectForm) {
+    editProjectForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      let hasError = false;
+      const id = (editIdInput?.value || '').trim();
+      const name = (editNameInput?.value || '').trim();
+      const desc = (editDescInput?.value || '').trim();
+      const github = (editGithubInput?.value || '').trim();
+      const tags = (editTagsInput?.value || '').trim();
+
+      // Reset errors
+      if (editNameError) { editNameError.textContent = ''; editNameError.classList.remove('visible'); }
+      if (editDescError) { editDescError.textContent = ''; editDescError.classList.remove('visible'); }
+      if (editGithubError) { editGithubError.textContent = ''; editGithubError.classList.remove('visible'); }
+      if (editFormGeneralError) { editFormGeneralError.textContent = ''; editFormGeneralError.classList.remove('visible'); }
+
+      if (!id) {
+        if (editFormGeneralError) {
+          editFormGeneralError.textContent = 'Invalid project ID.';
+          editFormGeneralError.classList.add('visible');
+        }
+        return;
+      }
+
+      // Validate Name
+      if (!name) {
+        if (editNameError) {
+          editNameError.textContent = 'Please enter a project name.';
+          editNameError.classList.add('visible');
+        }
+        hasError = true;
+      }
+
+      // Validate Description
+      if (!desc) {
+        if (editDescError) {
+          editDescError.textContent = 'Please enter a project description.';
+          editDescError.classList.add('visible');
+        }
+        hasError = true;
+      }
+
+      // Validate GitHub Link
+      if (!github) {
+        if (editGithubError) {
+          editGithubError.textContent = 'Please enter a GitHub repository link.';
+          editGithubError.classList.add('visible');
+        }
+        hasError = true;
+      } else if (!isValidUrl(github)) {
+        if (editGithubError) {
+          editGithubError.textContent = 'Please enter a valid URL (e.g. https://github.com/...)';
+          editGithubError.classList.add('visible');
+        }
+        hasError = true;
+      }
+
+      if (hasError) return;
+
+      // Submit PUT to API
+      try {
+        if (editFormSubmitBtn) {
+          editFormSubmitBtn.disabled = true;
+          editFormSubmitBtn.textContent = 'Saving...';
+        }
+
+        const response = await fetch(`/api/projects/${encodeURIComponent(id)}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name,
+            description: desc,
+            github,
+            tags: tags ? tags.split(',').map(t => t.trim()).filter(Boolean) : []
+          })
+        });
+
+        const updatedProject = await response.json();
+
+        if (!response.ok) {
+          throw new Error(updatedProject.error || 'Failed to update project');
+        }
+
+        // Update local list
+        const idx = currentProjects.findIndex(p => p.id === id);
+        if (idx !== -1) {
+          currentProjects[idx] = updatedProject;
+        }
+        renderProjects(currentProjects);
+        window.closeModal('modal-edit-project');
+        resetEditForm();
+      } catch (err) {
+        console.error('Error updating project:', err);
+        if (editFormGeneralError) {
+          editFormGeneralError.textContent = err.message || 'An error occurred while saving changes.';
+          editFormGeneralError.classList.add('visible');
+        }
+        if (editFormSubmitBtn) {
+          editFormSubmitBtn.disabled = false;
+          editFormSubmitBtn.textContent = 'Save Changes';
         }
       }
     });

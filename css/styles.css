@@ -735,10 +735,10 @@ ul, ol {
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-full);
   font-family: var(--font-headline);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-transform: none;
   color: var(--text-secondary);
   transition: all var(--transition-normal);
   cursor: default;
@@ -1082,10 +1082,57 @@ ul, ol {
   font-size: 24px;
 }
 
+.project-card__meta-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .project-card__meta {
   font-family: var(--font-mono);
   font-size: 10px;
   color: var(--text-faint);
+}
+
+.project-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.project-card__action {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  padding: 0;
+  text-decoration: none;
+}
+
+.project-card__action .material-symbols-outlined {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.project-card__action.project-card__edit:hover {
+  background: rgba(59, 130, 246, 0.18);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: var(--primary-light);
+  transform: translateY(-1px);
+}
+
+.project-card__action.project-card__delete:hover {
+  background: rgba(239, 68, 68, 0.18);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #ff8080;
+  transform: translateY(-1px);
 }
 
 .project-card__title {
@@ -1223,8 +1270,8 @@ ul, ol {
 }
 
 .terminal__body {
-  padding: 24px 32px;
-  height: 500px;
+  padding: 28px 32px;
+  min-height: 420px;
   display: flex;
   flex-direction: column;
   font-family: var(--font-mono);
@@ -1276,6 +1323,18 @@ ul, ol {
 
 .terminal__msg-text .success {
   color: #4ade80;
+}
+
+.badge-status-accent {
+  color: var(--primary-light);
+  background: var(--primary-subtle);
+  border: 1px solid var(--primary-border);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  display: inline-block;
 }
 
 .typing-cursor::after {
@@ -1341,6 +1400,20 @@ ul, ol {
   align-items: center;
   gap: 12px;
   transition: all var(--transition-normal);
+}
+
+.terminal__input--disabled {
+  opacity: 0.65;
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.06);
+  cursor: default;
+  user-select: none;
+}
+
+.terminal__input-placeholder {
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: 14px;
 }
 
 .terminal__input:focus-within {
@@ -1542,19 +1615,35 @@ ul, ol {
 
 .modal__close {
   position: absolute;
-  top: 24px;
-  right: 24px;
-  z-index: 10;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 8px;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  background: rgba(20, 20, 25, 0.85);
+  border: 1px solid var(--border-subtle);
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: var(--radius-full);
   color: var(--text-secondary);
   backdrop-filter: blur(8px);
-  transition: color var(--transition-normal);
+  transition: all var(--transition-normal);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.modal__close .material-symbols-outlined {
+  font-size: 20px;
+  line-height: 1;
 }
 
 .modal__close:hover {
-  color: #fff;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
 }
 
 .modal__image {
@@ -1572,9 +1661,13 @@ ul, ol {
 
 .modal__body {
   padding: 32px 40px;
-  margin-top: -40px;
+  margin-top: 0;
   position: relative;
   z-index: 10;
+}
+
+.modal__image + .modal__body {
+  margin-top: -40px;
 }
 
 .modal__tags {
@@ -1582,6 +1675,7 @@ ul, ol {
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 16px;
+  padding-right: 48px;
 }
 
 .modal__tag {
