@@ -1,0 +1,137 @@
+[
+  {
+    "id": "beyond-1790421408796-ikdn6",
+    "category": "Activities",
+    "categoryIcon": "directions_run",
+    "title": "Yellow Ribbon Run – 3K",
+    "subtitle": "Endometriosis Foundation of India (EFI)",
+    "status": "PARTICIPATED",
+    "date": "March 2026",
+    "description": "Participated in the 3K Yellow Ribbon Run in Hyderabad, an awareness run organized by the Endometriosis Foundation of India to raise awareness about endometriosis. The experience was a meaningful way to take part in a community event while staying active and supporting an important cause.",
+    "images": [
+      "assets/beyond/beyond-1790421408690-0-tt9k7.jpg",
+      "assets/beyond/beyond-1790421408709-1-pmfz2.jpg",
+      "assets/beyond/beyond-1790421408724-2-7cwmh.jpg"
+    ],
+    "link": "",
+    "linkLabel": "",
+    "customFields": [
+      {
+        "label": "Event",
+        "value": "Yellow Ribbon Run – 3rd Edition"
+      },
+      {
+        "label": "Distance",
+        "value": "3K"
+      },
+      {
+        "label": "Location",
+        "value": "T-Works, Hyderabad"
+      },
+      {
+        "label": "Organizer",
+        "value": "Endometriosis Foundation of India (EFI)"
+      },
+      {
+        "label": "Theme",
+        "value": "Invisible No More"
+      },
+      {
+        "label": "Category",
+        "value": "Awareness Run"
+      }
+    ],
+    "createdAt": 1790421408796
+  },
+  {
+    "id": "beyond-1790419798532-3grzh",
+    "category": "Reading",
+    "categoryIcon": "menu_book",
+    "title": "The Kite Runner",
+    "subtitle": "Book by Khaled Hosseini",
+    "status": "Completed",
+    "date": "2026",
+    "description": "A moving story about friendship, guilt, and forgiveness. It shows how our past choices can affect our lives and how taking responsibility for our mistakes can help us find a way toward redemption.",
+    "images": [
+      "assets/beyond/beyond-1790419798424-0-qctlf.jpg",
+      "assets/beyond/beyond-1790419798444-1-57fjb.png"
+    ],
+    "link": "",
+    "linkLabel": "",
+    "customFields": [
+      {
+        "label": "Author",
+        "value": "Khaled Hosseini"
+      },
+      {
+        "label": "Core Theme",
+        "value": "Friendship, guilt, forgiveness, and redemption."
+      },
+      {
+        "label": "Key Takeaway",
+        "value": "It’s never too late to make amends and choose to do what is right."
+      }
+    ],
+    "createdAt": 1790419798533
+  },
+  {
+    "id": "beyond-item-1",
+    "category": "Reading",
+    "categoryIcon": "menu_book",
+    "title": "Ikigai: The Japanese Secret to a Long and Happy Life",
+    "subtitle": "By Héctor García & Francesc Miralles",
+    "status": "Completed",
+    "date": "2025",
+    "description": "Explored the philosophy of Ikigai—the convergence of passion, mission, vocation, and profession. A compelling perspective on finding flow in daily craftsmanship, intentional living, community bonding, and mindful resilience.",
+    "images": [
+      "assets/beyond/beyond-1790418860213-0-98m0b.jpg",
+      "assets/beyond/beyond-1790418860220-1-et6ti.png"
+    ],
+    "link": "https://www.goodreads.com/book/show/40534545-ikigai",
+    "linkLabel": "View on Goodreads",
+    "customFields": [
+      {
+        "label": "Author",
+        "value": "Héctor García & Francesc Miralles"
+      },
+      {
+        "label": "Core Theme",
+        "value": "Purpose, Flow & Longevity"
+      },
+      {
+        "label": "Key Takeaway",
+        "value": "Active immersion in meaningful craftsmanship"
+      }
+    ],
+    "createdAt": 1788240000000,
+    "updatedAt": 1790418860273
+  },
+  {
+    "id": "beyond-item-4",
+    "category": "Reading",
+    "categoryIcon": "menu_book",
+    "title": "The Alchemist",
+    "subtitle": "By Paulo Coelho",
+    "status": "Completed",
+    "date": "2026",
+    "description": "A timeless allegory about following one's Personal Legend, listening to one's heart, and recognizing opportunity in the journey of life. Highlights the importance of persistence and alignment with core purpose.",
+    "images": [
+      "assets/beyond/beyond-1790419182384-0-de0ro.jpg",
+      "assets/beyond/alchemist-cover.jpg"
+    ],
+    "link": "https://www.goodreads.com/book/show/18144590-the-alchemist",
+    "linkLabel": "View on Goodreads",
+    "customFields": [
+      {
+        "label": "Author",
+        "value": "Paulo Coelho"
+      },
+      {
+        "label": "Key Theme",
+        "value": "Personal Legend & Destiny"
+      }
+    ],
+    "createdAt": 1788240100000,
+    "updatedAt": 1790419182412
+  }
+]
