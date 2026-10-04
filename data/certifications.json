@@ -52,23 +52,27 @@
   },
   {
     "id": "cert-ready-tensor-agentic",
-    "name": "Agentic AI & LLM Engineering Masterclass",
+    "name": "LLM Fine-Tuning Specialist",
     "issuer": "Ready Tensor",
-    "date": "2024",
-    "year": "2024",
+    "date": "2026",
+    "year": "2026",
     "category": "AI / ML",
-    "images": [],
+    "images": [
+      "assets/certs/cert-1791120308905-0-oiuy2.pdf"
+    ],
     "credentialId": "",
     "credentialUrl": "",
     "skills": [
-      "Agentic Workflows",
-      "Multi-Agent Systems",
-      "RAG & Vector DBs",
-      "Tool Calling",
-      "Prompt Engineering",
-      "Evaluation"
+      "LLM Fine-Tuning",
+      "Large Language Models",
+      "Model Optimization",
+      "LLM Engineering",
+      "Model Training",
+      "Generative AI",
+      "LLM Deployment"
     ],
-    "description": "Hands-on competency in engineering autonomous LLM agent systems, multi-agent collaboration frameworks, retrieval-augmented generation (RAG) pipelines, and programmatic tool integration."
+    "description": "Earned the LLM Fine-Tuning Specialist credential through the Ready Tensor LLM Engineering & Deployment Certification Program, demonstrating expertise in fine-tuning and optimizing large language models.",
+    "updatedAt": 1791120309145
   },
   {
     "id": "cert-nvidia-deep-learning",
@@ -108,25 +112,6 @@
       "Cloud AI Services"
     ],
     "description": "Mastered machine learning pipelines in the AWS cloud, encompassing data engineering, Amazon SageMaker model training and tuning, and managed AI services for computer vision and NLP."
-  },
-  {
-    "id": "cert-aws-cloud-foundations",
-    "name": "AWS Academy Cloud Foundations",
-    "issuer": "Amazon Web Services (AWS)",
-    "date": "2023",
-    "year": "2023",
-    "category": "Cloud",
-    "images": [],
-    "credentialId": "",
-    "credentialUrl": "",
-    "skills": [
-      "Cloud Computing",
-      "AWS Architecture",
-      "EC2 & S3",
-      "IAM & Security",
-      "Cloud Economics"
-    ],
-    "description": "Comprehensive foundation in cloud computing concepts, AWS security and compliance, core cloud infrastructure services (Compute, Storage, Database, Networking), and cloud architecture best practices."
   },
   {
     "id": "cert-google-python",
