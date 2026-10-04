@@ -21,81 +21,34 @@
       "Data Visualization"
     ],
     "description": "Completed Google's 8-course Data Analytics Professional Certificate covering data preparation, cleaning, analysis, visualization, and data-driven decision-making using tools including SQL, R, spreadsheets, and Tableau.",
-    "createdAt": 1791118279684
-  },
-  {
-    "id": "cert-1791118001198-w0sj5",
-    "name": "Google Data Analytics",
-    "issuer": "Coursera",
-    "date": "2023",
-    "year": "2023",
-    "category": "Data Science",
-    "images": [
-      "assets/certs/cert-1791117793723-0-srr6m.pdf"
-    ],
-    "credentialId": "",
-    "credentialUrl": "https://www.coursera.org/account/accomplishments/professional-cert/5P7GK3AFAQX8",
-    "skills": [],
-    "description": "",
-    "createdAt": 1791118001198
-  },
-  {
-    "id": "cert-1791117793784-c4i4z",
-    "name": "Google Data Analytics",
-    "issuer": "Coursera",
-    "date": "2023",
-    "year": "2023",
-    "category": "Data Science",
-    "images": [
-      "assets/certs/cert-1791117793723-0-srr6m.pdf"
-    ],
-    "credentialId": "",
-    "credentialUrl": "https://www.coursera.org/account/accomplishments/professional-cert/5P7GK3AFAQX8",
-    "skills": [],
-    "description": "",
-    "createdAt": 1791117793784
-  },
-  {
-    "id": "cert-google-data-analytics",
-    "name": "Google Data Analytics",
-    "issuer": "Coursera",
-    "date": "2023",
-    "year": "2023",
-    "category": "Data Science",
-    "images": [
-      "assets/certs/cert-1791116610828-0-px4oz.pdf"
-    ],
-    "credentialId": "",
-    "credentialUrl": "https://www.coursera.org/account/accomplishments/professional-cert/5P7GK3AFAQX8",
-    "skills": [
-      "SQL",
-      "R Programming",
-      "Tableau",
-      "Data Cleaning",
-      "Spreadsheets",
-      "Data Visualization"
-    ],
-    "description": "Completed comprehensive professional certificate curriculum covering data preparation, processing, cleaning, statistical analysis with R, complex SQL querying, and interactive business dashboard design in Tableau.",
-    "updatedAt": 1791116610885
+    "createdAt": 1791118279684,
+    "updatedAt": 1791119402141
   },
   {
     "id": "cert-oracle-agentic-ai",
-    "name": "Oracle Agentic AI Foundations Learning Path",
+    "name": "Oracle Certified Foundations Associate – Agentic AI",
     "issuer": "Oracle University",
-    "date": "2024",
-    "year": "2024",
+    "date": "2026",
+    "year": "2026",
     "category": "AI / ML",
-    "images": [],
+    "images": [
+      "assets/certs/cert-1791119921513-0-0aijh.pdf"
+    ],
     "credentialId": "",
-    "credentialUrl": "",
+    "credentialUrl": "https://catalog-education.oracle.com/ords/certview/sharebadge?id=FE2609F0A6059695217CF8CD36395735A2DB43A67EE229B27777ED131E7B7F9C",
     "skills": [
       "Agentic AI",
-      "Autonomous Agents",
+      "AI Agents",
+      "Generative AI",
+      "LangChain",
+      "Model Context Protocol (MCP)",
+      "OpenAI Agents SDK",
+      "OpenAI Responses API",
       "OCI Generative AI",
-      "LLM Integration",
-      "Multi-Agent Architectures"
+      "Oracle AI Database"
     ],
-    "description": "Explored agentic AI architecture, autonomous multi-step reasoning, tool orchestration, memory mechanisms, and enterprise generative AI deployment on Oracle Cloud Infrastructure."
+    "description": "Earned the Oracle Agentic AI Certified Foundations Associate credential, covering the fundamentals of AI agents, agent development with LangChain, Model Context Protocol (MCP), OpenAI Responses API and Agents SDK, Agentic AI on Oracle Cloud Infrastructure (OCI), and Oracle AI Database.",
+    "updatedAt": 1791119923418
   },
   {
     "id": "cert-ready-tensor-agentic",

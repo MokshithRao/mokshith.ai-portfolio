@@ -55,6 +55,10 @@
     return cleanStr.startsWith('data:application/pdf') || cleanStr.endsWith('.pdf');
   }
 
+  function getReadOnlyPdfUrl(url) {
+    return `${url.split('#')[0]}#toolbar=0&navpanes=0&scrollbar=0`;
+  }
+
   // Fetch Certifications from Backend
   async function fetchCertifications() {
     try {
@@ -276,9 +280,6 @@
       addBtn.addEventListener('click', () => openCertForm(null));
     }
 
-    // Determine available categories based on existing certs
-    const activeCategories = new Set(certifications.map(c => c.category || 'Other'));
-    
     // Filter certs
     const filteredCerts = currentFilter === 'All' 
       ? certifications 
@@ -382,6 +383,7 @@
     const imageCount = images.length;
     const category = cert.category || 'Other';
     const dateOrYear = cert.date || cert.year || '';
+    const isCoverPdf = isPdfUrl(coverImage);
 
     // Category style accents
     let catClass = 'cert-tag--default';
@@ -399,9 +401,14 @@
         <div class="cert-card__image-wrap">
           ${coverImage ? (isCoverPdf ? `
             <div class="cert-card__pdf-cover">
-              <div class="cert-card__pdf-bg"></div>
-              <span class="material-symbols-outlined cert-card__pdf-icon">picture_as_pdf</span>
-              <span class="cert-card__pdf-badge-label">PDF DOCUMENT</span>
+              <iframe
+                src="${escapeHtml(coverImage)}#page=1&view=FitH&toolbar=0&navpanes=0&scrollbar=0"
+                class="cert-card__pdf-preview"
+                title="${escapeHtml(cert.name)} certificate preview"
+                loading="lazy"
+                tabindex="-1"
+                aria-hidden="true"
+              ></iframe>
             </div>
           ` : `
             <img src="${escapeHtml(coverImage)}" alt="${escapeHtml(cert.name)}" class="cert-card__image" loading="lazy" onerror="this.style.display='none'; this.parentElement.querySelector('.cert-card__image-placeholder-fallback').style.display='flex';" />
@@ -416,7 +423,7 @@
             </div>
           `}
           
-          <div class="cert-card__image-overlay"></div>
+          <div class="cert-card__image-overlay${isCoverPdf ? ' cert-card__image-overlay--pdf' : ''}"></div>
 
           <!-- Category Badge -->
           <div class="cert-card__badge-top-left">
@@ -528,7 +535,7 @@
                                   <span class="cert-pdf-title-text">${escapeHtml(cert.name)} (PDF)</span>
                                 </div>
                                 <div class="cert-pdf-header-right">
-                                  <a href="${escapeHtml(img)}" target="_blank" rel="noopener noreferrer" class="btn btn--secondary magnetic-btn cert-pdf-open-btn" style="padding: 5px 12px; font-size: 11px;">
+                                  <a href="${escapeHtml(getReadOnlyPdfUrl(img))}" target="_blank" rel="noopener noreferrer" class="btn btn--secondary magnetic-btn cert-pdf-open-btn" style="padding: 5px 12px; font-size: 11px;">
                                     <span class="material-symbols-outlined" style="font-size: 14px;">open_in_new</span> Full Screen
                                   </a>
                                   <a href="${escapeHtml(img)}" download="${escapeHtml(cert.name)}.pdf" class="btn btn--outline magnetic-btn cert-pdf-download-btn" style="padding: 5px 12px; font-size: 11px;">
@@ -537,7 +544,7 @@
                                 </div>
                               </div>
                               <div class="cert-pdf-embed-wrapper">
-                                <iframe src="${escapeHtml(img)}" class="cert-pdf-iframe" title="${escapeHtml(cert.name)} PDF Document"></iframe>
+                                <iframe src="${escapeHtml(getReadOnlyPdfUrl(img))}" class="cert-pdf-iframe" title="${escapeHtml(cert.name)} PDF Document"></iframe>
                               </div>
                             </div>
                           </div>
@@ -647,7 +654,7 @@
             <!-- Action Buttons / External Verification CTA -->
             <div class="cert-detail-actions">
               ${images.find(isPdfUrl) ? `
-                <a href="${escapeHtml(images.find(isPdfUrl))}" target="_blank" rel="noopener noreferrer" class="btn btn--secondary magnetic-btn cert-pdf-action-btn">
+                <a href="${escapeHtml(getReadOnlyPdfUrl(images.find(isPdfUrl)))}" target="_blank" rel="noopener noreferrer" class="btn btn--secondary magnetic-btn cert-pdf-action-btn">
                   <span class="material-symbols-outlined" style="font-size: 18px; color: #ff5252;">picture_as_pdf</span>
                   <span>View PDF Document</span>
                 </a>
