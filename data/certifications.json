@@ -1,0 +1,150 @@
+[
+  {
+    "id": "cert-1791118279684-bjqvf",
+    "name": "Google Data Analytics Professional Certificate",
+    "issuer": "Google (via Coursera)",
+    "date": "2023",
+    "year": "2023",
+    "category": "Data Science",
+    "images": [
+      "assets/certs/cert-1791118279648-0-4thvx.pdf"
+    ],
+    "credentialId": "5P7GK3AFAQX8",
+    "credentialUrl": "https://www.coursera.org/account/accomplishments/professional-cert/5P7GK3AFAQX8",
+    "skills": [
+      "Data Analysis",
+      "Data Cleaning",
+      "SQL",
+      "R Programming",
+      "Tableau",
+      "Spreadsheets",
+      "Data Visualization"
+    ],
+    "description": "Completed Google's 8-course Data Analytics Professional Certificate covering data preparation, cleaning, analysis, visualization, and data-driven decision-making using tools including SQL, R, spreadsheets, and Tableau.",
+    "createdAt": 1791118279684,
+    "updatedAt": 1791119402141
+  },
+  {
+    "id": "cert-oracle-agentic-ai",
+    "name": "Oracle Certified Foundations Associate – Agentic AI",
+    "issuer": "Oracle University",
+    "date": "2026",
+    "year": "2026",
+    "category": "AI / ML",
+    "images": [
+      "assets/certs/cert-1791119921513-0-0aijh.pdf"
+    ],
+    "credentialId": "",
+    "credentialUrl": "https://catalog-education.oracle.com/ords/certview/sharebadge?id=FE2609F0A6059695217CF8CD36395735A2DB43A67EE229B27777ED131E7B7F9C",
+    "skills": [
+      "Agentic AI",
+      "AI Agents",
+      "Generative AI",
+      "LangChain",
+      "Model Context Protocol (MCP)",
+      "OpenAI Agents SDK",
+      "OpenAI Responses API",
+      "OCI Generative AI",
+      "Oracle AI Database"
+    ],
+    "description": "Earned the Oracle Agentic AI Certified Foundations Associate credential, covering the fundamentals of AI agents, agent development with LangChain, Model Context Protocol (MCP), OpenAI Responses API and Agents SDK, Agentic AI on Oracle Cloud Infrastructure (OCI), and Oracle AI Database.",
+    "updatedAt": 1791119923418
+  },
+  {
+    "id": "cert-ready-tensor-agentic",
+    "name": "Agentic AI & LLM Engineering Masterclass",
+    "issuer": "Ready Tensor",
+    "date": "2024",
+    "year": "2024",
+    "category": "AI / ML",
+    "images": [],
+    "credentialId": "",
+    "credentialUrl": "",
+    "skills": [
+      "Agentic Workflows",
+      "Multi-Agent Systems",
+      "RAG & Vector DBs",
+      "Tool Calling",
+      "Prompt Engineering",
+      "Evaluation"
+    ],
+    "description": "Hands-on competency in engineering autonomous LLM agent systems, multi-agent collaboration frameworks, retrieval-augmented generation (RAG) pipelines, and programmatic tool integration."
+  },
+  {
+    "id": "cert-nvidia-deep-learning",
+    "name": "Fundamentals of Deep Learning",
+    "issuer": "NVIDIA Deep Learning Institute (DLI)",
+    "date": "2024",
+    "year": "2024",
+    "category": "AI / ML",
+    "images": [],
+    "credentialId": "",
+    "credentialUrl": "",
+    "skills": [
+      "Deep Learning",
+      "PyTorch / TensorFlow",
+      "CNNs & Computer Vision",
+      "Neural Networks",
+      "GPU Acceleration"
+    ],
+    "description": "Trained and deployed deep neural networks for computer vision and NLP tasks using GPU-accelerated computing frameworks and pre-trained transfer learning workflows."
+  },
+  {
+    "id": "cert-aws-ml-foundations",
+    "name": "AWS Academy Machine Learning Foundations",
+    "issuer": "Amazon Web Services (AWS)",
+    "date": "2023",
+    "year": "2023",
+    "category": "AI / ML",
+    "images": [],
+    "credentialId": "",
+    "credentialUrl": "",
+    "skills": [
+      "Machine Learning",
+      "AWS SageMaker",
+      "Model Training",
+      "Computer Vision",
+      "NLP",
+      "Cloud AI Services"
+    ],
+    "description": "Mastered machine learning pipelines in the AWS cloud, encompassing data engineering, Amazon SageMaker model training and tuning, and managed AI services for computer vision and NLP."
+  },
+  {
+    "id": "cert-aws-cloud-foundations",
+    "name": "AWS Academy Cloud Foundations",
+    "issuer": "Amazon Web Services (AWS)",
+    "date": "2023",
+    "year": "2023",
+    "category": "Cloud",
+    "images": [],
+    "credentialId": "",
+    "credentialUrl": "",
+    "skills": [
+      "Cloud Computing",
+      "AWS Architecture",
+      "EC2 & S3",
+      "IAM & Security",
+      "Cloud Economics"
+    ],
+    "description": "Comprehensive foundation in cloud computing concepts, AWS security and compliance, core cloud infrastructure services (Compute, Storage, Database, Networking), and cloud architecture best practices."
+  },
+  {
+    "id": "cert-google-python",
+    "name": "Crash Course on Python",
+    "issuer": "Google / Coursera",
+    "date": "2023",
+    "year": "2023",
+    "category": "Programming",
+    "images": [],
+    "credentialId": "",
+    "credentialUrl": "",
+    "skills": [
+      "Python 3",
+      "Data Structures",
+      "Object-Oriented Programming (OOP)",
+      "Scripting & Automation",
+      "File I/O"
+    ],
+    "description": "Solid foundation in Python programming, object-oriented principles, data structures (lists, dictionaries, tuples), algorithmic problem solving, and writing practical automation scripts."
+  }
+]

@@ -317,36 +317,72 @@
       </div>
     </section>
 
-    <!-- ======== Beyond the Resume (Compact Entry Card) ======== -->
-    <section class="beyond-teaser container fade-in-section" id="beyond-the-resume">
-      <div class="beyond-card tilt-card" id="btn-open-beyond" role="button" tabindex="0" aria-label="Explore Beyond the Resume">
-        <div class="beyond-card__glow"></div>
+    <!-- ======== Feature Teasers: Beyond the Resume & Certifications ======== -->
+    <section class="feature-teasers-section container fade-in-section" id="portfolio-highlights">
+      <div class="feature-teasers-grid">
         
-        <div class="beyond-card__inner">
-          <div class="beyond-card__header">
-            <div class="beyond-card__icon-badge">
-              <span class="material-symbols-outlined">auto_awesome</span>
+        <!-- Card 1: Beyond the Resume -->
+        <div class="beyond-card tilt-card" id="btn-open-beyond" role="button" tabindex="0" aria-label="Explore Beyond the Resume">
+          <div class="beyond-card__glow"></div>
+          
+          <div class="beyond-card__inner">
+            <div class="beyond-card__header">
+              <div class="beyond-card__icon-badge">
+                <span class="material-symbols-outlined">auto_awesome</span>
+              </div>
+              <span class="beyond-card__tag">Personal Pursuits</span>
             </div>
-            <span class="beyond-card__tag">Personal Pursuits</span>
-          </div>
 
-          <div class="beyond-card__content">
-            <h3 class="beyond-card__title">Beyond the Resume</h3>
-            <p class="beyond-card__subtitle">
-              Explore my interests, activities, workshops and more.
-            </p>
-          </div>
-
-          <div class="beyond-card__footer">
-            <div class="beyond-card__categories-preview" id="beyond-teaser-categories">
-              <!-- Dynamically populated category chips -->
+            <div class="beyond-card__content">
+              <h3 class="beyond-card__title">Beyond the Resume</h3>
+              <p class="beyond-card__subtitle">
+                Explore my interests, activities, workshops and more.
+              </p>
             </div>
-            <div class="beyond-card__action">
-              <span>Click to explore</span>
-              <span class="material-symbols-outlined beyond-card__action-arrow">arrow_forward</span>
+
+            <div class="beyond-card__footer">
+              <div class="beyond-card__categories-preview" id="beyond-teaser-categories">
+                <!-- Dynamically populated category chips -->
+              </div>
+              <div class="beyond-card__action">
+                <span>Explore</span>
+                <span class="material-symbols-outlined beyond-card__action-arrow">arrow_forward</span>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- Card 2: Certifications -->
+        <div class="beyond-card certs-teaser-card tilt-card" id="btn-open-certs" onclick="openCertificationsModal()" role="button" tabindex="0" aria-label="View Certifications">
+          <div class="beyond-card__glow"></div>
+          
+          <div class="beyond-card__inner">
+            <div class="beyond-card__header">
+              <div class="beyond-card__icon-badge certs-icon-badge">
+                <span class="material-symbols-outlined">verified</span>
+              </div>
+              <span class="beyond-card__tag certs-tag">Credentials</span>
+            </div>
+
+            <div class="beyond-card__content">
+              <h3 class="beyond-card__title">Certifications</h3>
+              <p class="beyond-card__subtitle">
+                Professional certifications and learning achievements that complement my technical skills.
+              </p>
+            </div>
+
+            <div class="beyond-card__footer">
+              <div class="beyond-card__categories-preview" id="certs-teaser-categories">
+                <!-- Dynamically populated category chips -->
+              </div>
+              <div class="beyond-card__action">
+                <span>View Certificates</span>
+                <span class="material-symbols-outlined beyond-card__action-arrow">arrow_forward</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -568,11 +604,42 @@
     </div>
   </div>
 
+  <!-- Modal: Certifications (Large Experience Modal) -->
+  <div class="modal-overlay" id="modal-certs">
+    <div class="modal modal--beyond modal--certs" role="dialog" aria-labelledby="certs-modal-heading">
+      <button type="button" class="modal__close" onclick="closeModal('modal-certs')" aria-label="Close Certifications">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+
+      <!-- Modal Topbar & Breadcrumb Navigation -->
+      <div class="beyond-modal__topbar">
+        <div class="beyond-modal__nav-left">
+          <div class="beyond-breadcrumbs" id="certs-breadcrumbs">
+            <!-- Breadcrumbs rendered dynamically -->
+          </div>
+          <h2 class="beyond-modal__heading" id="certs-modal-heading">
+            Certifications
+          </h2>
+        </div>
+
+        <div class="beyond-modal__actions" id="certs-top-actions">
+          <!-- Dynamic action buttons (Add Certificate, Back) -->
+        </div>
+      </div>
+
+      <!-- Modal Body (Dynamic Views: Grid with Filter Bar, Detail View, Add/Edit Form) -->
+      <div class="beyond-modal__body" id="certs-view-container">
+        <!-- Views rendered dynamically by js/certifications.js -->
+      </div>
+    </div>
+  </div>
+
   <!-- ============ Scripts ============ -->
   <script src="js/shader.js"></script>
   <script src="js/main.js"></script>
   <script src="js/effects.js"></script>
   <script src="js/projects.js"></script>
   <script src="js/beyond.js"></script>
+  <script src="js/certifications.js"></script>
 </body>
 </html>

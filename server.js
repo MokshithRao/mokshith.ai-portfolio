@@ -8,6 +8,8 @@ const DATA_DIR = path.join(__dirname, 'data');
 const DATA_FILE = path.join(DATA_DIR, 'projects.json');
 const BEYOND_FILE = path.join(DATA_DIR, 'beyond.json');
 const BEYOND_UPLOAD_DIR = path.join(__dirname, 'assets', 'beyond');
+const CERTS_FILE = path.join(DATA_DIR, 'certifications.json');
+const CERTS_UPLOAD_DIR = path.join(__dirname, 'assets', 'certs');
 
 // Ensure data directory and files exist
 function ensureDataFile() {
@@ -22,6 +24,12 @@ function ensureDataFile() {
   }
   if (!fs.existsSync(BEYOND_FILE)) {
     fs.writeFileSync(BEYOND_FILE, JSON.stringify([], null, 2), 'utf8');
+  }
+  if (!fs.existsSync(CERTS_UPLOAD_DIR)) {
+    fs.mkdirSync(CERTS_UPLOAD_DIR, { recursive: true });
+  }
+  if (!fs.existsSync(CERTS_FILE)) {
+    fs.writeFileSync(CERTS_FILE, JSON.stringify([], null, 2), 'utf8');
   }
 }
 
@@ -61,6 +69,25 @@ function readBeyond() {
 function writeBeyond(items) {
   ensureDataFile();
   fs.writeFileSync(BEYOND_FILE, JSON.stringify(items, null, 2), 'utf8');
+}
+
+// Safely read certifications from data/certifications.json
+function readCerts() {
+  ensureDataFile();
+  try {
+    const raw = fs.readFileSync(CERTS_FILE, 'utf8');
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (err) {
+    console.error('Error reading certifications.json:', err);
+    return [];
+  }
+}
+
+// Safely write certifications to data/certifications.json
+function writeCerts(certs) {
+  ensureDataFile();
+  fs.writeFileSync(CERTS_FILE, JSON.stringify(certs, null, 2), 'utf8');
 }
 
 // MIME types map
@@ -587,6 +614,253 @@ const server = http.createServer((req, res) => {
 
     const removed = items.splice(index, 1)[0];
     writeBeyond(items);
+
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(JSON.stringify({ success: true, deleted: removed }));
+    return;
+  }
+
+  // ================= Certifications Endpoints =================
+
+  // GET /api/certifications
+  if (pathname === '/api/certifications' && method === 'GET') {
+    const certs = readCerts();
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(JSON.stringify(certs));
+    return;
+  }
+
+  // POST /api/certifications/upload (Image upload as Base64)
+  if (pathname === '/api/certifications/upload' && method === 'POST') {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk.toString();
+      if (body.length > 50 * 1024 * 1024) {
+        req.destroy();
+      }
+    });
+
+    req.on('end', () => {
+      try {
+        const payload = JSON.parse(body);
+        const images = Array.isArray(payload.images) ? payload.images : (payload.data ? [payload] : []);
+
+        if (images.length === 0) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'No images provided' }));
+          return;
+        }
+
+        const savedUrls = [];
+        ensureDataFile();
+
+        images.forEach((img, idx) => {
+          let base64Data = '';
+          let ext = '.jpg';
+
+          if (typeof img === 'string') {
+            base64Data = img;
+          } else if (img && img.data) {
+            base64Data = img.data;
+          }
+
+          if (!base64Data) return;
+
+          if (base64Data.startsWith('assets/') || base64Data.startsWith('/assets/') || base64Data.startsWith('http://') || base64Data.startsWith('https://')) {
+            savedUrls.push(base64Data);
+            return;
+          }
+
+          const matches = base64Data.match(/^data:([a-zA-Z0-9-]+\/[a-zA-Z0-9-+.]+);base64,(.+)$/);
+          if (matches) {
+            const mimeType = matches[1].toLowerCase();
+            if (mimeType === 'application/pdf') {
+              ext = '.pdf';
+            } else if (mimeType.startsWith('image/')) {
+              let type = mimeType.replace('image/', '');
+              if (type === 'jpeg') type = 'jpg';
+              if (type === 'svg+xml') type = 'svg';
+              ext = `.${type}`;
+            }
+            base64Data = matches[2];
+          } else {
+            if (base64Data.startsWith('JVBERi0')) {
+              ext = '.pdf';
+            }
+            base64Data = base64Data.replace(/^data:[^;]+;base64,/, '');
+          }
+
+          const filename = `cert-${Date.now()}-${idx}-${Math.random().toString(36).substr(2, 5)}${ext}`;
+          const filePath = path.join(CERTS_UPLOAD_DIR, filename);
+          const buffer = Buffer.from(base64Data, 'base64');
+          fs.writeFileSync(filePath, buffer);
+          savedUrls.push(`assets/certs/${filename}`);
+        });
+
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ success: true, urls: savedUrls }));
+      } catch (err) {
+        console.error('Error in POST /api/certifications/upload:', err);
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Failed to process certificate image upload' }));
+      }
+    });
+    return;
+  }
+
+  // POST /api/certifications
+  if (pathname === '/api/certifications' && method === 'POST') {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk.toString();
+      if (body.length > 50 * 1024 * 1024) {
+        req.destroy();
+      }
+    });
+
+    req.on('end', () => {
+      try {
+        const payload = JSON.parse(body);
+        const name = (payload.name || '').trim();
+        const issuer = (payload.issuer || '').trim();
+
+        if (!name) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Certificate name is required' }));
+          return;
+        }
+
+        let skills = [];
+        if (Array.isArray(payload.skills)) {
+          skills = payload.skills.map(s => String(s).trim()).filter(Boolean);
+        } else if (typeof payload.skills === 'string' && payload.skills.trim()) {
+          skills = payload.skills.split(',').map(s => s.trim()).filter(Boolean);
+        }
+
+        const newCert = {
+          id: `cert-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
+          name,
+          issuer: issuer || 'Independent Certification',
+          date: (payload.date || '').trim(),
+          year: (payload.year || payload.date || '').trim(),
+          category: (payload.category || 'Other').trim(),
+          images: Array.isArray(payload.images) ? payload.images.filter(Boolean) : [],
+          credentialId: (payload.credentialId || '').trim(),
+          credentialUrl: (payload.credentialUrl || '').trim(),
+          skills,
+          description: (payload.description || '').trim(),
+          createdAt: Date.now()
+        };
+
+        const certs = readCerts();
+        certs.unshift(newCert);
+        writeCerts(certs);
+
+        res.writeHead(201, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify(newCert));
+      } catch (err) {
+        console.error('Error in POST /api/certifications:', err);
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Invalid JSON payload' }));
+      }
+    });
+    return;
+  }
+
+  // PUT /api/certifications/:id
+  if (pathname.startsWith('/api/certifications/') && method === 'PUT') {
+    const id = pathname.replace('/api/certifications/', '').trim();
+    if (!id) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Certificate ID required' }));
+      return;
+    }
+
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk.toString();
+      if (body.length > 50 * 1024 * 1024) {
+        req.destroy();
+      }
+    });
+
+    req.on('end', () => {
+      try {
+        const payload = JSON.parse(body);
+        const name = (payload.name || '').trim();
+
+        if (!name) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Certificate name is required' }));
+          return;
+        }
+
+        const certs = readCerts();
+        const index = certs.findIndex(c => c.id === id);
+
+        if (index === -1) {
+          res.writeHead(404, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Certificate not found' }));
+          return;
+        }
+
+        let skills = [];
+        if (Array.isArray(payload.skills)) {
+          skills = payload.skills.map(s => String(s).trim()).filter(Boolean);
+        } else if (typeof payload.skills === 'string' && payload.skills.trim()) {
+          skills = payload.skills.split(',').map(s => s.trim()).filter(Boolean);
+        } else if (certs[index].skills) {
+          skills = certs[index].skills;
+        }
+
+        certs[index] = {
+          ...certs[index],
+          name,
+          issuer: (payload.issuer || certs[index].issuer || '').trim(),
+          date: (payload.date !== undefined ? payload.date : certs[index].date || '').trim(),
+          year: (payload.year !== undefined ? payload.year : certs[index].year || '').trim(),
+          category: (payload.category || certs[index].category || 'Other').trim(),
+          images: Array.isArray(payload.images) ? payload.images.filter(Boolean) : (certs[index].images || []),
+          credentialId: (payload.credentialId !== undefined ? payload.credentialId : certs[index].credentialId || '').trim(),
+          credentialUrl: (payload.credentialUrl !== undefined ? payload.credentialUrl : certs[index].credentialUrl || '').trim(),
+          skills,
+          description: (payload.description !== undefined ? payload.description : certs[index].description || '').trim(),
+          updatedAt: Date.now()
+        };
+
+        writeCerts(certs);
+
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify(certs[index]));
+      } catch (err) {
+        console.error('Error in PUT /api/certifications/:id:', err);
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Invalid JSON payload' }));
+      }
+    });
+    return;
+  }
+
+  // DELETE /api/certifications/:id
+  if (pathname.startsWith('/api/certifications/') && method === 'DELETE') {
+    const id = pathname.replace('/api/certifications/', '').trim();
+    if (!id) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Certificate ID required' }));
+      return;
+    }
+
+    const certs = readCerts();
+    const index = certs.findIndex(c => c.id === id);
+
+    if (index === -1) {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Certificate not found' }));
+      return;
+    }
+
+    const removed = certs.splice(index, 1)[0];
+    writeCerts(certs);
 
     res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
     res.end(JSON.stringify({ success: true, deleted: removed }));
