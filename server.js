@@ -671,14 +671,22 @@ const server = http.createServer((req, res) => {
             return;
           }
 
-          const matches = base64Data.match(/^data:image\/([a-zA-Z0-9+]+);base64,(.+)$/);
+          const matches = base64Data.match(/^data:([a-zA-Z0-9-]+\/[a-zA-Z0-9-+.]+);base64,(.+)$/);
           if (matches) {
-            let type = matches[1].toLowerCase();
-            if (type === 'jpeg') type = 'jpg';
-            if (type === 'svg+xml') type = 'svg';
-            ext = `.${type}`;
+            const mimeType = matches[1].toLowerCase();
+            if (mimeType === 'application/pdf') {
+              ext = '.pdf';
+            } else if (mimeType.startsWith('image/')) {
+              let type = mimeType.replace('image/', '');
+              if (type === 'jpeg') type = 'jpg';
+              if (type === 'svg+xml') type = 'svg';
+              ext = `.${type}`;
+            }
             base64Data = matches[2];
           } else {
+            if (base64Data.startsWith('JVBERi0')) {
+              ext = '.pdf';
+            }
             base64Data = base64Data.replace(/^data:[^;]+;base64,/, '');
           }
 

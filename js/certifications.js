@@ -48,6 +48,12 @@
       .replace(/'/g, '&#039;');
   }
 
+  // Helper: Detect PDF URLs or Base64
+  function isPdfUrl(str) {
+    if (!str) return false;
+    return str.startsWith('data:application/pdf') || str.toLowerCase().split('?')[0].endsWith('.pdf');
+  }
+
   // Fetch Certifications from Backend
   async function fetchCertifications() {
     try {
@@ -376,9 +382,15 @@
         
         <!-- Image Container -->
         <div class="cert-card__image-wrap">
-          ${coverImage ? `
-            <img src="${escapeHtml(coverImage)}" alt="${escapeHtml(cert.name)}" class="cert-card__image" loading="lazy" />
+          ${coverImage ? (isPdfUrl(coverImage) ? `
+            <div class="cert-card__pdf-cover">
+              <div class="cert-card__pdf-bg"></div>
+              <span class="material-symbols-outlined cert-card__pdf-icon">picture_as_pdf</span>
+              <span class="cert-card__pdf-badge-label">PDF CERTIFICATE</span>
+            </div>
           ` : `
+            <img src="${escapeHtml(coverImage)}" alt="${escapeHtml(cert.name)}" class="cert-card__image" loading="lazy" />
+          `) : `
             <div class="cert-card__image-placeholder">
               <span class="material-symbols-outlined">workspace_premium</span>
               <span class="cert-placeholder-text">${escapeHtml(cert.issuer || 'Certificate')}</span>
@@ -485,11 +497,34 @@
               <div class="cert-carousel" id="cert-carousel-wrap">
                 <div class="cert-carousel__viewport" id="cert-carousel-viewport">
                   <div class="cert-carousel__track" id="cert-carousel-track" style="transform: translateX(-${carouselIndex * 100}%);">
-                    ${images.map((img, idx) => `
-                      <div class="cert-carousel__slide" data-index="${idx}">
-                        <img src="${escapeHtml(img)}" alt="${escapeHtml(cert.name)} - Page ${idx + 1}" class="cert-carousel__img" />
-                      </div>
-                    `).join('')}
+                    ${images.map((img, idx) => {
+                      const isPdfDoc = isPdfUrl(img);
+                      if (isPdfDoc) {
+                        return `
+                          <div class="cert-carousel__slide cert-carousel__slide--pdf" data-index="${idx}">
+                            <div class="cert-pdf-viewer-box">
+                              <iframe src="${escapeHtml(img)}#toolbar=0" class="cert-pdf-iframe" title="${escapeHtml(cert.name)} PDF Viewer"></iframe>
+                              <div class="cert-pdf-toolbar">
+                                <span class="cert-pdf-badge"><span class="material-symbols-outlined" style="font-size: 15px;">picture_as_pdf</span> PDF Document</span>
+                                <div class="cert-pdf-toolbar-btns">
+                                  <a href="${escapeHtml(img)}" target="_blank" rel="noopener noreferrer" class="btn btn--secondary magnetic-btn cert-pdf-view-btn" style="padding: 6px 12px; font-size: 12px;">
+                                    <span class="material-symbols-outlined" style="font-size: 15px;">open_in_new</span> Open PDF
+                                  </a>
+                                  <a href="${escapeHtml(img)}" download="${escapeHtml(cert.name)}.pdf" class="btn btn--outline magnetic-btn cert-pdf-download-btn" style="padding: 6px 12px; font-size: 12px;">
+                                    <span class="material-symbols-outlined" style="font-size: 15px;">download</span> Download
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        `;
+                      }
+                      return `
+                        <div class="cert-carousel__slide" data-index="${idx}">
+                          <img src="${escapeHtml(img)}" alt="${escapeHtml(cert.name)} - Page ${idx + 1}" class="cert-carousel__img" />
+                        </div>
+                      `;
+                    }).join('')}
                   </div>
                 </div>
 
@@ -587,6 +622,13 @@
 
             <!-- Action Buttons / External Verification CTA -->
             <div class="cert-detail-actions">
+              ${images.find(isPdfUrl) ? `
+                <a href="${escapeHtml(images.find(isPdfUrl))}" target="_blank" rel="noopener noreferrer" class="btn btn--secondary magnetic-btn cert-pdf-action-btn">
+                  <span class="material-symbols-outlined" style="font-size: 18px; color: #ff5252;">picture_as_pdf</span>
+                  <span>View PDF Document</span>
+                </a>
+              ` : ''}
+
               ${cert.credentialUrl ? `
                 <a href="${escapeHtml(cert.credentialUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn--primary magnetic-btn cert-verify-btn">
                   <span>Open Credential</span>
@@ -817,16 +859,16 @@
             <textarea id="cert-desc-input" class="form-textarea" placeholder="Brief summary of key topics, hands-on labs, or capstone projects completed...">${escapeHtml(cert.description || '')}</textarea>
           </div>
 
-          <!-- Certificate Image Upload / Management -->
+          <!-- Certificate Image / PDF Upload & Management -->
           <div class="form-group">
-            <label class="form-label">Certificate Image(s) / Badge(s) <span style="color: var(--text-muted); font-weight: normal;">(Multi-page supported)</span></label>
+            <label class="form-label">Certificate Image(s) / PDF <span style="color: var(--text-muted); font-weight: normal;">(Multi-page &amp; PDF supported)</span></label>
             
             <div class="beyond-upload-dropzone" id="cert-dropzone">
-              <input type="file" id="cert-file-input" multiple accept="image/*,.svg" style="display: none;" />
+              <input type="file" id="cert-file-input" multiple accept="image/*,.svg,.pdf,application/pdf" style="display: none;" />
               <div class="beyond-dropzone-content">
                 <span class="material-symbols-outlined beyond-dropzone-icon">cloud_upload</span>
-                <p class="beyond-dropzone-title">Click to browse or drag certificate images here</p>
-                <p class="beyond-dropzone-hint">Supports PNG, JPG, WebP, SVG. First image will be used as the preview badge.</p>
+                <p class="beyond-dropzone-title">Click to browse or drag certificate images / PDFs here</p>
+                <p class="beyond-dropzone-hint">Supports PNG, JPG, WebP, SVG, and PDF documents. Multiple files supported.</p>
               </div>
             </div>
 
@@ -893,18 +935,23 @@
     }
   }
 
-  // Handle Image File Selection
+  // Handle Image & PDF File Selection
   function handleFileSelection(files) {
     if (!files || files.length === 0) return;
 
     Array.from(files).forEach((file) => {
-      if (!file.type.startsWith('image/')) return;
+      const isImage = file.type.startsWith('image/');
+      const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+
+      if (!isImage && !isPdf) return;
 
       const reader = new FileReader();
       reader.onload = (e) => {
         formImages.push({
           url: '',
           data: e.target.result,
+          name: file.name,
+          isPdf: isPdf,
           isCover: formImages.length === 0
         });
         renderFormImagesList();
@@ -913,7 +960,7 @@
     });
   }
 
-  // Render Form Images List
+  // Render Form Images & PDFs List
   function renderFormImagesList() {
     const container = document.getElementById('cert-form-images-container');
     if (!container) return;
@@ -925,9 +972,18 @@
 
     container.innerHTML = formImages.map((img, idx) => {
       const src = img.data || img.url;
+      const isPdfDoc = img.isPdf || isPdfUrl(src);
+
       return `
-        <div class="beyond-form-img-card ${img.isCover ? 'beyond-form-img-card--cover' : ''}">
-          <img src="${escapeHtml(src)}" alt="Cert image ${idx + 1}" class="beyond-form-img-thumb" />
+        <div class="beyond-form-img-card ${img.isCover ? 'beyond-form-img-card--cover' : ''} ${isPdfDoc ? 'beyond-form-img-card--pdf' : ''}">
+          ${isPdfDoc ? `
+            <div class="beyond-form-pdf-thumb">
+              <span class="material-symbols-outlined" style="font-size: 28px; color: #ff5252;">picture_as_pdf</span>
+              <span class="beyond-form-pdf-name" title="${escapeHtml(img.name || 'PDF Document')}">${escapeHtml(img.name || 'PDF Document')}</span>
+            </div>
+          ` : `
+            <img src="${escapeHtml(src)}" alt="Cert image ${idx + 1}" class="beyond-form-img-thumb" />
+          `}
           
           <div class="beyond-form-img-overlay">
             <button type="button" class="beyond-form-img-btn set-cover-btn" data-index="${idx}" title="${img.isCover ? 'Cover Image' : 'Set as Cover'}">
@@ -935,7 +991,7 @@
                 ${img.isCover ? 'star' : 'star_border'}
               </span>
             </button>
-            <button type="button" class="beyond-form-img-btn remove-img-btn" data-index="${idx}" title="Remove Image">
+            <button type="button" class="beyond-form-img-btn remove-img-btn" data-index="${idx}" title="Remove File">
               <span class="material-symbols-outlined" style="font-size: 16px; color: #ff8080;">delete</span>
             </button>
           </div>

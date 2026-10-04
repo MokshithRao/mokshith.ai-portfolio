@@ -1,16 +1,16 @@
 [
   {
     "id": "cert-google-data-analytics",
-    "name": "Google Data Analytics Professional Certificate",
-    "issuer": "Google / Coursera",
-    "date": "2024",
-    "year": "2024",
+    "name": "Google Data Analytics",
+    "issuer": "Coursera",
+    "date": "2023",
+    "year": "2023",
     "category": "Data Science",
     "images": [
       "assets/certs/google-data-analytics.svg"
     ],
     "credentialId": "",
-    "credentialUrl": "",
+    "credentialUrl": "https://www.coursera.org/account/accomplishments/professional-cert/5P7GK3AFAQX8",
     "skills": [
       "SQL",
       "R Programming",
@@ -19,7 +19,8 @@
       "Spreadsheets",
       "Data Visualization"
     ],
-    "description": "Completed comprehensive professional certificate curriculum covering data preparation, processing, cleaning, statistical analysis with R, complex SQL querying, and interactive business dashboard design in Tableau."
+    "description": "Completed comprehensive professional certificate curriculum covering data preparation, processing, cleaning, statistical analysis with R, complex SQL querying, and interactive business dashboard design in Tableau.",
+    "updatedAt": 1791115909274
   },
   {
     "id": "cert-oracle-agentic-ai",

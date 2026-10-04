@@ -2480,20 +2480,36 @@ ul, ol {
 .beyond-modal__body {
   padding: 28px 32px 40px;
   overflow-y: auto;
+  overflow-x: hidden;
   flex: 1;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
+  overscroll-behavior: contain;      /* prevent scroll chaining to page */
+  will-change: scroll-position;
 }
 
 .beyond-modal__body::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
+}
+
+.beyond-modal__body::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .beyond-modal__body::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.10);
+  border-radius: 10px;
+  transition: background 0.2s;
 }
 
 .beyond-modal__body::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Firefox smooth scroll */
+.beyond-modal__body {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.12) transparent;
 }
 
 /* ---------- View 1: Categories Overview ---------- */
@@ -2771,6 +2787,7 @@ ul, ol {
   margin-top: 2px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   min-height: 2.6em;
@@ -4169,4 +4186,121 @@ ul, ol {
   margin-top: 10px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
+
+/* ---------- PDF Certificate Card & Viewer Styles ---------- */
+.cert-card__pdf-cover {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(15, 17, 26, 0.95) 100%);
+  border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.cert-card__pdf-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(239, 68, 68, 0.2), transparent 70%);
+  pointer-events: none;
+}
+
+.cert-card__pdf-icon {
+  font-size: 44px;
+  color: #ff5252;
+  filter: drop-shadow(0 4px 12px rgba(239, 68, 68, 0.4));
+  transition: transform var(--transition-normal);
+}
+
+.cert-card:hover .cert-card__pdf-icon {
+  transform: scale(1.1);
+}
+
+.cert-card__pdf-badge-label {
+  font-size: 10px;
+  font-family: var(--font-headline);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #ff8080;
+  text-transform: uppercase;
+}
+
+/* Detail Carousel PDF Viewer */
+.cert-carousel__slide--pdf {
+  padding: 0;
+}
+
+.cert-pdf-viewer-box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #0d0e14;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.cert-pdf-iframe {
+  width: 100%;
+  flex: 1;
+  border: none;
+  background: #1a1b26;
+}
+
+.cert-pdf-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: rgba(15, 17, 23, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cert-pdf-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-family: var(--font-headline);
+  font-weight: 600;
+  color: #ff6b6b;
+}
+
+.cert-pdf-toolbar-btns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Form PDF Thumbnail Card */
+.beyond-form-img-card--pdf {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.beyond-form-pdf-thumb {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  gap: 4px;
+  text-align: center;
+}
+
+.beyond-form-pdf-name {
+  font-size: 10px;
+  font-family: var(--font-headline);
+  color: var(--text-secondary);
+  max-width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 
