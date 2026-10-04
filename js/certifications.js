@@ -51,7 +51,8 @@
   // Helper: Detect PDF URLs or Base64
   function isPdfUrl(str) {
     if (!str) return false;
-    return str.startsWith('data:application/pdf') || str.toLowerCase().split('?')[0].endsWith('.pdf');
+    const cleanStr = String(str).toLowerCase().split('?')[0].split('#')[0];
+    return cleanStr.startsWith('data:application/pdf') || cleanStr.endsWith('.pdf');
   }
 
   // Fetch Certifications from Backend
@@ -96,24 +97,36 @@
 
   // Open Modal Entry Point
   window.openCertificationsModal = function (certId = null) {
-    if (certId) {
-      const cert = certifications.find(c => c.id === certId);
-      if (cert) {
-        openCertDetail(cert);
-      } else {
-        navigateToGrid();
-      }
-    } else {
-      navigateToGrid();
-    }
-
+    // 1. Activate modal overlay immediately
     if (window.openModal) {
       window.openModal('modal-certs');
     } else {
       const m = document.getElementById('modal-certs');
-      if (m) m.classList.add('active');
+      if (m) {
+        m.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    // 2. Render target view
+    try {
+      if (certId) {
+        const cert = certifications.find(c => c.id === certId);
+        if (cert) {
+          openCertDetail(cert);
+        } else {
+          navigateToGrid();
+        }
+      } else {
+        navigateToGrid();
+      }
+    } catch (err) {
+      console.error('Error rendering certifications view:', err);
     }
   };
+
+  window.openCertForm = openCertForm;
+  window.openCertDetail = openCertDetail;
 
   // Setup Event Listeners
   function initEvents() {
@@ -179,9 +192,11 @@
     
     // Prepare initial form images
     if (cert && Array.isArray(cert.images) && cert.images.length > 0) {
-      formImages = cert.images.map((url, idx) => ({
+      formImages = cert.images.filter(Boolean).map((url, idx) => ({
         url,
         data: null,
+        name: url.split('/').pop(),
+        isPdf: isPdfUrl(url),
         isCover: idx === 0
       }));
     } else {
@@ -376,20 +391,24 @@
     else if (category.toLowerCase().includes('program') || category.toLowerCase().includes('python')) catClass = 'cert-tag--code';
 
     return `
-      <div class="cert-card" data-id="${escapeHtml(cert.id)}" role="button" tabindex="0" aria-label="${escapeHtml(cert.name)} by ${escapeHtml(cert.issuer)}">
+      <div class="cert-card" data-id="${escapeHtml(cert.id)}" onclick="window.openCertificationsModal('${escapeHtml(cert.id)}')" role="button" tabindex="0" aria-label="${escapeHtml(cert.name)} by ${escapeHtml(cert.issuer)}">
         <!-- Card Glow / Background Effect -->
         <div class="cert-card__glow"></div>
         
         <!-- Image Container -->
         <div class="cert-card__image-wrap">
-          ${coverImage ? (isPdfUrl(coverImage) ? `
+          ${coverImage ? (isCoverPdf ? `
             <div class="cert-card__pdf-cover">
               <div class="cert-card__pdf-bg"></div>
               <span class="material-symbols-outlined cert-card__pdf-icon">picture_as_pdf</span>
-              <span class="cert-card__pdf-badge-label">PDF CERTIFICATE</span>
+              <span class="cert-card__pdf-badge-label">PDF DOCUMENT</span>
             </div>
           ` : `
-            <img src="${escapeHtml(coverImage)}" alt="${escapeHtml(cert.name)}" class="cert-card__image" loading="lazy" />
+            <img src="${escapeHtml(coverImage)}" alt="${escapeHtml(cert.name)}" class="cert-card__image" loading="lazy" onerror="this.style.display='none'; this.parentElement.querySelector('.cert-card__image-placeholder-fallback').style.display='flex';" />
+            <div class="cert-card__image-placeholder cert-card__image-placeholder-fallback" style="display: none;">
+              <span class="material-symbols-outlined">workspace_premium</span>
+              <span class="cert-placeholder-text">${escapeHtml(cert.issuer || 'Certificate')}</span>
+            </div>
           `) : `
             <div class="cert-card__image-placeholder">
               <span class="material-symbols-outlined">workspace_premium</span>
@@ -503,17 +522,22 @@
                         return `
                           <div class="cert-carousel__slide cert-carousel__slide--pdf" data-index="${idx}">
                             <div class="cert-pdf-viewer-box">
-                              <iframe src="${escapeHtml(img)}#toolbar=0" class="cert-pdf-iframe" title="${escapeHtml(cert.name)} PDF Viewer"></iframe>
-                              <div class="cert-pdf-toolbar">
-                                <span class="cert-pdf-badge"><span class="material-symbols-outlined" style="font-size: 15px;">picture_as_pdf</span> PDF Document</span>
-                                <div class="cert-pdf-toolbar-btns">
-                                  <a href="${escapeHtml(img)}" target="_blank" rel="noopener noreferrer" class="btn btn--secondary magnetic-btn cert-pdf-view-btn" style="padding: 6px 12px; font-size: 12px;">
-                                    <span class="material-symbols-outlined" style="font-size: 15px;">open_in_new</span> Open PDF
+                              <div class="cert-pdf-header-bar">
+                                <div class="cert-pdf-header-left">
+                                  <span class="material-symbols-outlined" style="color: #ff5252; font-size: 18px;">picture_as_pdf</span>
+                                  <span class="cert-pdf-title-text">${escapeHtml(cert.name)} (PDF)</span>
+                                </div>
+                                <div class="cert-pdf-header-right">
+                                  <a href="${escapeHtml(img)}" target="_blank" rel="noopener noreferrer" class="btn btn--secondary magnetic-btn cert-pdf-open-btn" style="padding: 5px 12px; font-size: 11px;">
+                                    <span class="material-symbols-outlined" style="font-size: 14px;">open_in_new</span> Full Screen
                                   </a>
-                                  <a href="${escapeHtml(img)}" download="${escapeHtml(cert.name)}.pdf" class="btn btn--outline magnetic-btn cert-pdf-download-btn" style="padding: 6px 12px; font-size: 12px;">
-                                    <span class="material-symbols-outlined" style="font-size: 15px;">download</span> Download
+                                  <a href="${escapeHtml(img)}" download="${escapeHtml(cert.name)}.pdf" class="btn btn--outline magnetic-btn cert-pdf-download-btn" style="padding: 5px 12px; font-size: 11px;">
+                                    <span class="material-symbols-outlined" style="font-size: 14px;">download</span> Download
                                   </a>
                                 </div>
+                              </div>
+                              <div class="cert-pdf-embed-wrapper">
+                                <iframe src="${escapeHtml(img)}" class="cert-pdf-iframe" title="${escapeHtml(cert.name)} PDF Document"></iframe>
                               </div>
                             </div>
                           </div>
@@ -521,7 +545,7 @@
                       }
                       return `
                         <div class="cert-carousel__slide" data-index="${idx}">
-                          <img src="${escapeHtml(img)}" alt="${escapeHtml(cert.name)} - Page ${idx + 1}" class="cert-carousel__img" />
+                          <img src="${escapeHtml(img)}" alt="${escapeHtml(cert.name)} - Page ${idx + 1}" class="cert-carousel__img" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'cert-detail-placeholder\\'><span class=\\'material-symbols-outlined\\' style=\\'font-size: 40px; color: var(--primary-light);\\'>workspace_premium</span><p style=\\'margin-top: 8px; color: var(--text-muted);\\'>Image file missing</p></div>';" />
                         </div>
                       `;
                     }).join('')}
@@ -545,17 +569,17 @@
                   <!-- Pagination Dots -->
                   <div class="cert-carousel__dots" id="cert-carousel-dots">
                     ${images.map((_, idx) => `
-                      <button class="cert-carousel__dot ${idx === carouselIndex ? 'cert-carousel__dot--active' : ''}" data-index="${idx}" aria-label="Go to image ${idx + 1}"></button>
+                      <button class="cert-carousel__dot ${idx === carouselIndex ? 'cert-carousel__dot--active' : ''}" data-index="${idx}" aria-label="Go to slide ${idx + 1}"></button>
                     `).join('')}
                   </div>
                 ` : ''}
               </div>
             ` : `
               <div class="cert-detail-placeholder">
-                <span class="material-symbols-outlined" style="font-size: 48px; color: var(--primary-light); opacity: 0.6;">workspace_premium</span>
-                <p style="color: var(--text-muted); font-size: 14px; margin-top: 8px;">No image attached for this certificate</p>
-                <button class="btn btn--secondary magnetic-btn" style="margin-top: 12px; font-size: 13px;" onclick="document.getElementById('certs-btn-edit').click()">
-                  <span class="material-symbols-outlined" style="font-size: 16px;">add_photo_alternate</span> Add Image
+                <span class="material-symbols-outlined" style="font-size: 44px; color: var(--primary-light); opacity: 0.7;">workspace_premium</span>
+                <p style="color: var(--text-muted); font-size: 14px; margin-top: 10px;">No certificate PDF or image attached yet</p>
+                <button class="btn btn--primary magnetic-btn" style="margin-top: 14px; font-size: 13px;" onclick="document.getElementById('certs-btn-edit').click()">
+                  <span class="material-symbols-outlined" style="font-size: 16px;">cloud_upload</span> Upload Certificate File
                 </button>
               </div>
             `}
@@ -816,7 +840,7 @@
             <!-- Category -->
             <div class="form-group">
               <label class="form-label" for="cert-category-input">Category</label>
-              <select id="cert-category-input" class="form-input" style="background: var(--bg-card); color: var(--text-primary);">
+              <select id="cert-category-input" class="form-input cert-category-select">
                 <option value="AI / ML" ${cert.category === 'AI / ML' ? 'selected' : ''}>AI / ML</option>
                 <option value="Data Science" ${cert.category === 'Data Science' ? 'selected' : ''}>Data Science</option>
                 <option value="Cloud" ${cert.category === 'Cloud' ? 'selected' : ''}>Cloud</option>
@@ -943,7 +967,10 @@
       const isImage = file.type.startsWith('image/');
       const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
 
-      if (!isImage && !isPdf) return;
+      if (!isImage && !isPdf) {
+        alert('File "' + file.name + '" is not a supported image (PNG, JPG, WebP, SVG) or PDF document.');
+        return;
+      }
 
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -971,22 +998,27 @@
     }
 
     container.innerHTML = formImages.map((img, idx) => {
-      const src = img.data || img.url;
-      const isPdfDoc = img.isPdf || isPdfUrl(src);
+      const src = img.data || img.url || '';
+      const isPdfDoc = Boolean(img.isPdf || isPdfUrl(src) || isPdfUrl(img.url));
 
       return `
         <div class="beyond-form-img-card ${img.isCover ? 'beyond-form-img-card--cover' : ''} ${isPdfDoc ? 'beyond-form-img-card--pdf' : ''}">
           ${isPdfDoc ? `
             <div class="beyond-form-pdf-thumb">
-              <span class="material-symbols-outlined" style="font-size: 28px; color: #ff5252;">picture_as_pdf</span>
-              <span class="beyond-form-pdf-name" title="${escapeHtml(img.name || 'PDF Document')}">${escapeHtml(img.name || 'PDF Document')}</span>
+              <span class="material-symbols-outlined" style="font-size: 30px; color: #ff5252;">picture_as_pdf</span>
+              <span class="beyond-form-pdf-badge-tag">PDF</span>
+              <span class="beyond-form-pdf-name" title="${escapeHtml(img.name || 'Certificate PDF')}">${escapeHtml(img.name || 'Certificate PDF')}</span>
             </div>
           ` : `
-            <img src="${escapeHtml(src)}" alt="Cert image ${idx + 1}" class="beyond-form-img-thumb" />
+            <img src="${escapeHtml(src)}" alt="Cert preview ${idx + 1}" class="beyond-form-img-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="beyond-form-pdf-thumb" style="display: none;">
+              <span class="material-symbols-outlined" style="font-size: 28px; color: var(--primary-light);">workspace_premium</span>
+              <span class="beyond-form-pdf-name">${escapeHtml(img.name || 'Attachment')}</span>
+            </div>
           `}
           
           <div class="beyond-form-img-overlay">
-            <button type="button" class="beyond-form-img-btn set-cover-btn" data-index="${idx}" title="${img.isCover ? 'Cover Image' : 'Set as Cover'}">
+            <button type="button" class="beyond-form-img-btn set-cover-btn" data-index="${idx}" title="${img.isCover ? 'Main Cover File' : 'Set as Main File'}">
               <span class="material-symbols-outlined" style="font-size: 16px; color: ${img.isCover ? '#ffd700' : '#ffffff'};">
                 ${img.isCover ? 'star' : 'star_border'}
               </span>
@@ -996,7 +1028,7 @@
             </button>
           </div>
 
-          ${img.isCover ? `<span class="beyond-form-cover-badge">COVER</span>` : ''}
+          ${img.isCover ? `<span class="beyond-form-cover-badge">MAIN</span>` : ''}
         </div>
       `;
     }).join('');
@@ -1144,10 +1176,15 @@
     }
   }
 
-  // Initialize
-  document.addEventListener('DOMContentLoaded', () => {
+  // Initialize safely across all document ready states
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initEvents();
+      fetchCertifications();
+    });
+  } else {
     initEvents();
     fetchCertifications();
-  });
+  }
 
 })();

@@ -1,5 +1,61 @@
 [
   {
+    "id": "cert-1791118279684-bjqvf",
+    "name": "Google Data Analytics Professional Certificate",
+    "issuer": "Google (via Coursera)",
+    "date": "2023",
+    "year": "2023",
+    "category": "Data Science",
+    "images": [
+      "assets/certs/cert-1791118279648-0-4thvx.pdf"
+    ],
+    "credentialId": "5P7GK3AFAQX8",
+    "credentialUrl": "https://www.coursera.org/account/accomplishments/professional-cert/5P7GK3AFAQX8",
+    "skills": [
+      "Data Analysis",
+      "Data Cleaning",
+      "SQL",
+      "R Programming",
+      "Tableau",
+      "Spreadsheets",
+      "Data Visualization"
+    ],
+    "description": "Completed Google's 8-course Data Analytics Professional Certificate covering data preparation, cleaning, analysis, visualization, and data-driven decision-making using tools including SQL, R, spreadsheets, and Tableau.",
+    "createdAt": 1791118279684
+  },
+  {
+    "id": "cert-1791118001198-w0sj5",
+    "name": "Google Data Analytics",
+    "issuer": "Coursera",
+    "date": "2023",
+    "year": "2023",
+    "category": "Data Science",
+    "images": [
+      "assets/certs/cert-1791117793723-0-srr6m.pdf"
+    ],
+    "credentialId": "",
+    "credentialUrl": "https://www.coursera.org/account/accomplishments/professional-cert/5P7GK3AFAQX8",
+    "skills": [],
+    "description": "",
+    "createdAt": 1791118001198
+  },
+  {
+    "id": "cert-1791117793784-c4i4z",
+    "name": "Google Data Analytics",
+    "issuer": "Coursera",
+    "date": "2023",
+    "year": "2023",
+    "category": "Data Science",
+    "images": [
+      "assets/certs/cert-1791117793723-0-srr6m.pdf"
+    ],
+    "credentialId": "",
+    "credentialUrl": "https://www.coursera.org/account/accomplishments/professional-cert/5P7GK3AFAQX8",
+    "skills": [],
+    "description": "",
+    "createdAt": 1791117793784
+  },
+  {
     "id": "cert-google-data-analytics",
     "name": "Google Data Analytics",
     "issuer": "Coursera",
@@ -7,7 +63,7 @@
     "year": "2023",
     "category": "Data Science",
     "images": [
-      "assets/certs/google-data-analytics.svg"
+      "assets/certs/cert-1791116610828-0-px4oz.pdf"
     ],
     "credentialId": "",
     "credentialUrl": "https://www.coursera.org/account/accomplishments/professional-cert/5P7GK3AFAQX8",
@@ -20,7 +76,7 @@
       "Data Visualization"
     ],
     "description": "Completed comprehensive professional certificate curriculum covering data preparation, processing, cleaning, statistical analysis with R, complex SQL querying, and interactive business dashboard design in Tableau.",
-    "updatedAt": 1791115909274
+    "updatedAt": 1791116610885
   },
   {
     "id": "cert-oracle-agentic-ai",
@@ -29,9 +85,7 @@
     "date": "2024",
     "year": "2024",
     "category": "AI / ML",
-    "images": [
-      "assets/certs/oracle-ai.svg"
-    ],
+    "images": [],
     "credentialId": "",
     "credentialUrl": "",
     "skills": [
@@ -50,9 +104,7 @@
     "date": "2024",
     "year": "2024",
     "category": "AI / ML",
-    "images": [
-      "assets/certs/ready-tensor.svg"
-    ],
+    "images": [],
     "credentialId": "",
     "credentialUrl": "",
     "skills": [
@@ -72,9 +124,7 @@
     "date": "2024",
     "year": "2024",
     "category": "AI / ML",
-    "images": [
-      "assets/certs/nvidia-dl.svg"
-    ],
+    "images": [],
     "credentialId": "",
     "credentialUrl": "",
     "skills": [
@@ -93,9 +143,7 @@
     "date": "2023",
     "year": "2023",
     "category": "AI / ML",
-    "images": [
-      "assets/certs/aws-ml.svg"
-    ],
+    "images": [],
     "credentialId": "",
     "credentialUrl": "",
     "skills": [
@@ -115,9 +163,7 @@
     "date": "2023",
     "year": "2023",
     "category": "Cloud",
-    "images": [
-      "assets/certs/aws-cloud.svg"
-    ],
+    "images": [],
     "credentialId": "",
     "credentialUrl": "",
     "skills": [
@@ -136,9 +182,7 @@
     "date": "2023",
     "year": "2023",
     "category": "Programming",
-    "images": [
-      "assets/certs/google-python.svg"
-    ],
+    "images": [],
     "credentialId": "",
     "credentialUrl": "",
     "skills": [
