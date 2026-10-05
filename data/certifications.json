@@ -1,5 +1,32 @@
 [
   {
+    "id": "cert-1791207435338-brhwc",
+    "name": "RAG Systems Expert",
+    "issuer": "Ready Tensor",
+    "date": "2025",
+    "year": "2025",
+    "category": "AI / ML",
+    "images": [
+      "assets/certs/cert-1791207435300-0-j158k.pdf"
+    ],
+    "credentialId": "",
+    "credentialUrl": "",
+    "skills": [
+      "Retrieval-Augmented Generation (RAG)",
+      "LLMs",
+      "Prompt Engineering",
+      "Information Retrieval",
+      "Embeddings",
+      "Vector Databases",
+      "Semantic Search",
+      "Document Retrieval",
+      "Context Retrieval",
+      "RAG Pipelines"
+    ],
+    "description": "Earned the RAG Systems Expert credential through the Ready Tensor Agentic AI Developer Certification Program, demonstrating foundational expertise in designing and working with Retrieval-Augmented Generation (RAG) systems.",
+    "createdAt": 1791207435338
+  },
+  {
     "id": "cert-1791118279684-bjqvf",
     "name": "Google Data Analytics Professional Certificate",
     "issuer": "Google (via Coursera)",
@@ -77,21 +104,33 @@
   {
     "id": "cert-nvidia-deep-learning",
     "name": "Fundamentals of Deep Learning",
-    "issuer": "NVIDIA Deep Learning Institute (DLI)",
-    "date": "2024",
-    "year": "2024",
+    "issuer": "NVIDIA Deep Learning Institute (NVIDIA DLI)",
+    "date": "2022",
+    "year": "2022",
     "category": "AI / ML",
-    "images": [],
+    "images": [
+      "assets/certs/cert-1791207118809-0-nqms1.pdf"
+    ],
     "credentialId": "",
     "credentialUrl": "",
     "skills": [
       "Deep Learning",
-      "PyTorch / TensorFlow",
-      "CNNs & Computer Vision",
       "Neural Networks",
-      "GPU Acceleration"
+      "Computer Vision",
+      "Convolutional Neural Networks (CNNs)",
+      "Recurrent Neural Networks (RNNs)",
+      "Data Augmentation",
+      "Transfer Learning",
+      "Pre-trained Models",
+      "Image Classification",
+      "Natural Language Processing",
+      "TensorFlow",
+      "Keras",
+      "Pandas",
+      "NumPy"
     ],
-    "description": "Trained and deployed deep neural networks for computer vision and NLP tasks using GPU-accelerated computing frameworks and pre-trained transfer learning workflows."
+    "description": "Completed NVIDIA Deep Learning Institute's Fundamentals of Deep Learning course, covering the fundamentals of training deep neural networks through hands-on computer vision and natural language processing exercises. The course included training models from scratch, convolutional neural networks, data augmentation, pre-trained models, transfer learning, and recurrent neural networks. The course also involved building an image-classification project and using TensorFlow 2 with Keras and supporting data-science tools.",
+    "updatedAt": 1791207118833
   },
   {
     "id": "cert-aws-ml-foundations",
@@ -100,18 +139,24 @@
     "date": "2023",
     "year": "2023",
     "category": "AI / ML",
-    "images": [],
+    "images": [
+      "assets/certs/cert-1791207260498-0-nbjne.pdf"
+    ],
     "credentialId": "",
-    "credentialUrl": "",
+    "credentialUrl": "https://www.credly.com/go/9EyDDkro",
     "skills": [
       "Machine Learning",
-      "AWS SageMaker",
-      "Model Training",
+      "Artificial Intelligence",
+      "Machine Learning Pipelines",
+      "Amazon SageMaker",
+      "Forecasting",
       "Computer Vision",
-      "NLP",
-      "Cloud AI Services"
+      "Natural Language Processing",
+      "ML Model Training",
+      "ML Model Deployment"
     ],
-    "description": "Mastered machine learning pipelines in the AWS cloud, encompassing data engineering, Amazon SageMaker model training and tuning, and managed AI services for computer vision and NLP."
+    "description": "Completed the 20-hour AWS Academy Machine Learning Foundations course covering fundamental AI and machine learning concepts, machine learning pipelines using Amazon SageMaker, and AWS-managed ML services for forecasting, computer vision, and natural language processing. The course also included hands-on work involving labeling, building, training, and deploying custom machine learning models.",
+    "updatedAt": 1791207260531
   },
   {
     "id": "cert-google-python",
@@ -120,7 +165,9 @@
     "date": "2023",
     "year": "2023",
     "category": "Programming",
-    "images": [],
+    "images": [
+      "assets/certs/cert-1791207308553-0-956zn.pdf"
+    ],
     "credentialId": "",
     "credentialUrl": "",
     "skills": [
@@ -130,6 +177,7 @@
       "Scripting & Automation",
       "File I/O"
     ],
-    "description": "Solid foundation in Python programming, object-oriented principles, data structures (lists, dictionaries, tuples), algorithmic problem solving, and writing practical automation scripts."
+    "description": "Solid foundation in Python programming, object-oriented principles, data structures (lists, dictionaries, tuples), algorithmic problem solving, and writing practical automation scripts.",
+    "updatedAt": 1791207308583
   }
 ]

@@ -113,6 +113,17 @@ button {
   color: inherit;
 }
 
+button .material-symbols-outlined,
+a .material-symbols-outlined,
+.btn .material-symbols-outlined {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  line-height: 1;
+  vertical-align: middle;
+}
+
 ul, ol {
   list-style: none;
 }
@@ -2483,6 +2494,10 @@ ul, ol {
   margin-right: 48px; /* space for close button */
 }
 
+.beyond-modal__actions .btn {
+  line-height: 1;
+}
+
 .beyond-modal__body {
   padding: 28px 32px 40px;
   overflow-y: auto;
@@ -3411,6 +3426,19 @@ ul, ol {
     gap: 14px;
   }
 
+  .beyond-modal__actions {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    margin-right: 0;
+    flex-wrap: wrap;
+  }
+
+  .beyond-modal__actions > .btn {
+    max-width: 100%;
+    white-space: normal;
+  }
+
   .beyond-modal__heading {
     font-size: 20px;
   }
@@ -3847,11 +3875,14 @@ ul, ol {
     grid-template-columns: 1fr;
     gap: 24px;
   }
+
+  .cert-detail-layout > * {
+    min-width: 0;
+  }
 }
 
 .cert-detail-gallery {
-  position: sticky;
-  top: 0;
+  min-width: 0;
 }
 
 .cert-carousel {
@@ -4349,6 +4380,36 @@ select.form-input option:hover {
   gap: 6px;
 }
 
+@media (max-width: 580px) {
+  .cert-detail-actions .btn {
+    max-width: 100%;
+    padding-right: 14px;
+    padding-left: 14px;
+    white-space: normal;
+  }
+
+  .cert-pdf-header-bar {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .cert-pdf-header-left {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .cert-pdf-title-text {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .cert-pdf-header-right {
+    width: 100%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+}
+
 .cert-pdf-embed-wrapper {
   width: 100%;
   flex: 1;
@@ -4401,4 +4462,3 @@ select.form-input option:hover {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
