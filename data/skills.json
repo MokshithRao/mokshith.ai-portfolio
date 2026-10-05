@@ -1,0 +1,43 @@
+[
+  {
+    "id": "generative-ai",
+    "title": "Generative AI",
+    "icon": "psychology",
+    "skills": [
+      "LLMs",
+      "RAG Systems",
+      "LangChain",
+      "Transformers",
+      "Fine-tuning",
+      "Hugging Face",
+      "Prompt Engineering",
+      "Agentic AI"
+    ]
+  },
+  {
+    "id": "machine-learning",
+    "title": "Machine Learning",
+    "icon": "dataset",
+    "skills": [
+      "PyTorch",
+      "Scikit-learn",
+      "XGBoost",
+      "Pandas",
+      "NumPy"
+    ]
+  },
+  {
+    "id": "software-development",
+    "title": "Software Development",
+    "icon": "terminal",
+    "skills": [
+      "Python",
+      "FastAPI",
+      "SQL",
+      "MongoDB",
+      "Streamlit",
+      "Git/GitHub",
+      "PDBC"
+    ]
+  }
+]

@@ -494,11 +494,11 @@
 
     const actionsHtml = `
       <div class="beyond-modal__action-group">
-        <button class="btn btn--secondary magnetic-btn" id="certs-btn-edit" style="padding: 8px 16px;">
+        <button class="btn btn--primary magnetic-btn" id="certs-btn-edit" style="padding: 8px 16px;">
           <span class="material-symbols-outlined" style="font-size: 17px;">edit</span>
           <span>Edit</span>
         </button>
-        <button class="btn btn--outline magnetic-btn certs-back-btn" id="certs-btn-back-grid" style="padding: 8px 16px;">
+        <button class="btn btn--primary magnetic-btn certs-back-btn" id="certs-btn-back-grid" style="padding: 8px 16px;">
           <span class="material-symbols-outlined" style="font-size: 17px;">arrow_back</span>
           <span>All Certificates</span>
         </button>

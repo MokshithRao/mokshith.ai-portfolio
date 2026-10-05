@@ -10,6 +10,7 @@ const BEYOND_FILE = path.join(DATA_DIR, 'beyond.json');
 const BEYOND_UPLOAD_DIR = path.join(__dirname, 'assets', 'beyond');
 const CERTS_FILE = path.join(DATA_DIR, 'certifications.json');
 const CERTS_UPLOAD_DIR = path.join(__dirname, 'assets', 'certs');
+const SKILLS_FILE = path.join(DATA_DIR, 'skills.json');
 
 // Ensure data directory and files exist
 function ensureDataFile() {
@@ -30,6 +31,9 @@ function ensureDataFile() {
   }
   if (!fs.existsSync(CERTS_FILE)) {
     fs.writeFileSync(CERTS_FILE, JSON.stringify([], null, 2), 'utf8');
+  }
+  if (!fs.existsSync(SKILLS_FILE)) {
+    fs.writeFileSync(SKILLS_FILE, JSON.stringify([], null, 2), 'utf8');
   }
 }
 
@@ -90,6 +94,23 @@ function writeCerts(certs) {
   fs.writeFileSync(CERTS_FILE, JSON.stringify(certs, null, 2), 'utf8');
 }
 
+function readSkills() {
+  ensureDataFile();
+  try {
+    const raw = fs.readFileSync(SKILLS_FILE, 'utf8');
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (err) {
+    console.error('Error reading skills.json:', err);
+    throw err;
+  }
+}
+
+function writeSkills(skills) {
+  ensureDataFile();
+  fs.writeFileSync(SKILLS_FILE, JSON.stringify(skills, null, 2), 'utf8');
+}
+
 // MIME types map
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -135,6 +156,101 @@ const server = http.createServer((req, res) => {
   }
 
   // ================= API Endpoints =================
+
+  // GET /api/skills
+  if (pathname === '/api/skills' && method === 'GET') {
+    try {
+      const skills = readSkills();
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify(skills));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({ error: 'Unable to read technical skills' }));
+    }
+    return;
+  }
+
+  // PUT /api/skills
+  if (pathname === '/api/skills' && method === 'PUT') {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk.toString();
+      if (body.length > 256 * 1024) {
+        req.destroy();
+      }
+    });
+
+    req.on('end', () => {
+      try {
+        const payload = JSON.parse(body);
+        if (!payload || !Array.isArray(payload.skills)) {
+          res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ error: 'Skills must be an array' }));
+          return;
+        }
+
+        if (payload.skills.length > 20) {
+          res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ error: 'Skills must contain no more than 20 groups' }));
+          return;
+        }
+
+        const ids = new Set();
+        const skills = [];
+        for (const group of payload.skills) {
+          if (!group || typeof group.id !== 'string' || !/^[a-z0-9-]{1,80}$/i.test(group.id) || ids.has(group.id)) {
+            res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+            res.end(JSON.stringify({ error: 'Each skill group must have a unique valid ID' }));
+            return;
+          }
+          if (typeof group.title !== 'string' || !group.title.trim() || group.title.trim().length > 60) {
+            res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+            res.end(JSON.stringify({ error: 'Each skill group needs a title of 60 characters or fewer' }));
+            return;
+          }
+          if (typeof group.icon !== 'string' || !/^[a-z0-9_]{1,40}$/i.test(group.icon)) {
+            res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+            res.end(JSON.stringify({ error: 'Each skill group needs a valid Material Symbol name' }));
+            return;
+          }
+          if (!Array.isArray(group.skills) || group.skills.length > 50) {
+            res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+            res.end(JSON.stringify({ error: 'Each group may contain no more than 50 skills' }));
+            return;
+          }
+
+          const items = [];
+          for (const item of group.skills) {
+            if (typeof item !== 'string' || !item.trim() || item.trim().length > 50) {
+              res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+              res.end(JSON.stringify({ error: 'Each skill must be between 1 and 50 characters' }));
+              return;
+            }
+            const normalized = item.trim();
+            if (!items.includes(normalized)) items.push(normalized);
+          }
+
+          ids.add(group.id);
+          skills.push({
+            id: group.id,
+            title: group.title.trim(),
+            icon: group.icon,
+            skills: items
+          });
+        }
+
+        writeSkills(skills);
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify(skills));
+      } catch (err) {
+        console.error('Error in PUT /api/skills:', err);
+        const invalidJson = err instanceof SyntaxError;
+        res.writeHead(invalidJson ? 400 : 500, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ error: invalidJson ? 'Invalid JSON payload' : 'Unable to save technical skills' }));
+      }
+    });
+    return;
+  }
 
   // GET /api/projects
   if (pathname === '/api/projects' && method === 'GET') {

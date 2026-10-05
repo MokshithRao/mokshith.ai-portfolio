@@ -159,79 +159,18 @@
 
     <!-- ======== Skills Section ======== -->
     <section class="section container fade-in-section" id="skills">
-      <div class="section-header">
-        <h2 class="text-headline-md section-header__title">Technical Expertise</h2>
-        <div class="section-header__line"></div>
+      <div class="skills__section-header">
+        <div class="section-header">
+          <h2 class="text-headline-md section-header__title">Technical Expertise</h2>
+          <div class="section-header__line"></div>
+        </div>
+        <button type="button" class="btn btn--primary magnetic-btn skills__add-btn" id="skills-add-group">
+          <span class="material-symbols-outlined">add</span>
+          <span>Add Skill Group</span>
+        </button>
       </div>
-
-      <div class="skills__grid">
-        <!-- Generative AI -->
-        <div class="skill-card tilt-card">
-          <div class="skill-card__glow"></div>
-          <div class="skill-card__gradient"></div>
-          <div class="skill-card__content">
-            <div class="skill-card__header">
-              <div class="skill-card__icon-wrap">
-                <span class="material-symbols-outlined skill-card__icon">psychology</span>
-              </div>
-              <h3 class="skill-card__title">Generative AI</h3>
-            </div>
-            <div class="skill-card__chips">
-              <span class="chip">LLMs</span>
-              <span class="chip">RAG Systems</span>
-              <span class="chip">LangChain</span>
-              <span class="chip">Transformers</span>
-              <span class="chip">Fine-tuning</span>
-              <span class="chip">Hugging Face</span>
-              <span class="chip">Prompt Engineering</span>
-              <span class="chip">Agentic AI</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Machine Learning -->
-        <div class="skill-card tilt-card">
-          <div class="skill-card__glow"></div>
-          <div class="skill-card__gradient"></div>
-          <div class="skill-card__content">
-            <div class="skill-card__header">
-              <div class="skill-card__icon-wrap">
-                <span class="material-symbols-outlined skill-card__icon">dataset</span>
-              </div>
-              <h3 class="skill-card__title">Machine Learning</h3>
-            </div>
-            <div class="skill-card__chips">
-              <span class="chip">PyTorch</span>
-              <span class="chip">Scikit-learn</span>
-              <span class="chip">XGBoost</span>
-              <span class="chip">Pandas</span>
-              <span class="chip">NumPy</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Software Development -->
-        <div class="skill-card tilt-card">
-          <div class="skill-card__glow"></div>
-          <div class="skill-card__gradient"></div>
-          <div class="skill-card__content">
-            <div class="skill-card__header">
-              <div class="skill-card__icon-wrap">
-                <span class="material-symbols-outlined skill-card__icon">terminal</span>
-              </div>
-              <h3 class="skill-card__title">Software Development</h3>
-            </div>
-            <div class="skill-card__chips">
-              <span class="chip">Python</span>
-              <span class="chip">FastAPI</span>
-              <span class="chip">SQL</span>
-              <span class="chip">MongoDB</span>
-              <span class="chip">Streamlit</span>
-              <span class="chip">Git/GitHub</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <p class="skills__status" id="skills-status" role="status" aria-live="polite"></p>
+      <div class="skills__grid" id="skills-container" aria-live="polite"></div>
     </section>
 
     <!-- ======== Projects Section ======== -->
@@ -570,6 +509,40 @@
     </div>
   </div>
 
+  <!-- Modal: Add / Edit Technical Skill Group -->
+  <div class="modal-overlay" id="modal-skill-group">
+    <div class="modal skills-editor-modal" role="dialog" aria-labelledby="skill-editor-title" aria-modal="true">
+      <button type="button" class="modal__close" id="skill-editor-close" aria-label="Close skill editor">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+      <form class="modal__form" id="form-skill-group">
+        <div class="modal__form-header">
+          <h2 class="modal__title" id="skill-editor-title">Add Skill Group</h2>
+          <p class="text-body-md">Keep your technical expertise up to date without editing code.</p>
+        </div>
+        <div id="skill-editor-error" class="form-error" role="alert"></div>
+        <div class="form-group">
+          <label class="form-label" for="skill-group-title">Group Name</label>
+          <input class="form-input" id="skill-group-title" name="title" maxlength="60" placeholder="e.g. Cloud & DevOps" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="skill-group-icon">Icon</label>
+          <input class="form-input" id="skill-group-icon" name="icon" maxlength="40" placeholder="e.g. cloud (Material Symbol name)" required />
+          <p class="form-hint">Use a Material Symbols name such as psychology, dataset, or terminal.</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="skill-group-items">Skills</label>
+          <textarea class="form-textarea skills-editor-items" id="skill-group-items" name="skills" placeholder="Add one skill per line, or separate skills with commas" required></textarea>
+          <p class="form-hint">Use one skill per line or separate them with commas.</p>
+        </div>
+        <div class="modal__footer skills-editor-footer">
+          <button type="button" class="btn btn--secondary magnetic-btn" id="skill-editor-cancel">Cancel</button>
+          <button type="submit" class="btn btn--primary magnetic-btn" id="skill-editor-save">Save Group</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Modal: Beyond the Resume (Large Experience Modal) -->
   <div class="modal-overlay" id="modal-beyond">
     <div class="modal modal--beyond" role="dialog" aria-labelledby="beyond-modal-heading">
@@ -637,5 +610,6 @@
   <script src="js/projects.js"></script>
   <script src="js/beyond.js"></script>
   <script src="js/certifications.js"></script>
+  <script src="js/skills.js"></script>
 </body>
 </html>
