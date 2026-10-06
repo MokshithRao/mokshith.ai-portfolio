@@ -267,7 +267,7 @@
     ];
 
     const actionsHtml = `
-      <button class="btn btn--primary magnetic-btn certs-add-btn" id="certs-btn-add">
+      <button class="btn btn--primary magnetic-btn certs-add-btn admin-only" id="certs-btn-add">
         <span class="material-symbols-outlined" style="font-size: 18px;">add</span>
         <span>Add Certificate</span>
       </button>
@@ -332,7 +332,7 @@
           </div>
           <h3 class="certs-empty-title">No certificates found in "${escapeHtml(currentFilter)}"</h3>
           <p class="certs-empty-desc">Add a new certificate or select a different category.</p>
-          <button class="btn btn--secondary magnetic-btn" onclick="openCertForm()">
+          <button class="btn btn--secondary magnetic-btn admin-only" onclick="openCertForm()">
             <span class="material-symbols-outlined">add</span> Add First Certificate
           </button>
         </div>
@@ -494,7 +494,7 @@
 
     const actionsHtml = `
       <div class="beyond-modal__action-group">
-        <button class="btn btn--primary magnetic-btn" id="certs-btn-edit" style="padding: 8px 16px;">
+        <button class="btn btn--primary magnetic-btn admin-only" id="certs-btn-edit" style="padding: 8px 16px;">
           <span class="material-symbols-outlined" style="font-size: 17px;">edit</span>
           <span>Edit</span>
         </button>
@@ -585,7 +585,7 @@
               <div class="cert-detail-placeholder">
                 <span class="material-symbols-outlined" style="font-size: 44px; color: var(--primary-light); opacity: 0.7;">workspace_premium</span>
                 <p style="color: var(--text-muted); font-size: 14px; margin-top: 10px;">No certificate PDF or image attached yet</p>
-                <button class="btn btn--primary magnetic-btn" style="margin-top: 14px; font-size: 13px;" onclick="document.getElementById('certs-btn-edit').click()">
+                <button class="btn btn--primary magnetic-btn admin-only" style="margin-top: 14px; font-size: 13px;" onclick="document.getElementById('certs-btn-edit').click()">
                   <span class="material-symbols-outlined" style="font-size: 16px;">cloud_upload</span> Upload Certificate File
                 </button>
               </div>
@@ -667,7 +667,7 @@
                 </a>
               ` : ''}
 
-              <button class="btn btn--danger-outline magnetic-btn" id="cert-btn-delete" style="padding: 10px 18px;">
+              <button class="btn btn--danger-outline magnetic-btn admin-only" id="cert-btn-delete" style="padding: 10px 18px;">
                 <span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
                 <span>Delete</span>
               </button>
@@ -823,7 +823,7 @@
     const skillsString = Array.isArray(cert.skills) ? cert.skills.join(', ') : '';
 
     let html = `
-      <div class="certs-form-view">
+      <div class="certs-form-view admin-only">
         <form class="modal__form certs-form" id="certs-manage-form">
           <div id="certs-form-error" class="form-error" style="margin-bottom: 16px;"></div>
 

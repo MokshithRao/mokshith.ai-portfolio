@@ -2,6 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
+const crypto = require('crypto');
 
 const PORT = process.env.PORT || 3000;
 const DATA_DIR = path.join(__dirname, 'data');
@@ -11,6 +12,156 @@ const BEYOND_UPLOAD_DIR = path.join(__dirname, 'assets', 'beyond');
 const CERTS_FILE = path.join(DATA_DIR, 'certifications.json');
 const CERTS_UPLOAD_DIR = path.join(__dirname, 'assets', 'certs');
 const SKILLS_FILE = path.join(DATA_DIR, 'skills.json');
+const ADMIN_SESSION_COOKIE = 'portfolio_admin_session';
+const ADMIN_SESSION_TTL_MS = 8 * 60 * 60 * 1000;
+const ADMIN_LOGIN_LIMIT = 5;
+const ADMIN_LOGIN_WINDOW_MS = 15 * 60 * 1000;
+const adminSessions = new Map();
+const adminLoginAttempts = new Map();
+
+function requestIsSecure(req) {
+  return Boolean(req.socket.encrypted) || req.headers['x-forwarded-proto']?.split(',')[0].trim() === 'https';
+}
+
+function sessionCookie(req, value, maxAge) {
+  const secure = requestIsSecure(req) ? '; Secure' : '';
+  return `${ADMIN_SESSION_COOKIE}=${value}; HttpOnly; Path=/; SameSite=Strict; Max-Age=${maxAge}${secure}`;
+}
+
+function getCookieValue(req, cookieName) {
+  const cookies = req.headers.cookie || '';
+  for (const part of cookies.split(';')) {
+    const [name, ...value] = part.trim().split('=');
+    if (name === cookieName) return value.join('=');
+  }
+  return '';
+}
+
+function getAdminSession(req) {
+  const sessionId = getCookieValue(req, ADMIN_SESSION_COOKIE);
+  const session = adminSessions.get(sessionId);
+  if (!session) return null;
+  if (session.expiresAt <= Date.now()) {
+    adminSessions.delete(sessionId);
+    return null;
+  }
+  return { sessionId, session };
+}
+
+function isSameOriginRequest(req) {
+  const origin = req.headers.origin;
+  if (!origin) return true;
+  try {
+    const originUrl = new URL(origin);
+    return originUrl.host.toLowerCase() === String(req.headers.host || '').toLowerCase() &&
+      (originUrl.protocol === 'https:' ? requestIsSecure(req) : !requestIsSecure(req));
+  } catch {
+    return false;
+  }
+}
+
+function isProtectedMutation(pathname, method) {
+  return (
+    (pathname === '/api/skills' && method === 'PUT') ||
+    (pathname === '/api/projects' && method === 'POST') ||
+    (pathname.startsWith('/api/projects/') && ['PUT', 'DELETE'].includes(method)) ||
+    (pathname === '/api/beyond/upload' && method === 'POST') ||
+    (pathname === '/api/beyond/items' && method === 'POST') ||
+    (pathname.startsWith('/api/beyond/items/') && ['PUT', 'DELETE'].includes(method)) ||
+    (pathname === '/api/certifications/upload' && method === 'POST') ||
+    (pathname === '/api/certifications' && method === 'POST') ||
+    (pathname.startsWith('/api/certifications/') && ['PUT', 'DELETE'].includes(method))
+  );
+}
+
+function sendJson(res, statusCode, payload, headers = {}) {
+  res.writeHead(statusCode, {
+    'Content-Type': 'application/json; charset=utf-8',
+    'Cache-Control': 'no-store',
+    ...headers
+  });
+  res.end(JSON.stringify(payload));
+}
+
+function digestCredential(value) {
+  return crypto.createHash('sha256').update(value).digest();
+}
+
+function credentialsMatch(username, password) {
+  const configuredUsername = process.env.ADMIN_USERNAME;
+  const configuredPassword = process.env.ADMIN_PASSWORD;
+  if (!configuredUsername || !configuredPassword || configuredPassword.length < 12) return false;
+  const usernameMatches = crypto.timingSafeEqual(
+    digestCredential(username),
+    digestCredential(configuredUsername)
+  );
+  const passwordMatches = crypto.timingSafeEqual(
+    digestCredential(password),
+    digestCredential(configuredPassword)
+  );
+  return usernameMatches && passwordMatches;
+}
+
+function handleAdminLogin(req, res) {
+  if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD || process.env.ADMIN_PASSWORD.length < 12) {
+    sendJson(res, 503, { error: 'Admin login requires ADMIN_USERNAME and an ADMIN_PASSWORD of at least 12 characters.' });
+    return;
+  }
+  if (!isSameOriginRequest(req)) {
+    sendJson(res, 403, { error: 'Cross-origin requests are not allowed.' });
+    return;
+  }
+
+  const ip = req.socket.remoteAddress || 'unknown';
+  const now = Date.now();
+  for (const [address, attempt] of adminLoginAttempts) {
+    if (attempt.resetAt <= now) adminLoginAttempts.delete(address);
+  }
+  const attempt = adminLoginAttempts.get(ip);
+  if (attempt && attempt.count >= ADMIN_LOGIN_LIMIT && attempt.resetAt > now) {
+    res.setHeader('Retry-After', String(Math.ceil((attempt.resetAt - now) / 1000)));
+    sendJson(res, 429, { error: 'Too many login attempts. Please try again later.' });
+    return;
+  }
+
+  let body = '';
+  req.on('data', (chunk) => {
+    body += chunk.toString();
+    if (Buffer.byteLength(body, 'utf8') > 8 * 1024) req.destroy();
+  });
+  req.on('end', () => {
+    let payload;
+    try {
+      payload = JSON.parse(body);
+    } catch {
+      sendJson(res, 400, { error: 'Invalid login request.' });
+      return;
+    }
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+      sendJson(res, 400, { error: 'Invalid login request.' });
+      return;
+    }
+    const username = typeof payload.username === 'string' ? payload.username : '';
+    const password = typeof payload.password === 'string' ? payload.password : '';
+    if (username.length > 200 || password.length > 1024 || !credentialsMatch(username, password)) {
+      const currentAttempt = adminLoginAttempts.get(ip);
+      adminLoginAttempts.set(ip, {
+        count: currentAttempt && currentAttempt.resetAt > now ? currentAttempt.count + 1 : 1,
+        resetAt: currentAttempt && currentAttempt.resetAt > now ? currentAttempt.resetAt : now + ADMIN_LOGIN_WINDOW_MS
+      });
+      sendJson(res, 401, { error: 'Invalid username or password.' });
+      return;
+    }
+
+    adminLoginAttempts.delete(ip);
+    const sessionId = crypto.randomBytes(32).toString('base64url');
+    const expiresAt = now + ADMIN_SESSION_TTL_MS;
+    adminSessions.set(sessionId, { expiresAt });
+    sendJson(res, 200, { authenticated: true, expiresAt }, {
+      'Set-Cookie': sessionCookie(req, sessionId, ADMIN_SESSION_TTL_MS / 1000)
+    });
+  });
+}
 
 // Ensure data directory and files exist
 function ensureDataFile() {
@@ -144,15 +295,46 @@ const server = http.createServer((req, res) => {
   const pathname = parsedUrl.pathname;
   const method = req.method;
 
-  // CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
   if (method === 'OPTIONS') {
     res.writeHead(204);
     res.end();
     return;
+  }
+
+  if (pathname === '/api/admin/session' && method === 'GET') {
+    const adminSession = getAdminSession(req);
+    sendJson(res, 200, {
+      authenticated: Boolean(adminSession),
+      expiresAt: adminSession ? adminSession.session.expiresAt : null
+    });
+    return;
+  }
+
+  if (pathname === '/api/admin/login' && method === 'POST') {
+    handleAdminLogin(req, res);
+    return;
+  }
+
+  if (pathname === '/api/admin/logout' && method === 'POST') {
+    if (!isSameOriginRequest(req)) {
+      sendJson(res, 403, { error: 'Cross-origin requests are not allowed.' });
+      return;
+    }
+    const session = getAdminSession(req);
+    if (session) adminSessions.delete(session.sessionId);
+    sendJson(res, 200, { authenticated: false }, { 'Set-Cookie': sessionCookie(req, '', 0) });
+    return;
+  }
+
+  if (isProtectedMutation(pathname, method)) {
+    if (!isSameOriginRequest(req)) {
+      sendJson(res, 403, { error: 'Cross-origin requests are not allowed.' });
+      return;
+    }
+    if (!getAdminSession(req)) {
+      sendJson(res, 401, { error: 'Admin login required.' });
+      return;
+    }
   }
 
   // ================= API Endpoints =================

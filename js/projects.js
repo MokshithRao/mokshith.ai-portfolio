@@ -102,7 +102,7 @@
           <span class="material-symbols-outlined" style="font-size: 40px; color: var(--text-muted); margin-bottom: 12px;">folder_open</span>
           <h3 class="projects-empty__title">No projects added yet</h3>
           <p class="projects-empty__desc">Add your first project to highlight your AI/ML and engineering work.</p>
-          <button class="btn btn--primary magnetic-btn" onclick="window.openAddProjectModal()">
+          <button class="btn btn--primary magnetic-btn admin-only" onclick="window.openAddProjectModal()">
             <span class="material-symbols-outlined" style="font-size: 16px;">add</span> Add Project
           </button>
         </div>
@@ -136,7 +136,7 @@
                 <span style="display: flex; align-items: center; gap: 8px;">
                   <span class="project-featured__meta-dot"></span> ${escapeHtml(categoryText)}
                 </span>
-                <div class="project-card__actions">
+                <div class="project-card__actions admin-only">
                   <button type="button" class="project-card__action project-card__edit" title="Edit Project" data-edit-id="${escapeHtml(proj.id)}">
                     <span class="material-symbols-outlined">edit</span>
                   </button>
@@ -170,7 +170,7 @@
             </div>
             <div class="project-card__meta-wrap">
               <div class="project-card__meta">${escapeHtml(categoryText)}</div>
-              <div class="project-card__actions">
+              <div class="project-card__actions admin-only">
                 <button type="button" class="project-card__action project-card__edit" title="Edit Project" data-edit-id="${escapeHtml(proj.id)}">
                   <span class="material-symbols-outlined">edit</span>
                 </button>
