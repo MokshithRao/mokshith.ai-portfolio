@@ -44,6 +44,12 @@
         <a href="#contact" class="nav__link magnetic-btn" data-target="contact">Contact</a>
       </div>
 
+      <button type="button" class="nav__admin-button" id="admin-login-trigger" aria-label="Admin login" title="Admin login">
+        <span class="material-symbols-outlined" aria-hidden="true">lock</span>
+      </button>
+      <button type="button" class="nav__admin-button admin-only" id="admin-logout-button" aria-label="Log out of admin" title="Log out">
+        <span class="material-symbols-outlined" aria-hidden="true">logout</span>
+      </button>
       <a href="#ask-ai" class="nav__cta magnetic-btn metal-btn">Talk to MY AI</a>
 
       <button class="nav__mobile-toggle" id="mobile-toggle" aria-label="Toggle Menu">
@@ -164,7 +170,7 @@
           <h2 class="text-headline-md section-header__title">Technical Expertise</h2>
           <div class="section-header__line"></div>
         </div>
-        <button type="button" class="btn btn--primary magnetic-btn skills__add-btn" id="skills-add-group">
+        <button type="button" class="btn btn--primary magnetic-btn skills__add-btn admin-only" id="skills-add-group">
           <span class="material-symbols-outlined">add</span>
           <span>Add Skill Group</span>
         </button>
@@ -183,7 +189,7 @@
           </div>
         </div>
         <div class="projects__actions">
-          <button class="btn--add-project magnetic-btn" id="btn-open-add-project" aria-label="Add Project">
+          <button class="btn--add-project magnetic-btn admin-only" id="btn-open-add-project" aria-label="Add Project">
             <span class="material-symbols-outlined">add</span> Add Project
           </button>
           <a href="https://github.com/MokshithRao" target="_blank" rel="noopener noreferrer" class="projects__github-link magnetic-btn">
@@ -363,7 +369,7 @@
   <!-- ============ Modals ============ -->
 
   <!-- Modal: Add Project -->
-  <div class="modal-overlay" id="modal-add-project">
+  <div class="modal-overlay admin-only" id="modal-add-project">
     <div class="modal" role="dialog" aria-labelledby="modal-add-project-title" style="max-width: 580px;">
       <button class="modal__close" onclick="closeModal('modal-add-project')" aria-label="Close">
         <span class="material-symbols-outlined">close</span>
@@ -409,7 +415,7 @@
   </div>
 
   <!-- Modal: Confirm Delete -->
-  <div class="modal-overlay" id="modal-confirm-delete">
+  <div class="modal-overlay admin-only" id="modal-confirm-delete">
     <div class="modal" role="dialog" aria-labelledby="modal-confirm-delete-title" style="max-width: 480px;">
       <button class="modal__close" onclick="closeModal('modal-confirm-delete')" aria-label="Close">
         <span class="material-symbols-outlined">close</span>
@@ -454,7 +460,7 @@
           <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn--outline magnetic-btn" id="project-view-github" style="padding: 8px 24px;">
             <span class="material-symbols-outlined" style="font-size: 18px;">code</span> View Code
           </a>
-          <button type="button" class="btn btn--secondary magnetic-btn" id="project-view-edit-btn" style="padding: 8px 20px;">
+          <button type="button" class="btn btn--secondary magnetic-btn admin-only" id="project-view-edit-btn" style="padding: 8px 20px;">
             <span class="material-symbols-outlined" style="font-size: 18px;">edit</span> Edit Project
           </button>
         </div>
@@ -463,7 +469,7 @@
   </div>
 
   <!-- Modal: Edit Project -->
-  <div class="modal-overlay" id="modal-edit-project">
+  <div class="modal-overlay admin-only" id="modal-edit-project">
     <div class="modal" role="dialog" aria-labelledby="modal-edit-project-title" style="max-width: 580px;">
       <button type="button" class="modal__close" onclick="closeModal('modal-edit-project')" aria-label="Close">
         <span class="material-symbols-outlined">close</span>
@@ -510,7 +516,7 @@
   </div>
 
   <!-- Modal: Add / Edit Technical Skill Group -->
-  <div class="modal-overlay" id="modal-skill-group">
+  <div class="modal-overlay admin-only" id="modal-skill-group">
     <div class="modal skills-editor-modal" role="dialog" aria-labelledby="skill-editor-title" aria-modal="true">
       <button type="button" class="modal__close" id="skill-editor-close" aria-label="Close skill editor">
         <span class="material-symbols-outlined">close</span>
@@ -603,10 +609,38 @@
     </div>
   </div>
 
+  <!-- Modal: Admin Login -->
+  <div class="modal-overlay" id="admin-login-modal">
+    <div class="modal" role="dialog" aria-labelledby="admin-login-title" aria-modal="true" style="max-width: 440px;">
+      <button type="button" class="modal__close" id="admin-login-close" aria-label="Close admin login">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+      <form class="modal__form" id="admin-login-form">
+        <div class="modal__form-header">
+          <h2 class="modal__title" id="admin-login-title">Admin Login</h2>
+          <p class="text-body-md">Sign in to manage portfolio content.</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="admin-username">Username</label>
+          <input class="form-input" id="admin-username" name="username" autocomplete="username" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="admin-password">Password</label>
+          <input class="form-input" id="admin-password" name="password" type="password" autocomplete="current-password" required />
+        </div>
+        <p class="form-error" id="admin-login-error" role="alert"></p>
+        <div class="modal__footer" style="justify-content: flex-end;">
+          <button type="submit" class="btn btn--primary magnetic-btn" id="admin-login-submit">Sign In</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- ============ Scripts ============ -->
   <script src="js/shader.js"></script>
   <script src="js/main.js"></script>
   <script src="js/effects.js"></script>
+  <script src="js/admin.js"></script>
   <script src="js/projects.js"></script>
   <script src="js/beyond.js"></script>
   <script src="js/certifications.js"></script>

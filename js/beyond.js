@@ -239,10 +239,10 @@
     `;
 
     topActionsEl.innerHTML = `
-      <button type="button" class="btn btn--secondary magnetic-btn" id="beyond-btn-add-cat" style="padding: 7px 16px; font-size: 13px;">
+      <button type="button" class="btn btn--secondary magnetic-btn admin-only" id="beyond-btn-add-cat" style="padding: 7px 16px; font-size: 13px;">
         <span class="material-symbols-outlined" style="font-size: 16px;">create_new_folder</span> Add Category
       </button>
-      <button type="button" class="btn btn--primary magnetic-btn" id="beyond-btn-add-item" style="padding: 7px 18px; font-size: 13px;">
+      <button type="button" class="btn btn--primary magnetic-btn admin-only" id="beyond-btn-add-item" style="padding: 7px 18px; font-size: 13px;">
         <span class="material-symbols-outlined" style="font-size: 16px;">add</span> Add Item
       </button>
     `;
@@ -262,7 +262,7 @@
           <p class="beyond-empty-state__desc">
             Start building your "Beyond the Resume" collection by adding your books, workshops, certifications, or personal activities.
           </p>
-          <button type="button" class="btn btn--primary magnetic-btn" id="btn-empty-add-item" style="padding: 10px 24px;">
+          <button type="button" class="btn btn--primary magnetic-btn admin-only" id="btn-empty-add-item" style="padding: 10px 24px;">
             <span class="material-symbols-outlined">add</span> Add Your First Item
           </button>
         </div>
@@ -462,7 +462,7 @@
       <button type="button" class="btn btn--secondary magnetic-btn" id="beyond-btn-back-cats" style="padding: 7px 14px; font-size: 13px;">
         <span class="material-symbols-outlined" style="font-size: 16px;">arrow_back</span> Back
       </button>
-      <button type="button" class="btn btn--primary magnetic-btn" id="beyond-btn-add-item-cat" style="padding: 7px 18px; font-size: 13px;">
+      <button type="button" class="btn btn--primary magnetic-btn admin-only" id="beyond-btn-add-item-cat" style="padding: 7px 18px; font-size: 13px;">
         <span class="material-symbols-outlined" style="font-size: 16px;">add</span> Add ${escapeHtml(catName)}
       </button>
     `;
@@ -478,7 +478,7 @@
           </div>
           <h3 class="beyond-empty-state__title">No items in ${escapeHtml(catName)}</h3>
           <p class="beyond-empty-state__desc">Add your first entry under this category.</p>
-          <button type="button" class="btn btn--primary magnetic-btn" id="btn-empty-add-cat-item" style="padding: 10px 24px;">
+          <button type="button" class="btn btn--primary magnetic-btn admin-only" id="btn-empty-add-cat-item" style="padding: 10px 24px;">
             <span class="material-symbols-outlined">add</span> Add ${escapeHtml(catName)} Entry
           </button>
         </div>
@@ -602,7 +602,7 @@
             </a>
           ` : '<div></div>'}
 
-          <div class="beyond-detail__admin-actions">
+          <div class="beyond-detail__admin-actions admin-only">
             <button type="button" class="btn btn--secondary magnetic-btn" id="btn-edit-item" style="padding: 8px 18px; font-size: 13px;">
               <span class="material-symbols-outlined" style="font-size: 16px;">edit</span> Edit
             </button>
@@ -756,7 +756,7 @@
     `).join('');
 
     viewContainer.innerHTML = `
-      <form class="beyond-form" id="beyond-item-form">
+      <form class="beyond-form admin-only" id="beyond-item-form">
         <div id="beyond-form-error" class="form-error"></div>
 
         <div class="beyond-form-grid-2">
@@ -1210,7 +1210,7 @@
     document.getElementById('picker-cancel')?.addEventListener('click', navigateToCategories);
 
     const pickerCards = PREDEFINED_CATEGORIES.map(c => `
-      <div class="beyond-quick-cat-btn" data-cat="${c.name}">
+      <div class="beyond-quick-cat-btn admin-only" data-cat="${c.name}">
         <span class="material-symbols-outlined">${c.icon}</span>
         <span>${c.emoji} ${c.name}</span>
       </div>
@@ -1228,11 +1228,11 @@
         ${pickerCards}
       </div>
 
-      <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 24px; margin-top: 16px;">
+      <div class="admin-only" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); padding: 24px; margin-top: 16px;">
         <h4 style="font-family: var(--font-headline); font-size: 16px; margin-bottom: 12px; color: var(--text-primary);">Or create a Custom Category:</h4>
         <div style="display: flex; gap: 12px; max-width: 500px;">
           <input type="text" id="picker-custom-input" class="form-input" placeholder="e.g. Certifications, Volunteering, Travel" />
-          <button type="button" class="btn btn--primary magnetic-btn" id="picker-custom-btn" style="padding: 10px 20px; white-space: nowrap;">
+          <button type="button" class="btn btn--primary magnetic-btn admin-only" id="picker-custom-btn" style="padding: 10px 20px; white-space: nowrap;">
             Create
           </button>
         </div>
