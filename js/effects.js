@@ -68,6 +68,22 @@
         btn.style.transform = 'translate(0px, 0px)';
       });
     });
+
+    document.querySelectorAll('.metal-btn').forEach((btn) => {
+      btn.addEventListener('pointermove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+        btn.style.setProperty('--metal-x', `${x}%`);
+        btn.style.setProperty('--metal-y', `${y}%`);
+      });
+
+      btn.addEventListener('pointerleave', () => {
+        btn.style.removeProperty('--metal-x');
+        btn.style.removeProperty('--metal-y');
+      });
+    });
   }
 
   // ---- Data Stream Particles ----
