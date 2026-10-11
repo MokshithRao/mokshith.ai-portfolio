@@ -42,6 +42,8 @@
   // ---- Smooth Scroll for Nav Links ----
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', function (e) {
+      if (this.hasAttribute('data-open-resume')) return;
+
       const targetId = this.getAttribute('href');
       if (targetId === '#') return;
 
@@ -122,6 +124,19 @@
       document.body.style.overflow = 'hidden';
     }
   };
+
+  document.querySelectorAll('[data-open-resume]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (mobileMenu && mobileMenu.classList.contains('active')) {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+      window.openModal('resume-viewer');
+      document.querySelector('#resume-viewer .modal__close')?.focus();
+    });
+  });
 
   window.closeModal = function (id) {
     const modal = document.getElementById(id);

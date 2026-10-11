@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mokshith Rao — AI/ML Engineer</title>
-  <meta name="description" content="Mokshith Rao is an AI/ML engineer and IIIT Hyderabad data science graduate building applied machine learning and LLM applications." />
+  <title>Mokshith Rao — AI/ML & Software Engineer</title>
+  <meta name="description" content="Mokshith Rao is an AI/ML and software engineer, and an IIIT Hyderabad data science graduate building machine-learning applications, APIs, and backend systems." />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -42,7 +42,7 @@
       <button type="button" class="nav__admin-button admin-only" id="admin-logout-button" aria-label="Log out of admin" title="Log out">
         <span class="material-symbols-outlined" aria-hidden="true">logout</span>
       </button>
-      <a href="assets/Mokshith_Resume.pdf" class="nav__cta magnetic-btn" download="K_V_Mokshith_Rao_Resume.pdf">Resume</a>
+      <a href="#resume-viewer" class="nav__cta magnetic-btn" data-open-resume>View Resume</a>
 
       <button class="nav__mobile-toggle" id="mobile-toggle" aria-label="Toggle Menu">
         <span class="material-symbols-outlined" style="font-size: 24px;">menu</span>
@@ -60,6 +60,7 @@
     <a href="#work" class="mobile-menu__link">Projects</a>
     <a href="#portfolio-highlights" class="mobile-menu__link">Certifications</a>
     <a href="#contact" class="mobile-menu__link">Contact</a>
+    <a href="#resume-viewer" class="mobile-menu__link" data-open-resume>View Resume</a>
   </div>
 
   <!-- ============ Main Content ============ -->
@@ -69,19 +70,19 @@
     <section class="hero container" id="hero">
       <div class="hero__grid" id="hero-content">
         <div class="hero__content">
-          <p class="text-label-caps hero__label">AI / ML ENGINEER · HYDERABAD, INDIA</p>
+          <p class="text-label-caps hero__label">AI / ML & SOFTWARE ENGINEER · HYDERABAD, INDIA</p>
 
           <h1 class="text-display hero__title">
-            Applied AI, from model to product.
+            Applied AI, built with strong software engineering.
           </h1>
 
           <p class="text-body-lg hero__desc">
-            I’m Mokshith Rao, an AI/ML engineer and IIIT Hyderabad data science graduate. I build practical NLP and LLM applications, from model adaptation and retrieval pipelines to APIs and usable interfaces.
+            I’m Mokshith Rao, an AI/ML and software engineer and an IIIT Hyderabad data science graduate. I build end-to-end applications across machine learning, backend APIs, and full-stack development—and I’m open to both AI/ML and software development engineering roles.
           </p>
 
           <div class="hero__actions">
             <a href="#work" class="btn btn--primary">Selected projects <span aria-hidden="true">↘</span></a>
-            <a href="assets/Mokshith_Resume.pdf" class="hero__resume-link" download="K_V_Mokshith_Rao_Resume.pdf">Download résumé <span aria-hidden="true">↓</span></a>
+            <a href="assets/Mokshith_Resume.pdf" class="hero__resume-link" download="K_V_Mokshith_Rao_Resume.pdf">Download Resume <span aria-hidden="true">↓</span></a>
           </div>
         </div>
 
@@ -104,18 +105,18 @@
       <div class="about__grid">
         <div>
           <div class="section-header">
-            <p class="text-label-caps section-kicker">A little context</p>
-            <h2 class="text-headline-md section-header__title">Engineering first. AI where it helps.</h2>
+            <p class="text-label-caps section-kicker">How I work</p>
+            <h2 class="text-headline-md section-header__title">Software foundations. Applied AI.</h2>
             <div class="section-header__line"></div>
           </div>
         </div>
 
         <div class="about__text">
           <p class="text-body-md">
-            I completed my M.S. in Data Science at IIIT Hyderabad after earning a B.Tech in Computer Science (AI & ML). My projects sit at the intersection of machine learning and software engineering: train or adapt a model, make it accessible through an API, and build a usable application around it.
+            I completed my M.S. in Data Science at IIIT Hyderabad after earning a B.Tech in Computer Science (AI & ML). I enjoy building software end to end: designing APIs and backend services, working with data, and delivering interfaces people can use.
           </p>
           <p class="text-body-md">
-            I’m particularly interested in applied NLP and LLM systems. Recent work includes fine-tuning LegalBERT with LoRA/PEFT, building a retrieval-augmented contract workflow, and serving AI features with FastAPI and Streamlit.
+            I also work on applied NLP and LLM systems. Recent projects include fine-tuning LegalBERT with LoRA/PEFT, building a retrieval-augmented contract workflow, and serving AI features through FastAPI and Streamlit. I’m open to software development engineering roles as well as AI/ML roles.
           </p>
 
           <!-- Education Timeline -->
@@ -129,14 +130,14 @@
               <div class="timeline__item">
                 <div class="timeline__node"></div>
                 <h4 class="timeline__title">IIIT Hyderabad</h4>
-                <p class="text-body-md timeline__subtitle">M.S. in Data Science · GPA 8.0/10</p>
+                <p class="text-body-md timeline__subtitle">M.S. in Data Science · GPA 8.6/10</p>
                 <span class="text-mono timeline__date">Completed · 2024–2026 · Hyderabad</span>
               </div>
 
               <div class="timeline__item">
                 <div class="timeline__node"></div>
                 <h4 class="timeline__title">CMR Institute of Technology</h4>
-                <p class="text-body-md timeline__subtitle">B.Tech in Computer Science (AI & ML) · GPA 7.0/10</p>
+                <p class="text-body-md timeline__subtitle">B.Tech in Computer Science (AI & ML) · GPA 7.7/10</p>
                 <span class="text-mono timeline__date">2020–2024 · Hyderabad</span>
               </div>
             </div>
@@ -171,7 +172,6 @@
             <h2 class="text-headline-md section-header__title">Selected projects</h2>
             <div class="section-header__line"></div>
           </div>
-          <p class="projects__intro">Two projects are featured here for now. I’ll add more as they’re ready to show.</p>
         </div>
         <div class="projects__actions">
           <button class="btn--add-project magnetic-btn admin-only" id="btn-open-add-project" aria-label="Add Project">
@@ -266,12 +266,12 @@
     <section class="section container fade-in-section contact" id="contact">
       <div class="contact__bg-glow"></div>
       <p class="text-label-caps section-kicker">Get in touch</p>
-      <h2 class="contact__title">Open to AI / ML engineering roles.</h2>
+      <h2 class="contact__title">Open to AI / ML and software engineering roles.</h2>
       <p class="text-body-lg contact__desc">
-        If you’re working on applied machine learning or LLM products, I’d be glad to talk.
+        I’m interested in opportunities across applied AI/ML and software development, especially roles involving backend systems, APIs, and useful products.
       </p>
       <div class="contact__actions">
-        <a href="assets/Mokshith_Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn--primary magnetic-btn metal-btn" download="K_V_Mokshith_Rao_Resume.pdf">
+        <a href="assets/Mokshith_Resume.pdf" class="btn btn--primary magnetic-btn metal-btn" download="K_V_Mokshith_Rao_Resume.pdf">
           <span class="material-symbols-outlined" style="font-size: 18px;">download</span>
           Download Resume
         </a>
@@ -296,6 +296,23 @@
       </div>
     </div>
   </footer>
+
+  <!-- Modal: Resume Viewer -->
+  <div class="modal-overlay" id="resume-viewer">
+    <section class="modal resume-viewer-modal" role="dialog" aria-labelledby="resume-viewer-title" aria-modal="true">
+      <button type="button" class="modal__close" aria-label="Close resume viewer">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+      <div class="resume-viewer-modal__header">
+        <h2 id="resume-viewer-title">Resume</h2>
+        <a href="assets/Mokshith_Resume.pdf" class="btn btn--secondary" download="K_V_Mokshith_Rao_Resume.pdf">
+          <span class="material-symbols-outlined" aria-hidden="true">download</span>
+          Download
+        </a>
+      </div>
+      <iframe src="assets/Mokshith_Resume.pdf#view=FitH&toolbar=0&navpanes=0" title="Mokshith Rao resume"></iframe>
+    </section>
+  </div>
 
   <!-- ============ Modals ============ -->
 
