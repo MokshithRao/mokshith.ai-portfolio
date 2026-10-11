@@ -1,7 +1,7 @@
 [
   {
     "id": "project-1788246315228-p7ac",
-    "name": "SafeText AI — Cyberbullying Detection System",
+    "name": "SafeText AI: Cyberbullying Detection System",
     "description": "An AI-powered system that detects cyberbullying and toxic content in text, compares predictions across multiple models, and provides real-time classification with confidence scores through an interactive application.",
     "github": "https://github.com/MokshithRao/SafeText_AI-Cyberbullying_Detection_System",
     "tags": [

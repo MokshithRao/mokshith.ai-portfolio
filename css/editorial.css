@@ -1522,6 +1522,24 @@ html[data-theme='dark'] .cert-pdf-viewer-box {
   color: var(--text-primary);
 }
 
+html[data-theme='dark'] .beyond-item-card__photo-badge,
+html[data-theme='dark'] .beyond-item-card__status-badge,
+html[data-theme='dark'] .cert-card__badge-count,
+html[data-theme='dark'] .cert-card__badge-date,
+html[data-theme='dark'] .cert-tag {
+  border-color: var(--border-subtle);
+  background: rgba(21, 26, 22, 0.94);
+  color: var(--text-primary);
+}
+
+html[data-theme='dark'] .cert-tag--ai,
+html[data-theme='dark'] .cert-tag--data,
+html[data-theme='dark'] .cert-tag--cloud,
+html[data-theme='dark'] .cert-tag--code {
+  border-color: var(--primary-border);
+  color: var(--primary);
+}
+
 html[data-theme='dark'] .cert-pdf-open-btn:hover,
 html[data-theme='dark'] .cert-pdf-download-btn:hover,
 html[data-theme='dark'] .certs-filter-chip:hover,

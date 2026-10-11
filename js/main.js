@@ -1,5 +1,5 @@
 /* ============================================================
-   Main — Intersection Observer, Navigation, Modals
+   Main: Intersection Observer, Navigation, Modals
    ============================================================ */
 
 (function () {

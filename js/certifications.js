@@ -1,5 +1,5 @@
 /* ============================================================
-   CERTIFICATIONS — Data-driven Portfolio Certification System
+   CERTIFICATIONS: Data-driven Portfolio Certification System
    Handles category filtering, certificate cards gallery, multi-image
    detail carousel, certificate verification links, and CRUD management.
    ============================================================ */
