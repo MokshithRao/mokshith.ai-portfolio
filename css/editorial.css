@@ -33,6 +33,32 @@
   --radius-lg: 4px;
 }
 
+html[data-theme='dark'] {
+  color-scheme: dark;
+  --bg-void: #151a16;
+  --bg-surface: #1d241f;
+  --bg-elevated: #232c26;
+  --bg-container: #1d241f;
+  --bg-container-low: #252e28;
+  --bg-container-high: #303a33;
+  --bg-container-highest: #3b463e;
+  --primary: #8db99a;
+  --primary-light: #8db99a;
+  --primary-container: #365b4b;
+  --primary-glow: rgba(141, 185, 154, 0.14);
+  --primary-subtle: rgba(141, 185, 154, 0.12);
+  --primary-border: rgba(141, 185, 154, 0.32);
+  --text-primary: #edf1ec;
+  --text-secondary: #c1cbc2;
+  --text-muted: #9ba89d;
+  --text-faint: #849187;
+  --border-subtle: rgba(222, 233, 224, 0.16);
+  --border-default: #3a453d;
+  --border-hover: #64736a;
+  --chip-bg: #27372c;
+  --chip-text: #a7d1b2;
+}
+
 html {
   scroll-padding-top: 84px;
 }
@@ -57,8 +83,9 @@ main {
   border: 0;
   border-bottom: 1px solid var(--border-subtle);
   border-radius: 0;
-  background: rgba(245, 244, 239, 0.96);
+  background: var(--bg-void);
   box-shadow: none;
+  transition: border-color 180ms ease;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
@@ -126,6 +153,10 @@ main {
   border-color: var(--primary);
   background: var(--primary-subtle);
   color: var(--primary);
+}
+
+.theme-toggle--mobile {
+  display: none;
 }
 
 .nav__mobile-toggle {
@@ -1291,8 +1322,13 @@ button:focus-visible,
   }
 
   .nav__links,
-  .nav__cta {
+  .nav__cta,
+  .theme-toggle--nav {
     display: none !important;
+  }
+
+  .theme-toggle--mobile {
+    display: inline-flex;
   }
 
   .hero {
@@ -1431,4 +1467,84 @@ button:focus-visible,
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+.theme-toggle--mobile {
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+}
+
+.theme-toggle--mobile:hover {
+  border-color: var(--primary);
+  background: var(--primary-subtle);
+  color: var(--primary);
+}
+
+html[data-theme='dark'] .btn--primary,
+html[data-theme='dark'] .metal-btn {
+  color: #152018;
+  text-shadow: none;
+}
+
+html[data-theme='dark'] .btn--primary:hover,
+html[data-theme='dark'] .metal-btn:hover {
+  background: #a1c9aa;
+  color: #152018;
+}
+
+html[data-theme='dark'] .beyond-categories-grid .beyond-cat-card,
+html[data-theme='dark'] .beyond-items-grid .beyond-item-card,
+html[data-theme='dark'] .certs-grid .cert-card,
+html[data-theme='dark'] .beyond-categories-grid .beyond-cat-card:hover,
+html[data-theme='dark'] .beyond-items-grid .beyond-item-card:hover,
+html[data-theme='dark'] .certs-grid .cert-card:hover,
+html[data-theme='dark'] .cert-card__body,
+html[data-theme='dark'] .cert-pdf-open-btn,
+html[data-theme='dark'] .cert-pdf-download-btn,
+html[data-theme='dark'] .certs-filter-chip,
+html[data-theme='dark'] .cert-carousel__btn,
+html[data-theme='dark'] .beyond-carousel__nav-btn,
+html[data-theme='dark'] .cert-carousel__btn:hover,
+html[data-theme='dark'] .beyond-carousel__nav-btn:hover,
+html[data-theme='dark'] .modal__close,
+html[data-theme='dark'] .form-input,
+html[data-theme='dark'] .form-textarea,
+html[data-theme='dark'] .modal__tag,
+html[data-theme='dark'] .cert-pdf-viewer-box {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+html[data-theme='dark'] .cert-pdf-open-btn:hover,
+html[data-theme='dark'] .cert-pdf-download-btn:hover,
+html[data-theme='dark'] .certs-filter-chip:hover,
+html[data-theme='dark'] .cert-carousel__btn:hover,
+html[data-theme='dark'] .beyond-carousel__nav-btn:hover,
+html[data-theme='dark'] .modal__close:hover {
+  background-color: var(--bg-container-high);
+  color: var(--primary);
+}
+
+html[data-theme='dark'] .cert-carousel__btn,
+html[data-theme='dark'] .beyond-carousel__nav-btn,
+html[data-theme='dark'] .cert-pdf-open-btn,
+html[data-theme='dark'] .cert-pdf-download-btn,
+html[data-theme='dark'] .certs-filter-chip,
+html[data-theme='dark'] .modal__close {
+  border-color: var(--border-subtle);
+}
+
+html[data-theme='dark'] .cert-pdf-header-bar {
+  background: var(--bg-container-low);
+}
+
+html[data-theme='dark'] .resume-viewer-modal iframe {
+  background: #fff;
 }

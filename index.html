@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,6 +16,12 @@
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+  <script>
+    if (localStorage.getItem('portfolio-theme') === 'dark') {
+      document.documentElement.dataset.theme = 'dark';
+    }
+  </script>
 
   <!-- Styles -->
   <link rel="stylesheet" href="css/styles.css" />
@@ -42,6 +48,9 @@
       <button type="button" class="nav__admin-button admin-only" id="admin-logout-button" aria-label="Log out of admin" title="Log out">
         <span class="material-symbols-outlined" aria-hidden="true">logout</span>
       </button>
+      <button type="button" class="nav__admin-button theme-toggle theme-toggle--nav" aria-label="Switch to dark mode" title="Switch to dark mode" aria-pressed="false">
+        <span class="material-symbols-outlined" aria-hidden="true">dark_mode</span>
+      </button>
       <a href="#resume-viewer" class="nav__cta magnetic-btn" data-open-resume>View Resume</a>
 
       <button class="nav__mobile-toggle" id="mobile-toggle" aria-label="Toggle Menu">
@@ -61,6 +70,10 @@
     <a href="#portfolio-highlights" class="mobile-menu__link">Certifications</a>
     <a href="#contact" class="mobile-menu__link">Contact</a>
     <a href="#resume-viewer" class="mobile-menu__link" data-open-resume>View Resume</a>
+    <button type="button" class="theme-toggle theme-toggle--mobile" aria-label="Switch to dark mode" aria-pressed="false">
+      <span class="material-symbols-outlined" aria-hidden="true">dark_mode</span>
+      <span class="theme-toggle__label">Dark mode</span>
+    </button>
   </div>
 
   <!-- ============ Main Content ============ -->
