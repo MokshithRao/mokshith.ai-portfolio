@@ -705,6 +705,46 @@ main {
   margin-bottom: 4px;
 }
 
+.ask-ai .section-header {
+  margin-bottom: 28px;
+}
+
+.ask-ai .terminal {
+  max-width: none;
+  border-color: var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  box-shadow: none;
+  outline: 0;
+}
+
+.ask-ai .terminal__header {
+  background: var(--bg-container-low);
+}
+
+.ask-ai .terminal__body {
+  min-height: 0;
+  gap: 20px;
+}
+
+.ask-ai .terminal__msg-label,
+.ask-ai .terminal__msg-text .prompt {
+  color: var(--primary);
+}
+
+.ask-ai .terminal__msg-text p + p {
+  margin-top: 12px;
+}
+
+.ask-ai .terminal__input--disabled {
+  border-color: var(--border-subtle);
+  background: var(--bg-container-low);
+}
+
+.ask-ai .terminal__input-placeholder {
+  color: var(--text-muted);
+}
+
 .feature-teasers-section {
   padding-top: 72px;
   padding-bottom: 80px;

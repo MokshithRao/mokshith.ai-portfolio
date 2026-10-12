@@ -39,6 +39,7 @@
         <a href="#skills" class="nav__link magnetic-btn" data-target="skills">Skills</a>
         <a href="#work" class="nav__link magnetic-btn" data-target="work">Projects</a>
         <a href="#portfolio-highlights" class="nav__link magnetic-btn" data-target="portfolio-highlights">Certifications</a>
+        <a href="#ask-ai" class="nav__link magnetic-btn" data-target="ask-ai">Ask my AI</a>
         <a href="#contact" class="nav__link magnetic-btn" data-target="contact">Contact</a>
       </div>
 
@@ -68,6 +69,7 @@
     <a href="#skills" class="mobile-menu__link">Skills</a>
     <a href="#work" class="mobile-menu__link">Projects</a>
     <a href="#portfolio-highlights" class="mobile-menu__link">Certifications</a>
+    <a href="#ask-ai" class="mobile-menu__link">Ask my AI</a>
     <a href="#contact" class="mobile-menu__link">Contact</a>
     <a href="#resume-viewer" class="mobile-menu__link" data-open-resume>View Resume</a>
     <button type="button" class="theme-toggle theme-toggle--mobile" aria-label="Switch to dark mode" aria-pressed="false">
@@ -95,6 +97,7 @@
 
           <div class="hero__actions">
             <a href="#work" class="btn btn--primary">Selected projects <span aria-hidden="true">↘</span></a>
+            <a href="#ask-ai" class="hero__resume-link">Talk to my AI <span aria-hidden="true">↘</span></a>
             <a href="assets/Mokshith_Resume.pdf" class="hero__resume-link" download="K_V_Mokshith_Rao_Resume.pdf">Download Resume <span aria-hidden="true">↓</span></a>
           </div>
         </div>
@@ -198,6 +201,41 @@
 
       <div class="projects__grid" id="projects-container">
         <!-- Projects rendered dynamically by js/projects.js from data/projects.json -->
+      </div>
+    </section>
+
+    <!-- ======== Ask AI Section ======== -->
+    <section class="section container fade-in-section ask-ai" id="ask-ai" aria-labelledby="ask-ai-title">
+      <div class="section-header">
+        <p class="text-label-caps section-kicker">In development</p>
+        <h2 class="text-headline-md section-header__title" id="ask-ai-title">Ask my AI</h2>
+        <div class="section-header__line"></div>
+      </div>
+      <div class="terminal">
+        <div class="terminal__header">
+          <div class="terminal__title">
+            <span class="material-symbols-outlined" aria-hidden="true">smart_toy</span>
+            assistant@mokshith.ai
+          </div>
+          <div class="terminal__status">
+            <span class="terminal__status-dot" aria-hidden="true"></span>
+            <span class="terminal__status-text">Coming soon</span>
+          </div>
+        </div>
+        <div class="terminal__body">
+          <div class="terminal__messages">
+            <div class="terminal__msg-label">[ASSISTANT STATUS]</div>
+            <div class="terminal__msg-text">
+              <p><span class="prompt">&gt;</span> My AI assistant is in development.</p>
+              <p>Soon, you’ll be able to ask about my experience, skills, and projects. I’m planning to ground its answers in my portfolio and explore connecting it to public GitHub and web sources.</p>
+              <p class="typing-cursor">Stay tuned.</p>
+            </div>
+          </div>
+          <div class="terminal__input terminal__input--disabled" aria-disabled="true">
+            <span class="terminal__input-prompt" aria-hidden="true">&gt;</span>
+            <span class="terminal__input-placeholder">AI assistant coming soon...</span>
+          </div>
+        </div>
       </div>
     </section>
 
