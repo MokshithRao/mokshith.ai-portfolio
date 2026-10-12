@@ -1,7 +1,7 @@
 [
   {
     "id": "project-1788246315228-p7ac",
-    "name": "SafeText AI — Cyberbullying Detection System",
+    "name": "SafeText AI: Cyberbullying Detection System",
     "description": "An AI-powered system that detects cyberbullying and toxic content in text, compares predictions across multiple models, and provides real-time classification with confidence scores through an interactive application.",
     "github": "https://github.com/MokshithRao/SafeText_AI-Cyberbullying_Detection_System",
     "tags": [
@@ -22,7 +22,7 @@
   {
     "id": "project-1788245807801-l2al",
     "name": "AI Contract Intelligence System",
-    "description": "An AI-powered system for analyzing legal contracts, detecting potentially risky clauses, and generating clearer, fairer alternatives. It combines automated clause analysis with context-aware retrieval to assist users in reviewing and improving contract languag.",
+    "description": "A full-stack contract review app that detects risky clauses and drafts clearer rewrites. I fine-tuned LegalBERT with LoRA and PEFT on roughly 13,000 CUAD annotations across 49 clause categories; the classifier reached about 70% accuracy and a 0.65 F1 score. A retrieval-augmented workflow adds context to review, with FastAPI services and a Streamlit interface.",
     "github": "https://github.com/MokshithRao/AI_Contract_Intelligence_System-Clause_Detection_-_LLM-Based_Rewriting-",
     "tags": [
       "LegalBERT",

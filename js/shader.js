@@ -51,7 +51,7 @@
     }
   `;
 
-  // Fragment Shader — Neural grid with subtle cursor interaction
+  // Fragment Shader: Neural grid with subtle cursor interaction
   const fsSource = `
     precision highp float;
     varying vec2 v_texCoord;
@@ -115,7 +115,7 @@
         particles += smoothstep(0.004, 0.0, d) * (0.5 + 0.5 * sin(u_time * 2.0 + i));
       }
 
-      // Colors — kept subtle
+      // Colors: kept subtle
       vec3 obsidian = vec3(0.03, 0.03, 0.04);
       vec3 primary = vec3(0.23, 0.51, 0.96);
       vec3 accent = vec3(0.48, 0.24, 0.92);
@@ -150,7 +150,7 @@
   gl.linkProgram(program);
   gl.useProgram(program);
 
-  // Geometry — fullscreen quad
+  // Geometry: fullscreen quad
   const buffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);

@@ -1,5 +1,5 @@
 /* ============================================================
-   BEYOND THE RESUME — Interactive Experience System
+   BEYOND THE RESUME: Interactive Experience System
    Handles dynamic categories, nested collections, multi-image
    Instagram-style carousel, image uploads, and CRUD operations.
    ============================================================ */

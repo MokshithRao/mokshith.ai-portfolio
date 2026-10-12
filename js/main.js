@@ -1,9 +1,38 @@
 /* ============================================================
-   Main — Intersection Observer, Navigation, Modals
+   Main: Intersection Observer, Navigation, Modals
    ============================================================ */
 
 (function () {
   'use strict';
+
+  // ---- Color Theme ----
+  const themeToggles = document.querySelectorAll('.theme-toggle');
+  const savedTheme = localStorage.getItem('portfolio-theme');
+  const initialTheme = savedTheme === 'dark' ? 'dark' : 'light';
+
+  function setTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    localStorage.setItem('portfolio-theme', theme);
+
+    themeToggles.forEach((toggle) => {
+      const isDark = theme === 'dark';
+      const label = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+      toggle.setAttribute('aria-label', label);
+      toggle.setAttribute('title', label);
+      toggle.setAttribute('aria-pressed', String(isDark));
+      toggle.querySelector('.material-symbols-outlined').textContent = isDark ? 'light_mode' : 'dark_mode';
+
+      const visibleLabel = toggle.querySelector('.theme-toggle__label');
+      if (visibleLabel) visibleLabel.textContent = isDark ? 'Light mode' : 'Dark mode';
+    });
+  }
+
+  setTheme(initialTheme);
+  themeToggles.forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+    });
+  });
 
   // ---- Intersection Observer: Fade-in Sections ----
   document.addEventListener('DOMContentLoaded', () => {
@@ -42,6 +71,8 @@
   // ---- Smooth Scroll for Nav Links ----
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', function (e) {
+      if (this.hasAttribute('data-open-resume')) return;
+
       const targetId = this.getAttribute('href');
       if (targetId === '#') return;
 
@@ -122,6 +153,19 @@
       document.body.style.overflow = 'hidden';
     }
   };
+
+  document.querySelectorAll('[data-open-resume]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (mobileMenu && mobileMenu.classList.contains('active')) {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+      window.openModal('resume-viewer');
+      document.querySelector('#resume-viewer .modal__close')?.focus();
+    });
+  });
 
   window.closeModal = function (id) {
     const modal = document.getElementById(id);

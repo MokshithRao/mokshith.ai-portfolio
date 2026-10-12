@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mokshith.AI | K.V. Mokshith Rao — AI/ML Engineer</title>
-  <meta name="description" content="Portfolio of K.V. Mokshith Rao — AI/ML Engineer specializing in Generative AI, LLMs, RAG systems, and scalable backend services. M.S. Data Science, IIIT Hyderabad." />
+  <title>Mokshith Rao | AI/ML & Software Engineer</title>
+  <meta name="description" content="Mokshith Rao is an AI/ML and software engineer, and an IIIT Hyderabad data science graduate building machine-learning applications, APIs, and backend systems." />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Material Symbols -->
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
@@ -17,20 +17,18 @@
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 
+  <script>
+    if (localStorage.getItem('portfolio-theme') === 'dark') {
+      document.documentElement.dataset.theme = 'dark';
+    }
+  </script>
+
   <!-- Styles -->
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/editorial.css" />
 </head>
 
 <body>
-  <!-- ============ Cursor Glow ============ -->
-  <div id="cursor-glow"></div>
-
-  <!-- ============ WebGL Shader Background ============ -->
-  <div id="shader-bg">
-    <canvas id="shader-canvas"></canvas>
-  </div>
-  <div class="shader-overlay"></div>
-
   <!-- ============ Navigation ============ -->
   <nav class="nav" id="main-nav" aria-label="Main Navigation">
     <div class="nav__inner">
@@ -39,7 +37,7 @@
       <div class="nav__links">
         <a href="#about" class="nav__link magnetic-btn" data-target="about">About</a>
         <a href="#skills" class="nav__link magnetic-btn" data-target="skills">Skills</a>
-        <a href="#work" class="nav__link magnetic-btn" data-target="work">Work</a>
+        <a href="#work" class="nav__link magnetic-btn" data-target="work">Projects</a>
         <a href="#portfolio-highlights" class="nav__link magnetic-btn" data-target="portfolio-highlights">Certifications</a>
         <a href="#contact" class="nav__link magnetic-btn" data-target="contact">Contact</a>
       </div>
@@ -50,7 +48,10 @@
       <button type="button" class="nav__admin-button admin-only" id="admin-logout-button" aria-label="Log out of admin" title="Log out">
         <span class="material-symbols-outlined" aria-hidden="true">logout</span>
       </button>
-      <a href="#ask-ai" class="nav__cta magnetic-btn metal-btn">Talk to MY AI</a>
+      <button type="button" class="nav__admin-button theme-toggle theme-toggle--nav" aria-label="Switch to dark mode" title="Switch to dark mode" aria-pressed="false">
+        <span class="material-symbols-outlined" aria-hidden="true">dark_mode</span>
+      </button>
+      <a href="#resume-viewer" class="nav__cta magnetic-btn" data-open-resume>View Resume</a>
 
       <button class="nav__mobile-toggle" id="mobile-toggle" aria-label="Toggle Menu">
         <span class="material-symbols-outlined" style="font-size: 24px;">menu</span>
@@ -65,50 +66,47 @@
     </button>
     <a href="#about" class="mobile-menu__link">About</a>
     <a href="#skills" class="mobile-menu__link">Skills</a>
-    <a href="#work" class="mobile-menu__link">Work</a>
+    <a href="#work" class="mobile-menu__link">Projects</a>
     <a href="#portfolio-highlights" class="mobile-menu__link">Certifications</a>
     <a href="#contact" class="mobile-menu__link">Contact</a>
+    <a href="#resume-viewer" class="mobile-menu__link" data-open-resume>View Resume</a>
+    <button type="button" class="theme-toggle theme-toggle--mobile" aria-label="Switch to dark mode" aria-pressed="false">
+      <span class="material-symbols-outlined" aria-hidden="true">dark_mode</span>
+      <span class="theme-toggle__label">Dark mode</span>
+    </button>
   </div>
 
   <!-- ============ Main Content ============ -->
-  <main style="position: relative; z-index: 10;">
+  <main>
 
     <!-- ======== Hero Section ======== -->
     <section class="hero container" id="hero">
       <div class="hero__grid" id="hero-content">
         <div class="hero__content">
-          <p class="text-label-caps hero__label entrance-anim">
-            Kasuganti Venkata Mokshith Rao
-          </p>
+          <p class="text-label-caps hero__label">AI / ML & SOFTWARE ENGINEER · HYDERABAD, INDIA</p>
 
-          <h1 class="text-display hero__title entrance-anim entrance-anim-delay-1">
-            Building Intelligent Systems That Turn Ideas Into Products.
+          <h1 class="text-display hero__title">
+            Applied AI, built with strong software engineering.
           </h1>
 
-          <p class="text-body-lg hero__desc entrance-anim entrance-anim-delay-2">
-            AI/ML Engineer focused on Generative AI, Large Language Models, and software development. I enjoy building practical AI-powered applications and turning ideas into products that solve real problems.
+          <p class="text-body-lg hero__desc">
+            I’m Mokshith Rao, an AI/ML and software engineer and an IIIT Hyderabad data science graduate. I build end-to-end applications across machine learning, backend APIs, and full-stack development. I’m open to both AI/ML and software development engineering roles.
           </p>
 
-          <div class="hero__actions entrance-anim entrance-anim-delay-3">
-            <a href="#work" class="btn btn--secondary magnetic-btn">Explore My Work</a>
-            <a href="#ask-ai" class="btn btn--primary magnetic-btn metal-btn">Talk to My AI</a>
+          <div class="hero__actions">
+            <a href="#work" class="btn btn--primary">Selected projects <span aria-hidden="true">↘</span></a>
+            <a href="assets/Mokshith_Resume.pdf" class="hero__resume-link" download="K_V_Mokshith_Rao_Resume.pdf">Download Resume <span aria-hidden="true">↓</span></a>
           </div>
         </div>
 
-        <div class="hero__visual entrance-anim entrance-anim-delay-2">
-          <div class="hero__image-card tilt-card">
-            <div class="hero__image-glow"></div>
+        <div class="hero__visual">
+          <div class="hero__image-card">
             <div class="hero__image-frame">
               <img src="assets/My_photo.png" alt="Kasuganti Venkata Mokshith Rao" class="hero__image" />
-              <div class="hero__image-overlay"></div>
             </div>
-            <div class="hero__badge hero__badge--status">
-              <span class="hero__status-dot"></span>
-              <span class="text-mono">Open to AI/ML Roles</span>
-            </div>
-            <div class="hero__badge hero__badge--tag">
-              <span class="material-symbols-outlined" style="font-size: 16px; color: var(--primary-light);">psychology</span>
-              <span class="text-mono">GenAI & ML Engineer</span>
+            <div class="hero__caption">
+              <span>Education</span>
+              <span>M.S. in Data Science · IIIT Hyderabad · 2024–2026</span>
             </div>
           </div>
         </div>
@@ -120,20 +118,18 @@
       <div class="about__grid">
         <div>
           <div class="section-header">
-            <h2 class="text-headline-md section-header__title">About</h2>
+            <p class="text-label-caps section-kicker">How I work</p>
+            <h2 class="text-headline-md section-header__title">Software foundations. Applied AI.</h2>
             <div class="section-header__line"></div>
           </div>
         </div>
 
         <div class="about__text">
           <p class="text-body-md">
-            I’m K. V. Mokshith Rao, an AI/ML Engineer focused on Generative AI, Large Language Models, and intelligent software systems. I enjoy turning ideas into practical AI-powered applications that solve real-world problems.
+            I completed my M.S. in Data Science at IIIT Hyderabad after earning a B.Tech in Computer Science (AI & ML). I enjoy building software end to end: designing APIs and backend services, working with data, and delivering interfaces people can use.
           </p>
           <p class="text-body-md">
-            My work spans machine learning, LLMs, RAG, AI agents, and backend development, with an interest in building AI systems that are not just experimental, but useful, reliable, and ready for real-world applications.
-          </p>
-          <p class="text-body-md">
-            I’m continuously learning and experimenting with new technologies, and I’m open to opportunities where I can build, learn, and contribute to impactful AI solutions.
+            I also work on applied NLP and LLM systems. Recent projects include fine-tuning LegalBERT with LoRA/PEFT, building a retrieval-augmented contract workflow, and serving AI features through FastAPI and Streamlit. I’m open to software development engineering roles as well as AI/ML roles.
           </p>
 
           <!-- Education Timeline -->
@@ -145,17 +141,17 @@
               </div>
 
               <div class="timeline__item">
-                <div class="timeline__node timeline__node--current"></div>
+                <div class="timeline__node"></div>
                 <h4 class="timeline__title">IIIT Hyderabad</h4>
-                <p class="text-body-md timeline__subtitle">Master of Science in Data Science (MSDS)</p>
-                <span class="text-mono timeline__date">Completed</span>
+                <p class="text-body-md timeline__subtitle">M.S. in Data Science · GPA 8.6/10</p>
+                <span class="text-mono timeline__date">Completed · 2024–2026 · Hyderabad</span>
               </div>
 
               <div class="timeline__item">
                 <div class="timeline__node"></div>
                 <h4 class="timeline__title">CMR Institute of Technology</h4>
-                <p class="text-body-md timeline__subtitle">B.Tech in Computer Science - AI/ML Specialization</p>
-                <span class="text-mono timeline__date">Completed</span>
+                <p class="text-body-md timeline__subtitle">B.Tech in Computer Science (AI & ML) · GPA 7.7/10</p>
+                <span class="text-mono timeline__date">2020–2024 · Hyderabad</span>
               </div>
             </div>
           </div>
@@ -167,7 +163,8 @@
     <section class="section container fade-in-section" id="skills">
       <div class="skills__section-header">
         <div class="section-header">
-          <h2 class="text-headline-md section-header__title">Technical Expertise</h2>
+          <p class="text-label-caps section-kicker">The toolkit</p>
+          <h2 class="text-headline-md section-header__title">Tools I work with</h2>
           <div class="section-header__line"></div>
         </div>
         <button type="button" class="btn btn--primary magnetic-btn skills__add-btn admin-only" id="skills-add-group">
@@ -184,7 +181,8 @@
       <div class="projects__header">
         <div>
           <div class="section-header" style="margin-bottom: 0;">
-            <h2 class="text-headline-md section-header__title">Selected Work</h2>
+            <p class="text-label-caps section-kicker">A growing collection</p>
+            <h2 class="text-headline-md section-header__title">Selected projects</h2>
             <div class="section-header__line"></div>
           </div>
         </div>
@@ -203,68 +201,13 @@
       </div>
     </section>
 
-    <!-- ======== Transition Particles ======== -->
-    <div id="data-stream-container"></div>
-
-    <!-- ======== Ask AI Section ======== -->
-    <section class="section container fade-in-section ask-ai" id="ask-ai">
-      <div class="ask-ai__bg-glow"></div>
-      <div class="terminal">
-        <!-- Terminal Header -->
-        <div class="terminal__header">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <div class="terminal__dots">
-              <div class="terminal__dot terminal__dot--red"></div>
-              <div class="terminal__dot terminal__dot--yellow"></div>
-              <div class="terminal__dot terminal__dot--green"></div>
-            </div>
-            <div class="terminal__title">
-              <span class="material-symbols-outlined">terminal</span>
-              assistant@mokshith.ai:~
-            </div>
-          </div>
-          <div class="terminal__status">
-            <div class="terminal__status-dot"></div>
-            <span class="terminal__status-text">Assistant In Development</span>
-          </div>
-        </div>
-
-        <!-- Terminal Body -->
-        <div class="terminal__body">
-          <div class="terminal__body-gradient"></div>
-          <div class="terminal__messages">
-            <div>
-              <div class="terminal__msg-label">[SYSTEM STATUS]</div>
-              <div class="terminal__msg-text">
-                <p style="margin-bottom: 16px;">
-                  <span class="prompt">&gt;</span> Initializing Mokshith.AI assistant...<br />
-                  <span class="prompt">&gt;</span> AI assistant: <span class="badge-status-accent">COMING SOON</span>
-                </p>
-                <p style="margin-bottom: 16px; color: var(--text-primary);">
-                  This AI assistant is currently under development.
-                </p>
-                <p style="margin-bottom: 20px; color: var(--text-secondary);">
-                  Soon, you’ll be able to interact with an AI assistant that can answer questions about my skills, projects, experience, and technical background.
-                </p>
-                <p style="color: rgba(173, 198, 255, 0.85);">
-                  <span style="color: rgba(173, 198, 255, 0.7); font-size: 11px; letter-spacing: 0.15em;">[SYSTEM]</span>
-                  <span class="typing-cursor">Stay tuned.</span>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Inactive Terminal Line -->
-          <div class="terminal__input terminal__input--disabled">
-            <span class="terminal__input-prompt">&gt;</span>
-            <span class="terminal__input-placeholder">AI assistant coming soon...</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- ======== Feature Teasers: Beyond the Resume & Certifications ======== -->
     <section class="feature-teasers-section container fade-in-section" id="portfolio-highlights">
+      <div class="section-header">
+        <p class="text-label-caps section-kicker">Outside the project cards</p>
+        <h2 class="text-headline-md section-header__title">Learning & interests</h2>
+        <div class="section-header__line"></div>
+      </div>
       <div class="feature-teasers-grid">
         
         <!-- Card 1: Beyond the Resume -->
@@ -335,16 +278,17 @@
     <!-- ======== Contact Section ======== -->
     <section class="section container fade-in-section contact" id="contact">
       <div class="contact__bg-glow"></div>
-      <h2 class="contact__title">Let's Build Something.</h2>
+      <p class="text-label-caps section-kicker">Get in touch</p>
+      <h2 class="contact__title">Open to AI / ML and software engineering roles.</h2>
       <p class="text-body-lg contact__desc">
-        I’m currently looking for opportunities to start my career as an AI/ML Engineer, where I can apply my skills, work on real-world problems, and grow as part of a strong engineering team.
+        I’m interested in opportunities across applied AI/ML and software development, especially roles involving backend systems, APIs, and useful products.
       </p>
       <div class="contact__actions">
-        <a href="assets/Mokshith_Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn--primary magnetic-btn metal-btn" download="K_V_Mokshith_Rao_Resume.pdf">
+        <a href="assets/Mokshith_Resume.pdf" class="btn btn--primary magnetic-btn metal-btn" download="K_V_Mokshith_Rao_Resume.pdf">
           <span class="material-symbols-outlined" style="font-size: 18px;">download</span>
           Download Resume
         </a>
-        <a href="mailto:mokshithrao87@gmail.com" class="btn btn--contact magnetic-btn metal-btn">
+        <a href="mailto:mokshithrao@gmail.com" class="btn btn--contact magnetic-btn metal-btn">
           <span class="material-symbols-outlined" style="font-size: 18px;">mail</span>
           Email Me
         </a>
@@ -356,15 +300,32 @@
   <footer class="footer">
     <div class="container footer__inner">
       <div class="footer__copy">
-        &copy; 2026 K.V. Mokshith Rao // Engineered for Intelligence
+        &copy; 2026 K.V. Mokshith Rao
       </div>
       <div class="footer__links">
-        <a href="https://www.linkedin.com/in/kv-mokshith/" target="_blank" rel="noopener noreferrer" class="footer__link magnetic-btn">LinkedIn</a>
+        <a href="https://www.linkedin.com/in/k-v-mokshith-rao-3326a623a/" target="_blank" rel="noopener noreferrer" class="footer__link magnetic-btn">LinkedIn</a>
         <a href="https://github.com/MokshithRao" target="_blank" rel="noopener noreferrer" class="footer__link magnetic-btn">GitHub</a>
         <a href="https://app.readytensor.ai/users/mokshithrao" target="_blank" rel="noopener noreferrer" class="footer__link magnetic-btn">Ready Tensor</a>
       </div>
     </div>
   </footer>
+
+  <!-- Modal: Resume Viewer -->
+  <div class="modal-overlay" id="resume-viewer">
+    <section class="modal resume-viewer-modal" role="dialog" aria-labelledby="resume-viewer-title" aria-modal="true">
+      <button type="button" class="modal__close" aria-label="Close resume viewer">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+      <div class="resume-viewer-modal__header">
+        <h2 id="resume-viewer-title">Resume</h2>
+        <a href="assets/Mokshith_Resume.pdf" class="btn btn--secondary" download="K_V_Mokshith_Rao_Resume.pdf">
+          <span class="material-symbols-outlined" aria-hidden="true">download</span>
+          Download
+        </a>
+      </div>
+      <iframe src="assets/Mokshith_Resume.pdf#view=FitH&toolbar=0&navpanes=0" title="Mokshith Rao resume"></iframe>
+    </section>
+  </div>
 
   <!-- ============ Modals ============ -->
 
@@ -637,9 +598,7 @@
   </div>
 
   <!-- ============ Scripts ============ -->
-  <script src="js/shader.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/effects.js"></script>
   <script src="js/admin.js"></script>
   <script src="js/projects.js"></script>
   <script src="js/beyond.js"></script>
