@@ -2148,6 +2148,10 @@ body:not(.admin-authenticated) .skill-card__manage {
   flex-direction: column;
 }
 
+.modal [hidden] {
+  display: none !important;
+}
+
 .modal__form-header {
   margin-bottom: 24px;
 }

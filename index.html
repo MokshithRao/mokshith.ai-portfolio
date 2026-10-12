@@ -610,7 +610,7 @@
 
   <!-- Modal: Admin Login -->
   <div class="modal-overlay" id="admin-login-modal">
-    <div class="modal" role="dialog" aria-labelledby="admin-login-title" aria-modal="true" style="max-width: 440px;">
+    <div class="modal" id="admin-login-dialog" role="dialog" aria-labelledby="admin-login-title" aria-modal="true" style="max-width: 440px;">
       <button type="button" class="modal__close" id="admin-login-close" aria-label="Close admin login">
         <span class="material-symbols-outlined">close</span>
       </button>
@@ -630,6 +630,34 @@
         <p class="form-error" id="admin-login-error" role="alert"></p>
         <div class="modal__footer" style="justify-content: flex-end;">
           <button type="submit" class="btn btn--primary magnetic-btn" id="admin-login-submit">Sign In</button>
+        </div>
+        <div class="modal__footer" id="admin-login-reset-link">
+          <button type="button" class="hero__resume-link" id="admin-forgot-password">Forgot password?</button>
+        </div>
+      </form>
+      <div class="modal__form" id="admin-password-reset-request" hidden>
+        <div class="modal__form-header">
+          <h2 class="modal__title" id="admin-reset-request-title">Reset admin password</h2>
+          <p class="text-body-md">We’ll send a one-time reset link to mokshithrao310@gmail.com.</p>
+        </div>
+        <p class="form-error" id="admin-password-reset-request-message" role="status" aria-live="polite"></p>
+        <div class="modal__footer" style="justify-content: space-between;">
+          <button type="button" class="btn btn--secondary" id="admin-password-reset-back">Back to sign in</button>
+          <button type="button" class="btn btn--primary magnetic-btn" id="admin-password-reset-request-submit">Send reset link</button>
+        </div>
+      </div>
+      <form class="modal__form" id="admin-password-reset-confirm" hidden>
+        <div class="modal__form-header">
+          <h2 class="modal__title" id="admin-reset-confirm-title">Choose a new password</h2>
+          <p class="text-body-md">Use a new password with at least 12 characters.</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="admin-new-password">New password</label>
+          <input class="form-input" id="admin-new-password" name="password" type="password" minlength="12" maxlength="1024" autocomplete="new-password" required />
+        </div>
+        <p class="form-error" id="admin-password-reset-confirm-message" role="alert"></p>
+        <div class="modal__footer" style="justify-content: flex-end;">
+          <button type="submit" class="btn btn--primary magnetic-btn" id="admin-password-reset-confirm-submit">Update password</button>
         </div>
       </form>
     </div>

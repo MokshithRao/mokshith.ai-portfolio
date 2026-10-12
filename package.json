@@ -4,7 +4,7 @@
   "description": "Personal AI/ML Engineer Portfolio for K.V. Mokshith Rao",
   "main": "index.html",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "node --env-file-if-exists=.env server.js",
     "start": "node server.js"
   },
   "keywords": [

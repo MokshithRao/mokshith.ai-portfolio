@@ -1,8 +1,10 @@
 const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
 const crypto = require('crypto');
+const { promisify } = require('util');
 
 const PORT = process.env.PORT || 3000;
 const DATA_DIR = path.join(__dirname, 'data');
@@ -12,12 +14,24 @@ const BEYOND_UPLOAD_DIR = path.join(__dirname, 'assets', 'beyond');
 const CERTS_FILE = path.join(DATA_DIR, 'certifications.json');
 const CERTS_UPLOAD_DIR = path.join(__dirname, 'assets', 'certs');
 const SKILLS_FILE = path.join(DATA_DIR, 'skills.json');
+const PRIVATE_DIR = path.join(__dirname, 'private');
+const ADMIN_CREDENTIALS_FILE = path.join(PRIVATE_DIR, 'admin-credentials.json');
+const ADMIN_RESET_EMAIL = process.env.ADMIN_RESET_EMAIL || 'mokshithrao310@gmail.com';
 const ADMIN_SESSION_COOKIE = 'portfolio_admin_session';
 const ADMIN_SESSION_TTL_MS = 8 * 60 * 60 * 1000;
 const ADMIN_LOGIN_LIMIT = 5;
 const ADMIN_LOGIN_WINDOW_MS = 15 * 60 * 1000;
+const PASSWORD_RESET_TTL_MS = 15 * 60 * 1000;
+const PASSWORD_RESET_LIMIT = 3;
+const PASSWORD_RESET_WINDOW_MS = 60 * 60 * 1000;
+const scrypt = promisify(crypto.scrypt);
 const adminSessions = new Map();
 const adminLoginAttempts = new Map();
+const passwordResetAttempts = new Map();
+let passwordResetToken = null;
+let passwordResetRequests = 0;
+let passwordResetWindowEndsAt = 0;
+let adminCredentialOverride = loadAdminCredentialOverride();
 
 function requestIsSecure(req) {
   return Boolean(req.socket.encrypted) || req.headers['x-forwarded-proto']?.split(',')[0].trim() === 'https';
@@ -87,23 +101,225 @@ function digestCredential(value) {
   return crypto.createHash('sha256').update(value).digest();
 }
 
+function loadAdminCredentialOverride() {
+  try {
+    const stored = JSON.parse(fs.readFileSync(ADMIN_CREDENTIALS_FILE, 'utf8'));
+    if (
+      stored.version !== 1 ||
+      typeof stored.salt !== 'string' ||
+      typeof stored.hash !== 'string' ||
+      !/^[a-f0-9]{64}$/.test(stored.salt) ||
+      !/^[a-f0-9]{128}$/.test(stored.hash)
+    ) {
+      throw new Error('Invalid admin credential override format.');
+    }
+    return stored;
+  } catch (error) {
+    if (error.code === 'ENOENT') return null;
+    throw error;
+  }
+}
+
 function credentialsMatch(username, password) {
   const configuredUsername = process.env.ADMIN_USERNAME;
   const configuredPassword = process.env.ADMIN_PASSWORD;
-  if (!configuredUsername || !configuredPassword || configuredPassword.length < 12) return false;
+  if (!configuredUsername) return false;
   const usernameMatches = crypto.timingSafeEqual(
     digestCredential(username),
     digestCredential(configuredUsername)
   );
-  const passwordMatches = crypto.timingSafeEqual(
-    digestCredential(password),
-    digestCredential(configuredPassword)
-  );
+  const passwordMatches = adminCredentialOverride
+    ? crypto.timingSafeEqual(
+      Buffer.from(adminCredentialOverride.hash, 'hex'),
+      crypto.scryptSync(password, Buffer.from(adminCredentialOverride.salt, 'hex'), 64)
+    )
+    : Boolean(configuredPassword && configuredPassword.length >= 12) &&
+      crypto.timingSafeEqual(digestCredential(password), digestCredential(configuredPassword));
   return usernameMatches && passwordMatches;
 }
 
+function readRequestBody(req, maxBytes = 8 * 1024) {
+  return new Promise((resolve, reject) => {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk.toString();
+      if (Buffer.byteLength(body, 'utf8') > maxBytes) {
+        reject(new Error('Request body is too large.'));
+        req.destroy();
+      }
+    });
+    req.on('end', () => resolve(body));
+    req.on('error', reject);
+  });
+}
+
+function readJsonRequest(req) {
+  return readRequestBody(req).then(body => {
+    const payload = JSON.parse(body);
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+      throw new Error('Invalid request payload.');
+    }
+    return payload;
+  });
+}
+
+function passwordResetIsConfigured() {
+  const appUrl = process.env.PUBLIC_APP_URL;
+  if (!process.env.RESEND_API_KEY || !process.env.ADMIN_RESET_FROM || !appUrl) {
+    return false;
+  }
+  try {
+    const parsedUrl = new URL(appUrl);
+    return parsedUrl.protocol === 'https:' ||
+      ['localhost', '127.0.0.1', '[::1]'].includes(parsedUrl.hostname);
+  } catch {
+    return false;
+  }
+}
+
+function sendPasswordResetEmail(resetUrl) {
+  const body = JSON.stringify({
+    from: process.env.ADMIN_RESET_FROM,
+    to: [ADMIN_RESET_EMAIL],
+    subject: 'Reset your Mokshith.AI admin password',
+    text: `A password reset was requested for your portfolio admin account. Use this one-time link within 15 minutes:\n\n${resetUrl}\n\nIf you did not request this, you can ignore this email.`
+  });
+  return new Promise((resolve, reject) => {
+    const request = https.request('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(body)
+      }
+    }, response => {
+      let responseBody = '';
+      response.on('data', chunk => { responseBody += chunk.toString(); });
+      response.on('end', () => {
+        if (response.statusCode < 200 || response.statusCode >= 300) {
+          reject(new Error(`Password reset email delivery failed (${response.statusCode}): ${responseBody}`));
+          return;
+        }
+        resolve();
+      });
+    });
+    request.on('error', reject);
+    request.setTimeout(10000, () => request.destroy(new Error('Password reset email request timed out.')));
+    request.end(body);
+  });
+}
+
+async function handlePasswordResetRequest(req, res) {
+  if (!isSameOriginRequest(req)) {
+    sendJson(res, 403, { error: 'Cross-origin requests are not allowed.' });
+    return;
+  }
+  try {
+    await readJsonRequest(req);
+  } catch {
+    if (!res.destroyed) sendJson(res, 400, { error: 'Invalid password reset request.' });
+    return;
+  }
+
+  const ip = req.socket.remoteAddress || 'unknown';
+  const now = Date.now();
+  for (const [address, attempt] of passwordResetAttempts) {
+    if (attempt.resetAt <= now) passwordResetAttempts.delete(address);
+  }
+  const attempt = passwordResetAttempts.get(ip);
+  if (attempt && attempt.count >= PASSWORD_RESET_LIMIT && attempt.resetAt > now) {
+    sendJson(res, 429, { error: 'Too many reset requests. Please try again later.' });
+    return;
+  }
+  passwordResetAttempts.set(ip, {
+    count: attempt && attempt.resetAt > now ? attempt.count + 1 : 1,
+    resetAt: attempt && attempt.resetAt > now ? attempt.resetAt : now + PASSWORD_RESET_WINDOW_MS
+  });
+
+  if (passwordResetWindowEndsAt <= now) {
+    passwordResetRequests = 0;
+    passwordResetWindowEndsAt = now + PASSWORD_RESET_WINDOW_MS;
+  }
+  if (passwordResetRequests >= 5) {
+    sendJson(res, 429, { error: 'Too many reset requests. Please try again later.' });
+    return;
+  }
+  if (!passwordResetIsConfigured()) {
+    sendJson(res, 503, { error: 'Password reset email is not configured. Contact the site administrator.' });
+    return;
+  }
+
+  passwordResetRequests += 1;
+  const token = crypto.randomBytes(32).toString('base64url');
+  passwordResetToken = {
+    hash: crypto.createHash('sha256').update(token).digest('hex'),
+    expiresAt: now + PASSWORD_RESET_TTL_MS
+  };
+  const appUrl = new URL(process.env.PUBLIC_APP_URL);
+  appUrl.searchParams.set('admin-reset', token);
+  try {
+    await sendPasswordResetEmail(appUrl.toString());
+    sendJson(res, 200, { message: 'If reset email is configured, a one-time link has been sent to the account owner.' });
+  } catch (error) {
+    passwordResetToken = null;
+    console.error('Admin password reset email failed:', error.message);
+    sendJson(res, 502, { error: 'Unable to send the reset email right now. Please try again later.' });
+  }
+}
+
+async function handlePasswordResetConfirmation(req, res) {
+  if (!isSameOriginRequest(req)) {
+    sendJson(res, 403, { error: 'Cross-origin requests are not allowed.' });
+    return;
+  }
+  let payload;
+  try {
+    payload = await readJsonRequest(req);
+  } catch {
+    if (!res.destroyed) sendJson(res, 400, { error: 'Invalid password reset request.' });
+    return;
+  }
+  const token = typeof payload.token === 'string' ? payload.token : '';
+  const password = typeof payload.password === 'string' ? payload.password : '';
+  if (password.length < 12 || Buffer.byteLength(password, 'utf8') > 1024) {
+    sendJson(res, 400, { error: 'Choose a password that is at least 12 characters long.' });
+    return;
+  }
+  if (!passwordResetToken || passwordResetToken.expiresAt <= Date.now()) {
+    passwordResetToken = null;
+    sendJson(res, 400, { error: 'This reset link is invalid or expired. Request a new one.' });
+    return;
+  }
+  const tokenHash = crypto.createHash('sha256').update(token).digest();
+  if (!crypto.timingSafeEqual(tokenHash, Buffer.from(passwordResetToken.hash, 'hex'))) {
+    sendJson(res, 400, { error: 'This reset link is invalid or expired. Request a new one.' });
+    return;
+  }
+  passwordResetToken = null;
+
+  const salt = crypto.randomBytes(32);
+  const hash = await scrypt(password, salt, 64);
+  fs.mkdirSync(PRIVATE_DIR, { recursive: true, mode: 0o700 });
+  const tempFile = `${ADMIN_CREDENTIALS_FILE}.${crypto.randomBytes(8).toString('hex')}.tmp`;
+  try {
+    fs.writeFileSync(tempFile, JSON.stringify({
+      version: 1,
+      salt: salt.toString('hex'),
+      hash: hash.toString('hex')
+    }), { encoding: 'utf8', mode: 0o600, flag: 'wx' });
+    fs.renameSync(tempFile, ADMIN_CREDENTIALS_FILE);
+  } catch (error) {
+    if (fs.existsSync(tempFile)) fs.unlinkSync(tempFile);
+    throw error;
+  }
+
+  adminCredentialOverride = { version: 1, salt: salt.toString('hex'), hash: hash.toString('hex') };
+  adminSessions.clear();
+  sendJson(res, 200, { message: 'Admin password updated. Please sign in with your new password.' });
+}
+
 function handleAdminLogin(req, res) {
-  if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD || process.env.ADMIN_PASSWORD.length < 12) {
+  if (!process.env.ADMIN_USERNAME || (!adminCredentialOverride && (!process.env.ADMIN_PASSWORD || process.env.ADMIN_PASSWORD.length < 12))) {
     sendJson(res, 503, { error: 'Admin login requires ADMIN_USERNAME and an ADMIN_PASSWORD of at least 12 characters.' });
     return;
   }
@@ -312,6 +528,19 @@ const server = http.createServer((req, res) => {
 
   if (pathname === '/api/admin/login' && method === 'POST') {
     handleAdminLogin(req, res);
+    return;
+  }
+
+  if (pathname === '/api/admin/password-reset/request' && method === 'POST') {
+    handlePasswordResetRequest(req, res);
+    return;
+  }
+
+  if (pathname === '/api/admin/password-reset/confirm' && method === 'POST') {
+    handlePasswordResetConfirmation(req, res).catch(error => {
+      console.error('Admin password reset failed:', error.message);
+      if (!res.headersSent) sendJson(res, 500, { error: 'Unable to update the admin password. Please try again.' });
+    });
     return;
   }
 
@@ -1176,6 +1405,11 @@ const server = http.createServer((req, res) => {
     res.end('Forbidden');
     return;
   }
+  if (resolved === path.resolve(PRIVATE_DIR) || resolved.startsWith(`${path.resolve(PRIVATE_DIR)}${path.sep}`)) {
+    res.writeHead(404, { 'Content-Type': 'text/plain' });
+    res.end('Not Found');
+    return;
+  }
 
   fs.stat(resolved, (err, stats) => {
     if (err || !stats.isFile()) {
@@ -1189,7 +1423,8 @@ const server = http.createServer((req, res) => {
 
     res.writeHead(200, {
       'Content-Type': contentType,
-      'Cache-Control': 'no-cache, no-store, must-revalidate'
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Referrer-Policy': 'no-referrer'
     });
     fs.createReadStream(resolved).pipe(res);
   });
