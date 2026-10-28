@@ -3,6 +3,3 @@ node_modules/
 *.log
 stitch-screenshot.jpg
 .gemini/
-.env
-.dev.vars
-.wrangler/
