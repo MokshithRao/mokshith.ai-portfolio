@@ -1,0 +1,15 @@
+.env
+.dev.vars
+.dev.vars.example
+.gitignore
+README.md
+package.json
+package-lock.json
+server.js
+wrangler.jsonc
+worker/
+migrations/
+node_modules/
+.git/
+.wrangler/
+data/

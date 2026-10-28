@@ -1,0 +1,28 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mokshith-ai-portfolio",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-10-25",
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*", "/assets/beyond/*", "/assets/certs/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "mokshith-portfolio-db",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "UPLOADS",
+      "bucket_name": "mokshith-portfolio-uploads"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}
